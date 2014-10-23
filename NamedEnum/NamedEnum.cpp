@@ -2,15 +2,23 @@
 //
 
 #include "stdafx.h"
-#include "named_enum.h"
+#include "Examples.h"
 
-std::string one = Zott_enum::etos<Zott::one>();
+#include <iostream>
 
+using something::Action;
+
+Zott one = Zott::one;
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	Numbers_enum::init_lookupmaps();
-	auto eight = Numbers_enum::stoe("eight");
+	Action action = Action::jump;
+	action = static_cast<Action>(7);
+
+	std::cin >> action;
+
+	std::cout << action;
+
 	return 0;
 }
 
