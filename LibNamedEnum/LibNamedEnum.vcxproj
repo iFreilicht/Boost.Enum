@@ -74,7 +74,9 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="named_enum.h" />
+    <ClInclude Include="doc_index.h" />
+    <ClInclude Include="advanced_enum.h" />
+    <ClInclude Include="Supplies.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

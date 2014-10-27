@@ -18,7 +18,13 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="named_enum.h">
+    <ClInclude Include="doc_index.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="advanced_enum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Supplies.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
