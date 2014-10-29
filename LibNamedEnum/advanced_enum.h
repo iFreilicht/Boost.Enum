@@ -164,13 +164,13 @@ namespace boost{
 #		define BOOST_ADVANCED_ENUM__BEGIN_DEFINITION(enum_name)				\
 		namespace {																\
 			namespace _advanced_enum_artifacts{									\
-				namespace BOOST_PP_CAT(enum_name,_artifacts){					\
+				namespace enum_name{					\
 
 #		define BOOST_ADVANCED_ENUM__DEFINE_NAME_STRING(name)						\
 					char name[] = #name;										\
 
 #		define BOOST_ADVANCED_ENUM__BEGIN_INDEX_DEFINITION(supply, ...)			\
-					typedef ::boost::advanced_enum::enum_storage<supply::UnderlyingT, supply::values>::			\
+					typedef ::boost::advanced_enum::enum_storage<supply::UnderlyingT, supply::values>::	\
 						gen<__VA_ARGS__>::get enum_storage;						\
 					enum class index : enum_storage::SizeT{						\
 
@@ -182,32 +182,33 @@ namespace boost{
 					namespace Values{											\
 						enum Values{											\
 
-#		define BOOST_ADVANCED_ENUM__DEFINE_VALUES_VALUE(name)						\
-							name = enum_storage::								\
-								value_at<static_cast<enum_storage::SizeT>(index::name)>::value,	\
+#		define BOOST_ADVANCED_ENUM__DEFINE_VALUES_VALUE(name)										\
+							name = enum_storage::													\
+								value_at<static_cast<enum_storage::SizeT>(index::name)>::value,		\
 
-#		define BOOST_ADVANCED_ENUM__BEGIN_ENUM_DEFINITION(enum_name)				\
+#		define BOOST_ADVANCED_ENUM__BEGIN_ENUM_DEFINITION(enum_name)			\
 						};														\
 					}															\
-					typedef ::boost::advanced_enum::advanced_enum_base				\
+					typedef ::boost::advanced_enum::advanced_enum_base			\
 						<enum_storage, Values::Values> Base;					\
-					struct  enum_name : Base {									\
-
-#		define BOOST_ADVANCED_ENUM__DEFINE_ENUM_VALUE(name)						\
-						static const ValueT name = ValueT::name;				\
-
-#		define BOOST_ADVANCED_ENUM__END_DEFINITION(enum_name)						\
-						enum_name() : Base(){}									\
-						enum_name(ValueT v) : Base(v){}							\
-						explicit enum_name(UnderlyingT v) : Base(v){}			\
-						explicit enum_name(const std::string& s) : Base(s){}	\
-					};															\
 				}																\
 			}																	\
 		}																		\
-		typedef _advanced_enum_artifacts::BOOST_PP_CAT(enum_name,_artifacts)::		\
-			enum_name enum_name												\
+		struct  enum_name : _advanced_enum_artifacts::enum_name::Base {			\
 
+#		define BOOST_ADVANCED_ENUM__DEFINE_ENUM_VALUE(name)						\
+			static const ValueT name = ValueT::name;							\
+
+#		define BOOST_ADVANCED_ENUM__END_DEFINITION(enum_name)											\
+			enum_name() : _advanced_enum_artifacts::enum_name::Base(){}									\
+			enum_name(ValueT v) : _advanced_enum_artifacts::enum_name::Base(v){}						\
+			explicit enum_name(UnderlyingT v) : _advanced_enum_artifacts::enum_name::Base(v){}			\
+			explicit enum_name(const std::string& s) : _advanced_enum_artifacts::enum_name::Base(s){}	\
+		};																								\
+
+
+		///Forward declare an advanced_enum
+#		define BOOST_ADVACNED_ENUM_FWD_DECLARE(enum_name) struct enum_name
 
 		///Define an advanced_enum with a supply
 		/**
@@ -237,10 +238,10 @@ namespace boost{
 //uncomment to test 
 
 //Action ultimately expands to this:
-//namespace something{
+//namespace example{
 //	namespace {
 //		namespace _advanced_enum_artifacts{
-//			namespace Action_artifacts{
+//			namespace Action{
 //				char jump[] = "jump";
 //				char look[] = "look";
 //				char move[] = "move";
@@ -252,24 +253,24 @@ namespace boost{
 //				typedef ::boost::advanced_enum::enum_storage<int, ::boost::advanced_enum::supplies::shiftL1<int>::values>::gen<jump, look, move>::get enum_storage;
 //				namespace Values{
 //					enum Values{
-//						jump = enum_storage::int_at<static_cast<int>(index::jump)>::value,
-//						look = enum_storage::int_at<static_cast<int>(index::look)>::value,
-//						move = enum_storage::int_at<static_cast<int>(index::move)>::value,
+//						jump = enum_storage::value_at<static_cast<int>(index::jump)>::value,
+//						look = enum_storage::value_at<static_cast<int>(index::look)>::value,
+//						move = enum_storage::value_at<static_cast<int>(index::move)>::value,
 //					};
 //				}
 //				typedef ::boost::advanced_enum::advanced_enum_base <enum_storage, Values::Values> Base;
-//				struct Action :  Base {
-//					static const ValueT jump = ValueT::jump;
-//					static const ValueT look = ValueT::look;
-//					static const ValueT move = ValueT::move;
-//					Action(ValueT v) : Base(v){}
-//					explicit Action(int v) : Base(v){}
-//					explicit Action(const std::string& s) : Base(s){}
-//				};
 //			}
 //		}
 //	}
-//	typedef _advanced_enum_artifacts::Action_artifacts::Action Action;
+//	struct Action : _advanced_enum_artifacts::Action::Base {
+//		static const ValueT jump = ValueT::jump;
+//		static const ValueT look = ValueT::look;
+//		static const ValueT move = ValueT::move;
+//		Action() : _advanced_enum_artifacts::Action::Base(){}
+//		Action(ValueT v) : _advanced_enum_artifacts::Action::Base(v){}
+//		explicit Action(int v) : _advanced_enum_artifacts::Action::Base(v){}
+//		explicit Action(const std::string& s) : _advanced_enum_artifacts::Action::Base(s){}
+//	};
 //}
 
 #endif //include guard
