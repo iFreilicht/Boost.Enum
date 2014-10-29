@@ -11,6 +11,7 @@ using something::Action;
 //Zott one = Zott::one;
 
 
+
 enum Enum : int{
 	zero,
 	one,
@@ -18,9 +19,6 @@ enum Enum : int{
 	three,
 	four
 };
-
-
-bool not_true = one < zero;
 
 void testLookup(){
 	Action action;
