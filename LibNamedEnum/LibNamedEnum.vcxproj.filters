@@ -24,8 +24,14 @@
     <ClInclude Include="advanced_enum.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Supplies.hpp">
+    <ClInclude Include="enum_storage.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="supplies.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Doxyfile" />
   </ItemGroup>
 </Project>

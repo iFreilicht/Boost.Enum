@@ -4,6 +4,10 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
+
+#ifndef BOOST_ADVANVEDENUM_SUPPLIES_HPP
+#define BOOST_ADVANVEDENUM_SUPPLIES_HPP
+
 namespace boost{
 	namespace advanced_enum{
 		///Supplies are a concept used to provide values to advanced_enums.
@@ -85,3 +89,5 @@ namespace boost{
 		}
 	}
 }
+
+#endif //include guard
