@@ -21,19 +21,22 @@
     <ClInclude Include="doc_index.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="advanced_enum.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="enum_storage.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="supplies.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="advanced_enum2.h">
+    <ClInclude Include="enum_storage2.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="enum_storage2.hpp">
+    <ClInclude Include="advanced_enum_adapt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="advanced_enum_base.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="advanced_enum_define.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

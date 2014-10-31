@@ -5,8 +5,8 @@
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 
-#ifndef BOOST_ADVANCEDENUM_ENUM_STORAGE_HPP
-#define BOOST_ADVANCEDENUM_ENUM_STORAGE_HPP
+#ifndef BOOST_ADVANCEDENUM_ENUM_STORAGE2_HPP
+#define BOOST_ADVANCEDENUM_ENUM_STORAGE2_HPP
 
 #include <boost/config.hpp>
 #include <string>
@@ -21,7 +21,7 @@ namespace boost{
 	namespace advanced_enum{
 
 
-		///enum_storage is a compile-time container for enumeration values and their corresponding string.
+		///enum_storage2 is a compile-time container for enumeration values and their corresponding string.
 		/**The container is implemented as a reverse linked list, starting at the last entry.
 		 * Besides containing all value string pairs of an enumeration, it provides methods
 		 * for conversion and initialisation of an advanced_enum and is therefore its
@@ -30,13 +30,13 @@ namespace boost{
 		 * For the most part, it consists only of constants and types, but the two std::maps
 		 * used for lookups can only accessed via the instance() member function.
 		 * There is generally no need to use this class directly.
-		 * For instantiating the enum_storage template, use the following syntax:
+		 * For instantiating the enum_storage2 template, use the following syntax:
 		 * \code 
-		 *     typedef enum_storage<[underlying type][, supply]>::gen<{entries}>::get myStorage_t;
+		 *     typedef enum_storage2<[underlying type][, supply]>::gen<{entries}>::get myStorage_t;
 		 * \endcode
 		*/
 		template<typename UnderlyingT = int, template<UnderlyingT> class Supply = supplies::increment<UnderlyingT>::values, typename LastEntry = void>
-		class enum_storage{
+		class enum_storage2{
 		public:
 			///Used for indexing
 			typedef typename std::make_unsigned<UnderlyingT>::type SizeT;
@@ -98,8 +98,8 @@ namespace boost{
 			std::map<UnderlyingT, std::string> etosmap_;
 
 			///Singleton instance
-			static enum_storage& instance(){
-				static enum_storage instance_;
+			static enum_storage2& instance(){
+				static enum_storage2 instance_;
 				return instance_;
 			}
 
@@ -134,25 +134,32 @@ namespace boost{
 			}
 
 			////------generator------
-			///Replaces the last template argument of enum_storage with NewLastEntry
+			///Replaces the last template argument of enum_storage2 with NewLastEntry
 			template<typename NewLastEntry>
 			struct with_last{
-				typedef enum_storage<UnderlyingT, Supply, NewLastEntry> get;
+				typedef enum_storage2<UnderlyingT, Supply, NewLastEntry> get;
 			};
 			
 
-			///Generator for enum_storage, used by gen
+			///Generator for enum_storage2, used by gen
 			template<typename PrevEntry, typename entry_name, typename ... next_entries>
 			struct generator{
-				typedef typename enum_storage::template value_entry<entry_name, PrevEntry> entry;
+				typedef typename enum_storage2::template value_entry<entry_name, PrevEntry> entry;
 				typedef typename generator<entry, next_entries ...>::enumeration enumeration;
 			};
 			///End case for generator
 			template<typename PrevEntry, typename entry_name>
-			struct generator < PrevEntry, entry_name > {
-				typedef typename enum_storage::template value_entry<entry_name, PrevEntry> entry;
-				typedef typename enum_storage::template with_last<entry>::get enumeration;
+			struct generator < PrevEntry, entry_name> {
+				typedef typename enum_storage2::template value_entry<entry_name, PrevEntry> entry;
+				typedef typename enum_storage2::template with_last<entry>::get enumeration;
 			};
+
+			template<typename PrevEntry>
+			struct generator < PrevEntry, void > {
+				typedef PrevEntry entry;
+				typedef typename enum_storage2::template with_last<entry>::get enumeration;
+			};
+
 
 			/////-------indexing-------
 			///Number of elements of the linked list, used by num_vals
@@ -225,11 +232,12 @@ namespace boost{
 				return "";
 			}
 		public:
-			///generator to create a enum_storage
+			///generator to create a enum_storage2
 			/**like so: 
 			 * \code 
-			 *     typedef enum_storage<[Supply]>::gen<entry{, entry}>::get myStorage;
+			 *     typedef enum_storage2<[Supply]>::gen<entry{, entry}>::get myStorage;
 			 * \endcode
+			 * \note It is required to make the last argument void, which is needed by certain macros
 			*/
 			template<typename ... entries>
 			struct gen{

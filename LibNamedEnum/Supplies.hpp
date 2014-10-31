@@ -94,12 +94,12 @@ namespace boost{
 
 			template<template<int> class Supply, unsigned int index>
 			struct at{
-				enum { value = Supply<at<Supply, std::integral_constant<unsigned int, index - 1>::value>::value>::next };
+				enum : int { value = Supply< at< Supply, index - 1 >::value >::next };
 			};
 
 			template<template<int> class Supply>
 			struct at<Supply, std::integral_constant<unsigned int, 0>::value>{
-				enum { value = Supply<0>::start };
+				enum : int { value = Supply<0>::start };
 			};
 		}
 	}
