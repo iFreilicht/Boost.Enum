@@ -30,6 +30,12 @@
     <ClInclude Include="supplies.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="advanced_enum2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="enum_storage2.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Doxyfile" />

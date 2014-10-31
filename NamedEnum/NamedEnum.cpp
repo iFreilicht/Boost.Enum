@@ -5,11 +5,14 @@
 #include "Examples.h"
 
 #include <iostream>
+#include <advanced_enum.h>
+#include <advanced_enum2.h>
 
 using something::Action;
 
 //Zott one = Zott::one;
 
+Zot graf = Zot::zero;
 
 
 enum Enum : int{
@@ -26,6 +29,8 @@ void testLookup(){
 		action = static_cast<Action>("jump");
 	}
 }
+
+Many oneOfMany = Many::g;
 
 int _tmain(int argc, _TCHAR* argv[])
 {

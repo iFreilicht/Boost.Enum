@@ -13,9 +13,9 @@
 #define BOOST_PP_VARIADICS 1
 #define BOOST_PP_VARIADICS_MSVC 1
 #endif
-#include <boost\preprocessor\seq\for_each.hpp>
-#include <boost\preprocessor\seq\transform.hpp>
-#include <boost\preprocessor\variadic\to_seq.hpp>
+#include <boost/preprocessor/list.hpp>
+#include <boost/preprocessor/seq.hpp>
+#include <boost/preprocessor/variadic.hpp>
 #include <string>
 #include <map>
 #include <istream>
@@ -238,39 +238,39 @@ namespace boost{
 //uncomment to test 
 
 //Action ultimately expands to this:
-//namespace example{
-//	namespace {
-//		namespace _advanced_enum_artifacts{
-//			namespace Action{
-//				char jump[] = "jump";
-//				char look[] = "look";
-//				char move[] = "move";
-//				enum class index{
-//					jump,
-//					look,
-//					move,
-//				};
-//				typedef ::boost::advanced_enum::enum_storage<int, ::boost::advanced_enum::supplies::shiftL1<int>::values>::gen<jump, look, move>::get enum_storage;
-//				namespace Values{
-//					enum Values{
-//						jump = enum_storage::value_at<static_cast<int>(index::jump)>::value,
-//						look = enum_storage::value_at<static_cast<int>(index::look)>::value,
-//						move = enum_storage::value_at<static_cast<int>(index::move)>::value,
-//					};
-//				}
-//				typedef ::boost::advanced_enum::advanced_enum_base <enum_storage, Values::Values> Base;
-//			}
-//		}
-//	}
-//	struct Action : _advanced_enum_artifacts::Action::Base {
-//		static const ValueT jump = ValueT::jump;
-//		static const ValueT look = ValueT::look;
-//		static const ValueT move = ValueT::move;
-//		Action() : _advanced_enum_artifacts::Action::Base(){}
-//		Action(ValueT v) : _advanced_enum_artifacts::Action::Base(v){}
-//		explicit Action(int v) : _advanced_enum_artifacts::Action::Base(v){}
-//		explicit Action(const std::string& s) : _advanced_enum_artifacts::Action::Base(s){}
-//	};
-//}
+namespace example{
+	namespace {
+		namespace _advanced_enum_artifacts{
+			namespace Action{
+				char jump[] = "jump";
+				char look[] = "look";
+				char move[] = "move";
+				enum class index{
+					jump,
+					look,
+					move,
+				};
+				typedef ::boost::advanced_enum::enum_storage<int, ::boost::advanced_enum::supplies::shiftL1<int>::values>::gen<jump, look, move>::get enum_storage;
+				namespace Values{
+					enum Values{
+						jump = enum_storage::value_at<static_cast<int>(index::jump)>::value,
+						look = enum_storage::value_at<static_cast<int>(index::look)>::value,
+						move = enum_storage::value_at<static_cast<int>(index::move)>::value,
+					};
+				}
+				typedef ::boost::advanced_enum::advanced_enum_base <enum_storage, Values::Values> Base;
+			}
+		}
+	}
+	struct Action : _advanced_enum_artifacts::Action::Base {
+		static const ValueT jump = ValueT::jump;
+		static const ValueT look = ValueT::look;
+		static const ValueT move = ValueT::move;
+		Action() : _advanced_enum_artifacts::Action::Base(){}
+		Action(ValueT v) : _advanced_enum_artifacts::Action::Base(v){}
+		explicit Action(int v) : _advanced_enum_artifacts::Action::Base(v){}
+		explicit Action(const std::string& s) : _advanced_enum_artifacts::Action::Base(s){}
+	};
+}
 
 #endif //include guard

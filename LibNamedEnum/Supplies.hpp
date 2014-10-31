@@ -47,6 +47,7 @@ namespace boost{
 				typedef UnderlyingT UnderlyingT;
 				template<UnderlyingT Val>
 				struct values{
+					typedef UnderlyingT UnderlyingT;
 					enum : UnderlyingT{ next = Val << 1, start = 1 };
 				};
 			};
@@ -57,6 +58,7 @@ namespace boost{
 				typedef UnderlyingT UnderlyingT;
 				template<UnderlyingT Val>
 				struct values{
+					typedef UnderlyingT UnderlyingT;
 					enum : UnderlyingT{ next = Val + 1, start = 0 };
 				};
 			};
@@ -69,11 +71,13 @@ namespace boost{
 				//supply that can store arbitrary values
 				template<UnderlyingT Val>
 				struct values{
+					typedef UnderlyingT UnderlyingT;
 					enum : UnderlyingT{ next = arbitrary<UnderlyingT, RemVals ...>::values<Val>::next, start = CurrVal };
 				};
 
 				template<>
 				struct values < CurrVal > {
+					typedef UnderlyingT UnderlyingT;
 					enum : UnderlyingT{ next = arbitrary<UnderlyingT, RemVals ...>::values<CurrVal>::start, start = CurrVal };
 				};
 			};
@@ -83,8 +87,19 @@ namespace boost{
 				typedef UnderlyingT UnderlyingT;
 				template<UnderlyingT Val>
 				struct values{
+					typedef UnderlyingT UnderlyingT;
 					enum : UnderlyingT{ next = Val + 1, start = CurrVal };
 				};
+			};
+
+			template<template<int> class Supply, unsigned int index>
+			struct at{
+				enum { value = Supply<at<Supply, std::integral_constant<unsigned int, index - 1>::value>::value>::next };
+			};
+
+			template<template<int> class Supply>
+			struct at<Supply, std::integral_constant<unsigned int, 0>::value>{
+				enum { value = Supply<0>::start };
 			};
 		}
 	}

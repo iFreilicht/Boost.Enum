@@ -76,9 +76,11 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="advanced_enum2.h" />
     <ClInclude Include="doc_index.h" />
     <ClInclude Include="advanced_enum.h" />
     <ClInclude Include="enum_storage.hpp" />
+    <ClInclude Include="enum_storage2.hpp" />
     <ClInclude Include="supplies.hpp" />
   </ItemGroup>
   <ItemGroup>
