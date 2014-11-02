@@ -46,6 +46,10 @@ namespace boost{
 			advanced_enum_base(ValueT value) :
 				value_(value)
 			{}
+			//convert to ValueT implicitly
+			operator ValueT() const{
+				return value_;
+			}
 
 			///Copy assignment
 			advanced_enum_base& operator=(const advanced_enum_base& rhs){
@@ -128,8 +132,7 @@ namespace boost{
 			try{
 				rhs = static_cast<advanced_enum_base<TemplArgs ...> >(s);
 			}
-			catch (const std::invalid_argument&) //rhs stays unchanged when an error occurs
-			{}
+			catch (const std::invalid_argument&){}
 			return lhs;
 		}
 
@@ -144,20 +147,9 @@ namespace boost{
 		*/
 		template<typename ... TemplArgs>
 		inline std::ostream& operator <<(std::ostream& lhs, const advanced_enum_base<TemplArgs ...>& rhs){
-			std::string s = static_cast<std::string>(rhs);
-			lhs << s;
-			return lhs;
+			return lhs << static_cast<std::string>(rhs);
 		}
 
-		template<typename AdvEnumT>
-		inline std::string to_string(const AdvEnumT& advenum){
-			return static_cast<std::string>(advenum);
-		}
-
-		template<typename AdvEnumT>
-		inline typename AdvEnumT::ValueT from_string(const std::string& str){
-			return static_cast<typename AdvEnumT::ValueT>(static_cast<AdvEnumT>(str));
-		}
 	}
 }
 

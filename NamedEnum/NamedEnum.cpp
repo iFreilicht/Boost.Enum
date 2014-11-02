@@ -8,20 +8,26 @@
 //#include <advanced_enum.h>
 #include <advanced_enum_define.h>
 #include <advanced_enum_adapt.h>
+#include <boost/lexical_cast.hpp>
 
+using boost::lexical_cast;
 using something::Action;
+using namespace boost::advanced_enum;
 
 //Zott one = Zott::one;
+namespace testing{
+	enum class Enum : int{
+		zero,
+		one,
+		two,
+		three,
+		four
+	};
 
-enum class Enum : int{
-	zero,
-	one,
-	two,
-	three,
-	four
-};
+	BOOST_ADVANCED_ENUM_ADAPT(Enum, int, (zero), (one), (two), (three), (four))
+}
 
-BOOST_ADVANCED_ENUM_ADAPT(Enum, int, (zero), (one), (two), (three), (four))
+
 
 void testLookup(){
 	Action action;
@@ -29,8 +35,6 @@ void testLookup(){
 		action = static_cast<Action>("jump");
 	}
 }
-
-
 
 Many oneOfMany = Many::g;
 
@@ -41,13 +45,15 @@ int _tmain(int argc, _TCHAR* argv[])
 	Action::init_lookupmaps();
 	testLookup();
 
+	testing::Enum myEnum = lexical_cast<testing::Enum>("four");
 
+	std::string enumStr = lexical_cast<std::string>(myEnum);
 
-	Action jump = action;
+	Action jump = lexical_cast<Action>("jump");
 
 	bool same = jump == action;
 
-	std::string str = static_cast<std::string>(jump);
+	std::string str = lexical_cast<std::string>(jump);
 
 	std::cin >> action;
 

@@ -78,7 +78,20 @@ struct BOOST_PP_CAT(enum_name, _enum) : BOOST_PP_CAT(_artifacts_, enum_name)::Ba
 	BOOST_PP_CAT(enum_name, _enum)(ValueT v) : BOOST_PP_CAT(_artifacts_, enum_name)::Base(v){}	\
 	explicit BOOST_PP_CAT(enum_name, _enum)(UnderlyingT v) : BOOST_PP_CAT(_artifacts_, enum_name)::Base(v){}	\
 	explicit BOOST_PP_CAT(enum_name, _enum)(const std::string& s) : BOOST_PP_CAT(_artifacts_, enum_name)::Base(s){}	\
-};
+};																									\
+inline std::istream& operator >>(std::istream& lhs, enum_name& rhs){								\
+	std::string s;																				\
+	lhs >> s;																				\
+	try{																					\
+		rhs = static_cast<BOOST_PP_CAT(enum_name, _enum)>(s);												\
+	}																						\
+	catch (const std::invalid_argument&){}													\
+	return lhs;																				\
+}																							\
+inline std::ostream& operator <<(std::ostream& lhs, enum_name rhs){						\
+	return lhs << static_cast<std::string>((BOOST_PP_CAT(enum_name, _enum)) rhs);			\
+}																							\
+
 
 #define BOOST_ADVANCED_ENUM_ADAPT(enum_name, underlying, ...)										\
 	BOOST_ADVANCED_ENUM__BEGIN_ADAPTATION(enum_name, underlying)									\
@@ -116,6 +129,18 @@ namespace example{
 		explicit AdaptLater_enum(UnderlyingT v) : _artifacts_AdaptLater::Base(v){}
 		explicit AdaptLater_enum(const std::string& s) : _artifacts_AdaptLater::Base(s){}
 	};
+	std::istream& operator >>(std::istream& lhs, AdaptLater& rhs){
+		std::string s;
+		lhs >> s;
+		try{
+			rhs = static_cast<AdaptLater_enum>(s);
+		}
+		catch (const std::invalid_argument&){}
+		return lhs;
+	}
+	inline std::ostream& operator <<(std::ostream& lhs, AdaptLater rhs){
+		return lhs << static_cast<std::string>((AdaptLater_enum) rhs);
+	}
 
 
 	AdaptLater val = AdaptLater::six;
@@ -137,5 +162,4 @@ namespace example{
 
 	AdaptLater2 val2 = AdaptLater2::six;
 	AdaptLater2_enum e2 = val2;
-	std::string str = ::boost::advanced_enum::to_string<AdaptLater2_enum>(val2);
 }
