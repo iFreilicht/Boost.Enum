@@ -80,9 +80,17 @@
     <ClInclude Include="advanced_enum_define.h" />
     <ClInclude Include="doc_index.h" />
     <ClInclude Include="advanced_enum_base.h" />
-    <ClInclude Include="empty_argument.h" />
     <ClInclude Include="enum_storage.hpp" />
     <ClInclude Include="enum_storage2.hpp" />
+    <ClInclude Include="macros\adapt_name_value_pair.h" />
+    <ClInclude Include="macros\apply_to_all.h" />
+    <ClInclude Include="macros\artifacts_namespace.h" />
+    <ClInclude Include="macros\define_enum_value.h" />
+    <ClInclude Include="macros\define_name_value_pair.h" />
+    <ClInclude Include="macros\derive_enum_base.h" />
+    <ClInclude Include="macros\empty_argument.h" />
+    <ClInclude Include="macros\name_comma.h" />
+    <ClInclude Include="macros\overload_stream_operators.h" />
     <ClInclude Include="supplies.hpp" />
   </ItemGroup>
   <ItemGroup>

@@ -10,7 +10,7 @@
 
 #include <boost/config.hpp>
 #include <string>
-#include "Supplies.hpp"
+#include "supplies.hpp"
 
 #ifdef BOOST_MSVC
 #pragma warning(disable : 4503)

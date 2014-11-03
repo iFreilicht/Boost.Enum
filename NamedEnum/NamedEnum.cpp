@@ -4,9 +4,15 @@
 #include "stdafx.h"
 //#include "Examples.h"
 
+#ifdef __INTELLISENSE__
+#define BOOST_PP_VARIADICS 1
+#define BOOST_PP_VARIADICS_MSVC 1
+#endif
+
+
 #include <iostream>
-//#include <advanced_enum.h>
-//#include <advanced_enum_define.h>
+#include <supplies.hpp>
+#include <advanced_enum_define.h>
 #include <advanced_enum_adapt.h>
 #include <boost/lexical_cast.hpp>
 
@@ -16,7 +22,7 @@ using namespace boost::advanced_enum;
 
 //Zott one = Zott::one;
 namespace testing{
-	enum class Enum : int{
+	enum Enum : int{
 		zero,
 		one,
 		two,
@@ -24,7 +30,20 @@ namespace testing{
 		four
 	};
 
-	BOOST_ADVANCED_ENUM_ADAPT(Enum, int, (zero), (one), (two), (three), (four))
+	BOOST_ADVANCED_ENUM_ADAPT(Enum, int, 
+		(zero), 
+		(one), 
+		(two, "Zwo"), 
+		(three), 
+		(four))
+
+	BOOST_ADVANCED_ENUM_DEFINE(MyEnum, 
+		::boost::advanced_enum::supplies::increment<int>, 
+		(zero), 
+		(one, _, "Eins"), 
+		(two, _), 
+		(six, (6), "Sechs"), 
+		(four))
 }
 
 
@@ -62,9 +81,11 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	std::cout << action;
 */
-	example::AdaptLater myAdaLat = lexical_cast<example::AdaptLater>("Sieben");
+	testing::MyEnum mEnum = lexical_cast<testing::MyEnum>("Sechs");
 
-	std::string adaStr = lexical_cast<std::string>(myAdaLat);
+	mEnum = testing::MyEnum::one;
+
+	std::string adaStr = lexical_cast<std::string>(mEnum);
 
 	return 0;
 }

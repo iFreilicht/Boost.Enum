@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="macros">
+      <UniqueIdentifier>{3e7a8e76-6f5a-4554-ab4d-d65f2c7e5020}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -39,8 +42,32 @@
     <ClInclude Include="advanced_enum_define.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="empty_argument.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="macros\empty_argument.h">
+      <Filter>macros</Filter>
+    </ClInclude>
+    <ClInclude Include="macros\name_comma.h">
+      <Filter>macros</Filter>
+    </ClInclude>
+    <ClInclude Include="macros\define_enum_value.h">
+      <Filter>macros</Filter>
+    </ClInclude>
+    <ClInclude Include="macros\derive_enum_base.h">
+      <Filter>macros</Filter>
+    </ClInclude>
+    <ClInclude Include="macros\adapt_name_value_pair.h">
+      <Filter>macros</Filter>
+    </ClInclude>
+    <ClInclude Include="macros\define_name_value_pair.h">
+      <Filter>macros</Filter>
+    </ClInclude>
+    <ClInclude Include="macros\artifacts_namespace.h">
+      <Filter>macros</Filter>
+    </ClInclude>
+    <ClInclude Include="macros\apply_to_all.h">
+      <Filter>macros</Filter>
+    </ClInclude>
+    <ClInclude Include="macros\overload_stream_operators.h">
+      <Filter>macros</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

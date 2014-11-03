@@ -1,117 +1,127 @@
 #pragma once
 
+#include "macros/define_name_value_pair.h"
+#include "macros/define_enum_value.h"
+#include "macros/name_comma.h"
+#include "macros/artifacts_namespace.h"
+#include "macros/derive_enum_base.h"
+#include "macros/overload_stream_operators.h"
+
 #include "advanced_enum_base.h"
-#include "enum_storage.hpp"
+#include "enum_storage2.hpp"
 
-#define BOOST_ADVANCED_ENUM__BEGIN_DEFINITION(enum_name)				\
-namespace {																\
-	namespace BOOST_PP_CAT(_artifacts_,enum_name){									\
 
-#define BOOST_ADVANCED_ENUM__DEFINE_NAME_STRING(name)						\
-		char name[] = #name;										\
+#define BOOST_ADVANCED_ENUM__BEGIN_DEFINITION(enum_name, supply_) \
+	BOOST_ADVANCED_ENUM__ENTER_ARTIFACTS_NS(enum_name) \
+		typedef int UnderlyingT;							\
+		typedef supply_ supply;							\
+		enum class index : unsigned int{				\
 
-#define BOOST_ADVANCED_ENUM__BEGIN_INDEX_DEFINITION(supply, ...)			\
-		typedef ::boost::advanced_enum::enum_storage<supply<0>::UnderlyingT, supply>::gen<__VA_ARGS__>::get enum_storage;						\
-		enum class index : enum_storage::SizeT{						\
-
-#define BOOST_ADVANCED_ENUM__DEFINE_INDEX(name)								\
-			name,													\
-
-#define BOOST_ADVANCED_ENUM__BEGIN_VALUES_DEFINITION			\
+#define BOOST_ADVANCED_ENUM__BEGIN_ENUM_DEFINTION(enum_name) \
 		};															\
-		enum class Values{										\
+	BOOST_ADVANCED_ENUM__EXIT_ARTIFACTS_NS						\
+	enum class enum_name{										\
 
-#define BOOST_ADVANCED_ENUM__DEFINE_VALUES_VALUE(enum_name, name)										\
-			name = enum_storage::													\
-				value_at<static_cast<enum_storage::SizeT>(index::name)>::value,		\
 
-#define BOOST_ADVANCED_ENUM__END_DEFINITION(enum_name)	\
-		};																\
-		typedef ::boost::advanced_enum::advanced_enum_base			\
-			<enum_storage, Values> Base;					\
-	}																\
-}																	\
-typedef BOOST_PP_CAT(_artifacts_,enum_name)::Values enum_name;		\
-struct  BOOST_PP_CAT(enum_name, _enum) : BOOST_PP_CAT(_artifacts_, enum_name)::Base{		\
-	BOOST_PP_CAT(enum_name, _enum)() : BOOST_PP_CAT(_artifacts_,enum_name)::Base(){}									\
-	BOOST_PP_CAT(enum_name, _enum)(ValueT v) : BOOST_PP_CAT(_artifacts_,enum_name)::Base(v){}						\
-	explicit BOOST_PP_CAT(enum_name, _enum)(UnderlyingT v) : BOOST_PP_CAT(_artifacts_,enum_name)::Base(v){}			\
-	explicit BOOST_PP_CAT(enum_name, _enum)(const std::string& s) : BOOST_PP_CAT(_artifacts_,enum_name)::Base(s){}	\
-};																								\
-inline std::istream& operator >>(std::istream& lhs, enum_name& rhs){								\
-	std::string s;																				\
-	lhs >> s;																				\
-	try{																					\
-		rhs = static_cast<BOOST_PP_CAT(enum_name, _enum)>(s);												\
-		}																						\
-	catch (const std::invalid_argument&){}													\
-	return lhs;																				\
-}																							\
-inline std::ostream& operator <<(std::ostream& lhs, enum_name rhs){						\
-	return lhs << static_cast<std::string>((BOOST_PP_CAT(enum_name, _enum)) rhs);			\
-}
+#define BOOST_ADVANCED_ENUM__BEGIN_NAME_VALUE_DEFINITION(enum_name) \
+	};																\
+	BOOST_ADVANCED_ENUM__ENTER_ARTIFACTS_NS(enum_name) \
+		typedef enum_name EnumT;						\
 
-///Define an advanced_enum with a supply
-/**
-\sa #BOOST_ADVANCED_ENUM_DEFINE
-*/
-#define BOOST_ADVANCED_ENUM_DEFINE_W_SUPPLY(enum_name, supply, ...)									\
-		BOOST_ADVANCED_ENUM__BEGIN_DEFINITION(enum_name)											\
-		BOOST_ADVANCED_ENUM__APPLY_TO_ALL(BOOST_ADVANCED_ENUM__DEFINE_NAME_STRING, __VA_ARGS__)		\
-		BOOST_ADVANCED_ENUM__BEGIN_INDEX_DEFINITION(supply, __VA_ARGS__)							\
-		BOOST_ADVANCED_ENUM__APPLY_TO_ALL(BOOST_ADVANCED_ENUM__DEFINE_INDEX, __VA_ARGS__)			\
-		BOOST_ADVANCED_ENUM__BEGIN_VALUES_DEFINITION												\
-		BOOST_ADVANCED_ENUM__APPLY_TO_ALL(BOOST_ADVANCED_ENUM__DEFINE_VALUES_VALUE,__VA_ARGS__)		\
-		BOOST_ADVANCED_ENUM__END_DEFINITION(enum_name)												\
+#define BOOST_ADVANCED_ENUM__BEGIN_STORAGE_DEFINITION(enum_name) \
+		typedef ::boost::advanced_enum::enum_storage2<UnderlyingT>::gen <
 
-///Define an advanced_enum without using a supply, with int increments
-/**This macro is just for convenience when you don't want to manually
-* specify a supply.
-*/
-#define BOOST_ADVANCED_ENUM_DEFINE(enum_name, ...) BOOST_ADVANCED_ENUM_DEFINE_W_SUPPLY(enum_name, ::boost::advanced_enum::supplies::increment<int>::values, __VA_ARGS__)
+#define BOOST_ADVANCED_ENUM__END_DEFINITION(enum_name) \
+		void > ::get enum_storage;							\
+		typedef ::boost::advanced_enum::advanced_enum_base <enum_storage, EnumT> Base; \
+		BOOST_ADVANCED_ENUM__DERIVE_ENUM_BASE							\
+	BOOST_ADVANCED_ENUM__EXIT_ARTIFACTS_NS						\
+	BOOST_ADVANCED_ENUM__OVERLOAD_STREAM_OPERATORS(enum_name)	\
 
-#define BOOST_ADVANCED_ENUM_ARBITRARY_VALUES(...) ::boost::advanced_enum::supplies::arbitrary<__VA_ARGS__>::values
-//uncomment to test 
 
-//Action ultimately expands to this:
+#define BOOST_ADVANCED_ENUM_DEFINE(enum_name, supply, ...) \
+	BOOST_ADVANCED_ENUM__BEGIN_DEFINITION(enum_name, supply) \
+	BOOST_ADVANCED_ENUM__APPLY_TO_ALL(BOOST_ADVANCED_ENUM__NAME_COMMA, __VA_ARGS__) \
+	BOOST_ADVANCED_ENUM__BEGIN_ENUM_DEFINTION(enum_name) \
+	BOOST_ADVANCED_ENUM__APPLY_TO_ALL_W_NAME(enum_name, BOOST_ADVANCED_ENUM__DEFINE_ENUM_VALUE, __VA_ARGS__) \
+	BOOST_ADVANCED_ENUM__BEGIN_NAME_VALUE_DEFINITION(enum_name) \
+	BOOST_ADVANCED_ENUM__APPLY_TO_ALL(BOOST_ADVANCED_ENUM__DEFINE_NAME_VALUE_PAIR, __VA_ARGS__) \
+	BOOST_ADVANCED_ENUM__BEGIN_STORAGE_DEFINITION(enum_name) \
+	BOOST_ADVANCED_ENUM__APPLY_TO_ALL(BOOST_ADVANCED_ENUM__NAME_COMMA, __VA_ARGS__) \
+	BOOST_ADVANCED_ENUM__END_DEFINITION(enum_name)
+
+
 namespace example{
+#define FIVE (five, (5))
+#define SIX (six)
+#define SEVEN (seven, _, "Sieben")
+#define TWENTY (twenty, (20), "Zwanzig")
+
+
 	namespace {
-		namespace _artifacts_Action{
+		namespace _artifacts_AdaptLater{
 			typedef int UnderlyingT;
-			char jump[] = "jump";
-			char look[] = "look";
-			char move[] = "move";
-			enum class index{
-				jump,
-				look,
-				move,
+			typedef ::boost::advanced_enum::supplies::shiftL1<UnderlyingT> supply;
+			enum class index : unsigned int{
+				BOOST_ADVANCED_ENUM__NAME_COMMA(FIVE)
+				BOOST_ADVANCED_ENUM__NAME_COMMA(SIX)
+				BOOST_ADVANCED_ENUM__NAME_COMMA(SEVEN)
+				BOOST_ADVANCED_ENUM__NAME_COMMA(TWENTY)
 			};
-			typedef ::boost::advanced_enum::enum_storage<int, ::boost::advanced_enum::supplies::shiftL1<int>::values>::gen<jump, look, move>::get enum_storage;
 		}
 	}
-	enum class Action : _artifacts_Action::UnderlyingT {
-		jump = _artifacts_Action::enum_storage::value_at<static_cast<int>(_artifacts_Action::index::jump)>::value,
-		look = _artifacts_Action::enum_storage::value_at<static_cast<int>(_artifacts_Action::index::look)>::value,
-		move = _artifacts_Action::enum_storage::value_at<static_cast<int>(_artifacts_Action::index::move)>::value,
+
+	enum class AdaptLater{
+		BOOST_ADVANCED_ENUM__DEFINE_ENUM_VALUE(AdaptLater, FIVE)
+		BOOST_ADVANCED_ENUM__DEFINE_ENUM_VALUE(AdaptLater, SIX)
+		BOOST_ADVANCED_ENUM__DEFINE_ENUM_VALUE(AdaptLater, SEVEN)
+		BOOST_ADVANCED_ENUM__DEFINE_ENUM_VALUE(AdaptLater, TWENTY)
 	};
+
 	namespace {
-		namespace _artifacts_Action{
-			typedef ::boost::advanced_enum::advanced_enum_base <enum_storage, Action> Base;
+		namespace _artifacts_AdaptLater{
+			typedef AdaptLater EnumT;
+				BOOST_ADVANCED_ENUM__DEFINE_NAME_VALUE_PAIR(FIVE)
+				BOOST_ADVANCED_ENUM__DEFINE_NAME_VALUE_PAIR(SIX)
+				BOOST_ADVANCED_ENUM__DEFINE_NAME_VALUE_PAIR(SEVEN)
+				BOOST_ADVANCED_ENUM__DEFINE_NAME_VALUE_PAIR(TWENTY)
+				typedef ::boost::advanced_enum::enum_storage2<UnderlyingT>::gen <
+				BOOST_ADVANCED_ENUM__NAME_COMMA(FIVE)
+				BOOST_ADVANCED_ENUM__NAME_COMMA(SIX)
+				BOOST_ADVANCED_ENUM__NAME_COMMA(SEVEN)
+				BOOST_ADVANCED_ENUM__NAME_COMMA(TWENTY)
+				void > ::get enum_storage;
+			typedef ::boost::advanced_enum::advanced_enum_base <enum_storage, EnumT> Base;
+			struct advanced_enum : Base{
+					advanced_enum() : Base(){}
+					advanced_enum(ValueT v) : Base(v){}
+					explicit advanced_enum(UnderlyingT v) : Base(v){}
+					explicit advanced_enum(const std::string& s) : Base(s){}
+			};
+
 		}
 	}
-	struct Action_enum : _artifacts_Action::Base {
-		Action_enum() : _artifacts_Action::Base(){}
-		Action_enum(ValueT v) : _artifacts_Action::Base(v){}
-		explicit Action_enum(int v) : _artifacts_Action::Base(v){}
-		explicit Action_enum(const std::string& s) : _artifacts_Action::Base(s){}
-	};
+	std::istream& operator >>(std::istream& lhs, AdaptLater& rhs){
+		std::string s;
+		lhs >> s;
+		try{
+			rhs = static_cast<_artifacts_AdaptLater::advanced_enum>(s);
+		}
+		catch (const std::invalid_argument&){}
+		return lhs;
+	}
+	inline std::ostream& operator <<(std::ostream& lhs, AdaptLater rhs){
+		return lhs << static_cast<std::string>((_artifacts_AdaptLater::advanced_enum)rhs);
+	}
 
-		BOOST_ADVANCED_ENUM__BEGIN_DEFINITION(Action2)											
-		BOOST_ADVANCED_ENUM__APPLY_TO_ALL(BOOST_ADVANCED_ENUM__DEFINE_NAME_STRING, jump, look, move)		
-		BOOST_ADVANCED_ENUM__BEGIN_INDEX_DEFINITION(::boost::advanced_enum::supplies::increment<int>::values, jump, look, move)
-		BOOST_ADVANCED_ENUM__APPLY_TO_ALL(BOOST_ADVANCED_ENUM__DEFINE_INDEX, jump, look, move)
-		BOOST_ADVANCED_ENUM__BEGIN_VALUES_DEFINITION												
-		BOOST_ADVANCED_ENUM__APPLY_TO_ALL_W_NAME(Action2, BOOST_ADVANCED_ENUM__DEFINE_VALUES_VALUE, jump, look, move)		
-		BOOST_ADVANCED_ENUM__END_DEFINITION(Action2)
 
+	BOOST_ADVANCED_ENUM__BEGIN_DEFINITION(Adapt2, ::boost::advanced_enum::supplies::increment<int>) 
+	BOOST_ADVANCED_ENUM__APPLY_TO_ALL(BOOST_ADVANCED_ENUM__NAME_COMMA, FIVE, SIX, SEVEN, TWENTY) 
+	BOOST_ADVANCED_ENUM__BEGIN_ENUM_DEFINTION(Adapt2) 
+	BOOST_ADVANCED_ENUM__APPLY_TO_ALL_W_NAME(Adapt2, BOOST_ADVANCED_ENUM__DEFINE_ENUM_VALUE, FIVE, SIX, SEVEN, TWENTY)
+	BOOST_ADVANCED_ENUM__BEGIN_NAME_VALUE_DEFINITION(Adapt2) 
+	BOOST_ADVANCED_ENUM__APPLY_TO_ALL(BOOST_ADVANCED_ENUM__DEFINE_NAME_VALUE_PAIR, FIVE, SIX, SEVEN, TWENTY)
+	BOOST_ADVANCED_ENUM__BEGIN_STORAGE_DEFINITION(Adapt2) 
+	BOOST_ADVANCED_ENUM__APPLY_TO_ALL(BOOST_ADVANCED_ENUM__NAME_COMMA, FIVE, SIX, SEVEN, TWENTY)
+	BOOST_ADVANCED_ENUM__END_DEFINITION(Adapt2)
 }
