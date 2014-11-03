@@ -2,16 +2,16 @@
 //
 
 #include "stdafx.h"
-#include "Examples.h"
+//#include "Examples.h"
 
 #include <iostream>
 //#include <advanced_enum.h>
-#include <advanced_enum_define.h>
+//#include <advanced_enum_define.h>
 #include <advanced_enum_adapt.h>
 #include <boost/lexical_cast.hpp>
 
 using boost::lexical_cast;
-using something::Action;
+//using something::Action;
 using namespace boost::advanced_enum;
 
 //Zott one = Zott::one;
@@ -29,27 +29,28 @@ namespace testing{
 
 
 
-void testLookup(){
-	Action action;
-	for (int i = 0; i < 200000; ++i){
-		action = static_cast<Action>("jump");
-	}
-}
 
-Many oneOfMany = Many::g;
+//void testLookup(){
+//	Action action;
+//	for (int i = 0; i < 200000; ++i){
+//		action = lexical_cast<Action>("jump");
+//	}
+//}
+
+//Many oneOfMany = Many::g;
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	Action action;
+	/*Action action;
 	testLookup();
-	Action::init_lookupmaps();
+	something::Action_enum::init_lookupmaps();
 	testLookup();
-
+*/
 	testing::Enum myEnum = lexical_cast<testing::Enum>("four");
 
 	std::string enumStr = lexical_cast<std::string>(myEnum);
 
-	Action jump = lexical_cast<Action>("jump");
+	/*Action jump = lexical_cast<Action>("jump");
 
 	bool same = jump == action;
 
@@ -60,6 +61,10 @@ int _tmain(int argc, _TCHAR* argv[])
 	bool same2 = jump == action;
 
 	std::cout << action;
+*/
+	example::AdaptLater myAdaLat = lexical_cast<example::AdaptLater>("Sieben");
+
+	std::string adaStr = lexical_cast<std::string>(myAdaLat);
 
 	return 0;
 }

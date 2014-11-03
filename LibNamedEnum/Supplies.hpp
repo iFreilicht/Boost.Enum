@@ -92,13 +92,21 @@ namespace boost{
 				};
 			};
 
-			template<template<int> class Supply, unsigned int index>
+
+			template<
+				typename UnderlyingT, 
+				template<UnderlyingT> class Supply, 
+				unsigned int index
+			>
 			struct at{
-				enum : int { value = Supply< at< Supply, index - 1 >::value >::next };
+				enum : UnderlyingT { value = Supply< at<UnderlyingT, Supply, index - 1 >::value >::next };
 			};
 
-			template<template<int> class Supply>
-			struct at<Supply, std::integral_constant<unsigned int, 0>::value>{
+			template<
+				typename UnderlyingT,
+				template<UnderlyingT> class Supply
+			>
+			struct at<UnderlyingT, Supply, std::integral_constant<unsigned int, 0>::value>{
 				enum : int { value = Supply<0>::start };
 			};
 		}

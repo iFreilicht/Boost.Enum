@@ -80,6 +80,7 @@
     <ClInclude Include="advanced_enum_define.h" />
     <ClInclude Include="doc_index.h" />
     <ClInclude Include="advanced_enum_base.h" />
+    <ClInclude Include="empty_argument.h" />
     <ClInclude Include="enum_storage.hpp" />
     <ClInclude Include="enum_storage2.hpp" />
     <ClInclude Include="supplies.hpp" />

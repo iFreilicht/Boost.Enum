@@ -6,7 +6,7 @@
 #define DEFINE_FLAG_ENUM(enum_name, ...) BOOST_ADVANCED_ENUM_DEFINE_W_SUPPLY(enum_name, ::boost::advanced_enum::supplies::shiftL1<unsigned int>::values, __VA_ARGS__)
 
 namespace something{
-	BOOST_ADVANCED_ENUM_FWD_DECLARE(Action);
+	enum class Action : unsigned int;
 }
 
 //this is enough to define a named macro
@@ -41,11 +41,11 @@ BOOST_ADVANCED_ENUM_DEFINE_W_SUPPLY(Numbers,
 	);
 
 
-BOOST_ADVANCED_ENUM_DEFINE(Many,
-	a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z,
-	aa, ab, ac, ad, ae, af, ag, ah, ai, aj, ak, al, am, an, ao, ap, aq, ar, as, at, au, av, aw, ax, ay, az,
-	ba, bb, bc, bd, be, bf, bg, bh, bi, bj, bk, bl
-);
+//BOOST_ADVANCED_ENUM_DEFINE(Many,
+//	a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z,
+//	aa, ab, ac, ad, ae, af, ag, ah, ai, aj, ak, al, am, an, ao, ap, aq, ar, as, at, au, av, aw, ax, ay, az,
+//	ba, bb, bc, bd, be, bf, bg, bh, bi, bj, bk, bl
+//);
 
 /*
 	a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, x, y, z,
