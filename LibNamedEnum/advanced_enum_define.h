@@ -6,9 +6,10 @@
 #include "macros/artifacts_namespace.h"
 #include "macros/derive_enum_base.h"
 #include "macros/overload_stream_operators.h"
+#include "macros/apply_to_all.h"
 
 #include "advanced_enum_base.h"
-#include "enum_storage2.hpp"
+#include "enum_storage.hpp"
 
 
 #define BOOST_ADVANCED_ENUM__BEGIN_DEFINITION(enum_name, supply_) \
@@ -29,7 +30,7 @@
 		typedef enum_name EnumT;						\
 
 #define BOOST_ADVANCED_ENUM__BEGIN_STORAGE_DEFINITION(enum_name) \
-		typedef ::boost::advanced_enum::enum_storage2<UnderlyingT>::gen <
+		typedef ::boost::advanced_enum::enum_storage<UnderlyingT>::gen <
 
 #define BOOST_ADVANCED_ENUM__END_DEFINITION(enum_name) \
 		void > ::get enum_storage;							\
@@ -85,7 +86,7 @@ namespace example{
 				BOOST_ADVANCED_ENUM__DEFINE_NAME_VALUE_PAIR(SIX)
 				BOOST_ADVANCED_ENUM__DEFINE_NAME_VALUE_PAIR(SEVEN)
 				BOOST_ADVANCED_ENUM__DEFINE_NAME_VALUE_PAIR(TWENTY)
-				typedef ::boost::advanced_enum::enum_storage2<UnderlyingT>::gen <
+				typedef ::boost::advanced_enum::enum_storage<UnderlyingT>::gen <
 				BOOST_ADVANCED_ENUM__NAME_COMMA(FIVE)
 				BOOST_ADVANCED_ENUM__NAME_COMMA(SIX)
 				BOOST_ADVANCED_ENUM__NAME_COMMA(SEVEN)

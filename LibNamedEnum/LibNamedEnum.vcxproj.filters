@@ -24,13 +24,7 @@
     <ClInclude Include="doc_index.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="enum_storage.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="supplies.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="enum_storage2.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="advanced_enum_adapt.h">
@@ -68,6 +62,12 @@
     </ClInclude>
     <ClInclude Include="macros\overload_stream_operators.h">
       <Filter>macros</Filter>
+    </ClInclude>
+    <ClInclude Include="enum_storage_deprecated.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="enum_storage.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

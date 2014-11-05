@@ -5,12 +5,12 @@
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 
-#ifndef BOOST_ADVANCEDENUM_ENUM_STORAGE_HPP
-#define BOOST_ADVANCEDENUM_ENUM_STORAGE_HPP
+#ifndef BOOST_ADVANCEDENUM_ENUM_STORAGE2_HPP
+#define BOOST_ADVANCEDENUM_ENUM_STORAGE2_HPP
 
 #include <boost/config.hpp>
 #include <string>
-#include "supplies.hpp"
+#include "Supplies.hpp"
 
 #ifdef BOOST_MSVC
 #pragma warning(disable : 4503)
@@ -50,11 +50,11 @@ namespace boost{
 			 * The list has to be reversed to make the definition of enums with 
 			 *  BOOST_ADVANCED_ENUM_DEFINE_W_SUPPLY possible.
 			*/
-			template<char* Name, typename PrevEntry>
+			template<typename NameValuePair, typename PrevEntry>
 			struct value_entry{
 				typedef PrevEntry prev;
-				const std::string name = Name;
-				enum : UnderlyingT{ value = Supply<PrevEntry::value>::next };
+				const std::string name = NameValuePair::name;
+				enum : UnderlyingT{ value = NameValuePair::value };
 
 				///Inserts string value pair into map
 				/**The same is done recursively for PrevEntry
@@ -74,11 +74,11 @@ namespace boost{
 			};
 
 			///specialisation for value_entry that represents the first entry in the linked list
-			template <char* Name>
-			struct value_entry < Name, void > {
+			template <typename NameValuePair>
+			struct value_entry < NameValuePair, void > {
 				typedef void prev;
-				const std::string name = Name;
-				enum : UnderlyingT{ value = Supply<0>::start };
+				const std::string name = NameValuePair::name;
+				enum : UnderlyingT{ value = NameValuePair::value };
 
 				///\sa value_entry::insert_into_stoemap 
 				void insert_into_stoemap(std::map<std::string, UnderlyingT>& map){
@@ -142,17 +142,24 @@ namespace boost{
 			
 
 			///Generator for enum_storage, used by gen
-			template<typename PrevEntry, char* entry_name, char* ... next_entries>
+			template<typename PrevEntry, typename entry_name, typename ... next_entries>
 			struct generator{
 				typedef typename enum_storage::template value_entry<entry_name, PrevEntry> entry;
 				typedef typename generator<entry, next_entries ...>::enumeration enumeration;
 			};
 			///End case for generator
-			template<typename PrevEntry, char* entry_name>
-			struct generator < PrevEntry, entry_name > {
+			template<typename PrevEntry, typename entry_name>
+			struct generator < PrevEntry, entry_name> {
 				typedef typename enum_storage::template value_entry<entry_name, PrevEntry> entry;
 				typedef typename enum_storage::template with_last<entry>::get enumeration;
 			};
+
+			template<typename PrevEntry>
+			struct generator < PrevEntry, void > {
+				typedef PrevEntry entry;
+				typedef typename enum_storage::template with_last<entry>::get enumeration;
+			};
+
 
 			/////-------indexing-------
 			///Number of elements of the linked list, used by num_vals
@@ -230,8 +237,9 @@ namespace boost{
 			 * \code 
 			 *     typedef enum_storage<[Supply]>::gen<entry{, entry}>::get myStorage;
 			 * \endcode
+			 * \note It is required to make the last argument void, which is needed by certain macros
 			*/
-			template<char* ... entries>
+			template<typename ... entries>
 			struct gen{
 				typedef typename generator<void, entries ...>::enumeration get;
 			};
