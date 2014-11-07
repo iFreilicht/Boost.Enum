@@ -45,10 +45,10 @@ namespace boost{
 			template<typename UnderlyingT>
 			struct shiftL1{
 				typedef UnderlyingT UnderlyingT;
-				template<UnderlyingT Val>
+				template<UnderlyingT Index>
 				struct values{
 					typedef UnderlyingT UnderlyingT;
-					enum : UnderlyingT{ next = Val << 1, start = 1 };
+					enum : UnderlyingT{ value = 1 << Index };
 				};
 			};
 
@@ -56,58 +56,11 @@ namespace boost{
 			template<typename UnderlyingT>
 			struct increment{
 				typedef UnderlyingT UnderlyingT;
-				template<UnderlyingT Val>
+				template<UnderlyingT Index>
 				struct values{
 					typedef UnderlyingT UnderlyingT;
-					enum : UnderlyingT{ next = Val + 1, start = 0 };
+					enum : UnderlyingT{ value = Index };
 				};
-			};
-
-			///Iterate through arbitrary values.
-			/**If a value is requested after the last supplied one */
-			template<typename UnderlyingT, UnderlyingT CurrVal, UnderlyingT ... RemVals>
-			struct arbitrary{
-				typedef UnderlyingT UnderlyingT;
-				//supply that can store arbitrary values
-				template<UnderlyingT Val>
-				struct values{
-					typedef UnderlyingT UnderlyingT;
-					enum : UnderlyingT{ next = arbitrary<UnderlyingT, RemVals ...>::values<Val>::next, start = CurrVal };
-				};
-
-				template<>
-				struct values < CurrVal > {
-					typedef UnderlyingT UnderlyingT;
-					enum : UnderlyingT{ next = arbitrary<UnderlyingT, RemVals ...>::values<CurrVal>::start, start = CurrVal };
-				};
-			};
-			//specialisation so that all values past the last one are the same
-			template<typename UnderlyingT, UnderlyingT CurrVal>
-			struct arbitrary < UnderlyingT, CurrVal > {
-				typedef UnderlyingT UnderlyingT;
-				template<UnderlyingT Val>
-				struct values{
-					typedef UnderlyingT UnderlyingT;
-					enum : UnderlyingT{ next = Val + 1, start = CurrVal };
-				};
-			};
-
-
-			template<
-				typename UnderlyingT, 
-				template<UnderlyingT> class Supply, 
-				unsigned int index
-			>
-			struct at{
-				enum : UnderlyingT { value = Supply< at<UnderlyingT, Supply, index - 1 >::value >::next };
-			};
-
-			template<
-				typename UnderlyingT,
-				template<UnderlyingT> class Supply
-			>
-			struct at<UnderlyingT, Supply, std::integral_constant<unsigned int, 0>::value>{
-				enum : int { value = Supply<0>::start };
 			};
 		}
 	}

@@ -12,8 +12,8 @@
 
 #include <boost/preprocessor/cat.hpp>
 
-#define BOOST_ADVANCED_ENUM_EMPTY_ARG(a)\
-	BOOST_PP_CAT(BOOST_ADVANCED_ENUM__EMPTY_ARG_, a)
+#define BOOST_ADVANCED_ENUM_EMPTY_ARG(a)									\
+	BOOST_PP_CAT(BOOST_ADVANCED_ENUM__EMPTY_ARG_, a)						\
 
 //argument is _
 #define BOOST_ADVANCED_ENUM__EMPTY_ARG__ 1

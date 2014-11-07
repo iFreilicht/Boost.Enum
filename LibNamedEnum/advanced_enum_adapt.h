@@ -52,13 +52,13 @@
 		typedef ::boost::advanced_enum::advanced_enum_base <enum_storage, EnumT> Base;				\
 		BOOST_ADVANCED_ENUM__DERIVE_ENUM_BASE														\
 	BOOST_ADVANCED_ENUM__EXIT_ARTIFACTS_NS															\
-	BOOST_ADVANCED_ENUM__OVERLOAD_STREAM_OPERATORS(enum_name)										\
+	BOOST_ADVANCED_ENUM__OVERLOAD_STREAM_OPERATORS_W_NAME(enum_name)									\
 
-#define BOOST_ADVANCED_ENUM_ADAPT(enum_name, underlying, ...)										\
+#define BOOST_ADVANCED_ENUM_ADAPT(enum_name, underlying, seq)										\
 	BOOST_ADVANCED_ENUM__BEGIN_ADAPTATION(enum_name, underlying)									\
-	BOOST_ADVANCED_ENUM__APPLY_TO_ALL(BOOST_ADVANCED_ENUM__ADAPT_NAME_VALUE_PAIR, __VA_ARGS__)		\
+	BOOST_ADVANCED_ENUM__ADAPT_NAME_VALUE_PAIR(seq)													\
 	BOOST_ADVANCED_ENUM__BEGIN_STORAGE_ADAPTATION													\
-	BOOST_ADVANCED_ENUM__APPLY_TO_ALL(BOOST_ADVANCED_ENUM__NAME_COMMA, __VA_ARGS__)		\
+	BOOST_ADVANCED_ENUM__NAME_COMMA(seq)															\
 	BOOST_ADVANCED_ENUM__END_ADAPTATION(enum_name)													\
 
 namespace example{
@@ -134,9 +134,9 @@ namespace example{
 	};
 
 	BOOST_ADVANCED_ENUM__BEGIN_ADAPTATION(AdaptLater2, int)									
-	BOOST_ADVANCED_ENUM__APPLY_TO_ALL(BOOST_ADVANCED_ENUM__ADAPT_NAME_VALUE_PAIR, (five), (six), (twenty))
+	BOOST_ADVANCED_ENUM__ADAPT_NAME_VALUE_PAIR((five)(six, "Sechs")(twenty))
 	BOOST_ADVANCED_ENUM__BEGIN_STORAGE_ADAPTATION
-	BOOST_ADVANCED_ENUM__APPLY_TO_ALL(BOOST_ADVANCED_ENUM__NAME_COMMA, (five), (six), (twenty))
+	BOOST_ADVANCED_ENUM__NAME_COMMA((five)(six, "Sechs")(twenty))
 	BOOST_ADVANCED_ENUM__END_ADAPTATION(AdaptLater2)
 
 	AdaptLater2 val2 = AdaptLater2::six;

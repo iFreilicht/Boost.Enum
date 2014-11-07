@@ -10,7 +10,7 @@
 
 #include "artifacts_namespace.h"
 
-#define BOOST_ADVANCED_ENUM__OVERLOAD_STREAM_OPERATORS(enum_name)			\
+#define BOOST_ADVANCED_ENUM__OVERLOAD_STREAM_OPERATORS_W_NAME(enum_name)	\
 inline std::istream& operator >>(std::istream& lhs, enum_name& rhs){		\
 	std::string s;															\
 	lhs >> s;																\
@@ -27,4 +27,20 @@ inline std::ostream& operator <<(std::ostream& lhs, enum_name rhs){			\
 		(BOOST_ADVANCED_ENUM__ARTIFACTS(enum_name)::advanced_enum) rhs		\
 	);																		\
 }																			\
+
+
+#define BOOST_ADVANCED_ENUM__OVERLOAD_STREAM_OPERATORS						\
+inline std::istream& operator >>(std::istream& lhs, EnumT& rhs){			\
+	std::string s;															\
+	lhs >> s;																\
+	try{																	\
+		rhs = static_cast<advanced_enum>(s);								\
+		}																	\
+	catch (const std::invalid_argument&){}									\
+	return lhs;																\
+}																			\
+inline std::ostream& operator <<(std::ostream& lhs, EnumT rhs){				\
+	return lhs << static_cast<std::string>((advanced_enum) rhs);			\
+}																			\
+
 

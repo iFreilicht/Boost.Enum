@@ -2,7 +2,7 @@
 //
 
 #include "stdafx.h"
-//#include "Examples.h"
+#include "Examples.h"
 
 #ifdef __INTELLISENSE__
 #define BOOST_PP_VARIADICS 1
@@ -31,19 +31,21 @@ namespace testing{
 	};
 
 	BOOST_ADVANCED_ENUM_ADAPT(Enum, int, 
-		(zero), 
-		(one), 
-		(two, "Zwo"), 
-		(three), 
-		(four))
+		(zero)
+		(one) 
+		(two, "Zwo")
+		(three) 
+		(four)
+	)
 
 	BOOST_ADVANCED_ENUM_DEFINE(MyEnum, 
 		::boost::advanced_enum::supplies::increment<int>, 
-		(zero), 
-		(one, _, "Eins"), 
-		(two, _), 
-		(six, (6), "Sechs"), 
-		(four))
+		(zero)
+		(one, _, "Eins")
+		(two, _)
+		(six, (6), "Sechs")
+		(four)
+	)
 }
 
 
@@ -81,11 +83,18 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	std::cout << action;
 */
+	example::AdaptLater adaEnum = lexical_cast<example::AdaptLater>("Zwanzig");
+
+	adaEnum = example::AdaptLater::five;
+
+	std::string adaStr = lexical_cast<std::string>(adaEnum);
+
 	testing::MyEnum mEnum = lexical_cast<testing::MyEnum>("Sechs");
 
 	mEnum = testing::MyEnum::one;
 
-	std::string adaStr = lexical_cast<std::string>(mEnum);
+	std::string mStr = lexical_cast<std::string>(mEnum);
+
 
 	return 0;
 }
