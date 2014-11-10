@@ -3,20 +3,12 @@
 #include <advanced_enum_define.h>
 
 //example for a macro that uses ENUM_DEFINE_W_SUPPLY
-#define DEFINE_FLAG_ENUM(enum_name, seq) BOOST_ADVANCED_ENUM_DEFINE(enum_name, ::boost::advanced_enum::supplies::shiftL1<int>, seq)
+#define DEFINE_FLAG_ENUM(enum_name, seq) BOOST_ADVANCED_ENUM_DEFINE_W_SUPPLY(enum_name, ::boost::advanced_enum::supplies::shiftL1<int>, seq)
 
-namespace something{
-	namespace {
-		namespace _artifacts_Action{
-			enum class EnumT;
-		}
-	}
-	typedef _artifacts_Action::EnumT Action;
-}
+BOOST_ADVANCED_ENUM_FWD_DECLARE(Action);
 
 //this is enough to define a named macro
 BOOST_ADVANCED_ENUM_DEFINE(Zott,
-	::boost::advanced_enum::supplies::increment<int>,
 	(zero)
 	(one)
 	(two)
@@ -36,7 +28,6 @@ namespace something{
 }
 
 BOOST_ADVANCED_ENUM_DEFINE(Numbers,
-	::boost::advanced_enum::supplies::increment<int>,
 	(five)
 	(eight)
 	(twenty)
@@ -47,11 +38,23 @@ BOOST_ADVANCED_ENUM_DEFINE(Numbers,
 )
 
 
-//BOOST_ADVANCED_ENUM_DEFINE(Many,
-//	a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z,
-//	aa, ab, ac, ad, ae, af, ag, ah, ai, aj, ak, al, am, an, ao, ap, aq, ar, as, at, au, av, aw, ax, ay, az,
-//	ba, bb, bc, bd, be, bf, bg, bh, bi, bj, bk, bl
-//);
+BOOST_ADVANCED_ENUM_DEFINE(Many,
+	(a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m) (n) (o) (p) (q) (r) (s) (t) (u) (v) (w) (x) (y) (z)
+	(Aa)(Ab)(Ac)(Ad)(Ae)(Af)(Ag)(Ah)(Ai)(Aj)(Ak)(Al)(Am)(An)(Ao)(Ap)(Aq)(Ar)(As)(At)(Au)(Av)(Aw)(Ax)(Ay)(Az)
+	(Ba)(BB)(Bc)(Bd)(Be)(Bf)(Bg)(Bh)(Bi)(Bj)(Bk)(Bl)(Bm)(Bn)(Bo)(Bp)(Bq)(Br)(Bs)(Bt)(Bu)(Bv)(Bw)(Bx)(By)(Bz)
+	(Ca)(Cb)(Cc)(Cd)(Ce)(Cf)(Cg)(Ch)(Ci)(Cj)(Ck)(Cl)(Cm)(Cn)(Co)(Cp)(Cq)(Cr)(Cs)(Ct)(Cu)(Cv)(Cw)(Cx)(Cy)(Cz)
+	(Da)(Db)(Dc)(Dd)(De)(Df)(Dg)(Dh)(Di)(Dj)(Dk)(Dl)(Dm)(Dn)(Do)(Dp)(Dq)(Dr)(Ds)(Dt)(Du)(Dv)(Dw)(Dx)(Dy)(Dz)
+	(Ea)(Eb)(Ec)(Ed)(Ee)(Ef)(Eg)(Eh)(Ei)(Ej)(Ek)(El)(Em)(En)(Eo)(Ep)(Eq)(Er)(Es)(Et)(Eu)(Ev)(Ew)(Ex)(Ey)(Ez)
+	(Fa)(Fb)(Fc)(Fd)(Fe)(Ff)(Fg)(Fh)(Fi)(Fj)(Fk)(Fl)(Fm)(Fn)(Fo)(Fp)(Fq)(Fr)(Fs)(Ft)(Fu)(Fv)(Fw)(Fx)(Fy)(Fz)
+	(Ga)(Gb)(Gc)(Gd)(Ge)(Gf)(Gg)(Gh)(Gi)(Gj)(Gk)(Gl)(Gm)(Gn)(Go)(Gp)(Gq)(Gr)(Gs)(Gt)(Gu)(Gv)(Gw)(Gx)(Gy)(Gz)
+	(Ha)(Hb)(Hc)(Hd)(He)(Hf)(Hg)(Hh)(Hi)(Hj)(Hk)(Hl)(Hm)(Hn)(Ho)(Hp)(Hq)(Hr)(Hs)(Ht)(Hu)(Hv)(Hw)(Hx)(Hy)(Hz)
+	(Ia)(Ib)(Ic)(Id)(Ie)(If)(Ig)(Ih)(Ii)(Ij)(Ik)(Il)(Im)(In)(Io)(Ip)(Iq)(Ir)(Is)(It)(Iu)(Iv)(Iw)(Ix)(Iy)(Iz)
+	(Ja)(Jb)(Jc)(Jd)(Je)(Jf)(Jg)(Jh)(Ji)(Jj)(Jk)(Jl)(Jm)(Jn)(Jo)(Jp)(Jq)(Jr)(Js)(Jt)(Ju)(Jv)(Jw)(Jx)(Jy)(Jz)
+	(Ka)(Kb)(Kc)(Kd)(Ke)(Kf)(Kg)(Kh)(Ki)(Kj)(Kk)(Kl)(Km)(Kn)(Ko)(Kp)(Kq)(Kr)(Ks)(Kt)(Ku)(Kv)(Kw)(Kx)(Ky)(Kz)
+	(La)(Lb)(Lc)(Ld)(Le)(Lf)(Lg)(Lh)(Li)(Lj)(Lk)(Ll)(Lm)(Ln)(Lo)(Lp)(Lq)(Lr)(Ls)(Lt)(Lu)(Lv)(Lw)(Lx)(Ly)(Lz)
+	(Ma)(Mb)(Mc)(Md)(Me)(Mf)(Mg)(Mh)(Mi)(Mj)(Mk)(Ml)(Mm)(Mn)(Mo)(Mp)(Mq)(Mr)(Ms)(Mt)(Mu)(Mv)(Mw)(Mx)(My)(Mz)
+	(Na)(Nb)(Nc)(Nd)(Ne)(Nf)(Ng)(Nh)(Ni)(Nj)(Nk)(Nl)(Nm)(Nn)(No)(Np)(Nq)(Nr)(Ns)(Nt)(Nu)(Nv)(Nw)(Nx)(Ny)(Nz)
+);
 
 /*
 	a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, x, y, z,

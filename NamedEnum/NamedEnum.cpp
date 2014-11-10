@@ -39,7 +39,6 @@ namespace testing{
 	)
 
 	BOOST_ADVANCED_ENUM_DEFINE(MyEnum, 
-		::boost::advanced_enum::supplies::increment<int>, 
 		(zero)
 		(one, _, "Eins")
 		(two, _)
@@ -83,6 +82,8 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	std::cout << action;
 */
+	Many myMany = Many::Nz;
+
 	example::AdaptLater adaEnum = lexical_cast<example::AdaptLater>("Zwanzig");
 
 	adaEnum = example::AdaptLater::five;

@@ -30,3 +30,4 @@
 //macro to call
 #define BOOST_ADVANCED_ENUM__NAME_COMMA(seq)								\
 	BOOST_PP_CAT(BOOST_ADVANCED_ENUM__INAME_COMMA_A seq, _)					\
+

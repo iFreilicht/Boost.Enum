@@ -36,10 +36,10 @@
 		BOOST_ADVANCED_ENUM__DERIVE_ENUM_BASE								\
 		BOOST_ADVANCED_ENUM__OVERLOAD_STREAM_OPERATORS						\
 	BOOST_ADVANCED_ENUM__EXIT_ARTIFACTS_NS									\
-	typedef BOOST_PP_CAT(_artifacts_, enum_name)::EnumT enum_name;			\
+	typedef BOOST_ADVANCED_ENUM__ARTIFACTS(enum_name)::EnumT enum_name;		\
 
 
-#define BOOST_ADVANCED_ENUM_DEFINE(enum_name, supply, seq)					\
+#define BOOST_ADVANCED_ENUM_DEFINE_W_SUPPLY(enum_name, supply, seq)			\
 	BOOST_ADVANCED_ENUM__BEGIN_DEFINITION(enum_name, supply)				\
 	BOOST_ADVANCED_ENUM__NAME_COMMA(seq)									\
 	BOOST_ADVANCED_ENUM__BEGIN_ENUM_DEFINTION(enum_name)					\
@@ -48,13 +48,17 @@
 	BOOST_ADVANCED_ENUM__DEFINE_NAME_VALUE_PAIR(seq)						\
 	BOOST_ADVANCED_ENUM__BEGIN_STORAGE_DEFINITION(enum_name)				\
 	BOOST_ADVANCED_ENUM__NAME_COMMA(seq)									\
-	BOOST_ADVANCED_ENUM__END_DEFINITION(enum_name)							\
+	BOOST_ADVANCED_ENUM__END_DEFINITION(enum_name)
+
 
 #define BOOST_ADVANCED_ENUM_FWD_DECLARE(enum_name)							\
 	BOOST_ADVANCED_ENUM__ENTER_ARTIFACTS_NS(enum_name)						\
 	enum class EnumT;														\
 	BOOST_ADVANCED_ENUM__EXIT_ARTIFACTS_NS									\
 	typedef BOOST_ADVANCED_ENUM__ARTIFACTS(enum_name)::EnumT enum_name;		\
+
+#define BOOST_ADVANCED_ENUM_DEFINE(enum_name, seq) \
+	BOOST_ADVANCED_ENUM_DEFINE_W_SUPPLY(enum_name, ::boost::advanced_enum::supplies::increment<int>, seq)
 
 
 namespace example{
