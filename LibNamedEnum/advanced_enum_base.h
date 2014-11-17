@@ -8,10 +8,6 @@
 #ifndef BOOST_ADVANCEDENUM_HPP
 #define BOOST_ADVANCEDENUM_HPP
 
-#ifdef __EDG__
-#define BOOST_PP_VARIADICS 1
-#define BOOST_PP_VARIADICS_MSVC 1
-#endif
 #include <boost/preprocessor/list.hpp>
 #include <boost/preprocessor/seq.hpp>
 #include <boost/preprocessor/variadic.hpp>

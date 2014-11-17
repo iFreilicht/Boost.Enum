@@ -1,0 +1,5 @@
+#pragma once
+
+#define BOOST_ADVANCED_ENUM_CAT(a, b) BOOST_ADVANCED_ENUM_CAT_I(a, b)
+#define BOOST_ADVANCED_ENUM_CAT_I(a, b) BOOST_ADVANCED_ENUM_CAT_II(a, b)
+#define BOOST_ADVANCED_ENUM_CAT_II(a, b) a ## b

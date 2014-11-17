@@ -1,11 +1,6 @@
 
 #pragma once
 
-#ifdef __EDG__
-#define BOOST_PP_VARIADICS 1
-#define BOOST_PP_VARIADICS_MSVC 1
-#endif
-
 #include "macros/empty_argument.h"
 #include "macros/name_comma.h"
 #include "macros/adapt_name_value_pair.h"

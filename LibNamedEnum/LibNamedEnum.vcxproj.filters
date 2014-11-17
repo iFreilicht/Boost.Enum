@@ -69,6 +69,9 @@
     <ClInclude Include="enum_storage.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="macros\cat.h">
+      <Filter>macros</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Doxyfile" />

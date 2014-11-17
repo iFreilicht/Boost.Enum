@@ -4,11 +4,7 @@
 #include "stdafx.h"
 #include "Examples.h"
 
-#ifdef __INTELLISENSE__
-#define BOOST_PP_VARIADICS 1
-#define BOOST_PP_VARIADICS_MSVC 1
-#endif
-
+#include <boost/preprocessor/config/config.hpp>
 
 #include <iostream>
 #include <supplies.hpp>
@@ -16,9 +12,30 @@
 #include <advanced_enum_adapt.h>
 #include <boost/lexical_cast.hpp>
 
+#include "macros/cat.h"
+///---OR---
+
+#define BOOST_ADVANCED_ENUM_CAT(a, b) BOOST_ADVANCED_ENUM_CAT_I(a, b)
+#define BOOST_ADVANCED_ENUM_CAT_I(a, b) BOOST_ADVANCED_ENUM_CAT_II(a, b)
+#define BOOST_ADVANCED_ENUM_CAT_II(a, b) a ## b
+
+
 using boost::lexical_cast;
 //using something::Action;
 using namespace boost::advanced_enum;
+
+#undef FIVE
+#undef SIX
+#undef SEVEN
+#define FIVE (five, (5))
+#define SIX (six, _)
+#define SEVEN (seven, (7), "S")
+
+enum class TestE{
+	BOOST_ADVANCED_ENUM__NAME_COMMA(FIVE)
+	BOOST_ADVANCED_ENUM__NAME_COMMA(SIX)
+	BOOST_ADVANCED_ENUM__NAME_COMMA(SEVEN)
+};
 
 //Zott one = Zott::one;
 namespace testing{

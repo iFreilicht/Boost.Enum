@@ -10,6 +10,7 @@
 
 #include <boost/preprocessor/variadic/elem.hpp>
 #include <boost/preprocessor/cat.hpp>
+#include "cat.h"
 
 //actual implementation
 #define BOOST_ADVANCED_ENUM__INAME_COMMA(...)								\
@@ -29,5 +30,5 @@
 
 //macro to call
 #define BOOST_ADVANCED_ENUM__NAME_COMMA(seq)								\
-	BOOST_PP_CAT(BOOST_ADVANCED_ENUM__INAME_COMMA_A seq, _)					\
+	BOOST_ADVANCED_ENUM_CAT(BOOST_ADVANCED_ENUM__INAME_COMMA_A seq, _)					\
 

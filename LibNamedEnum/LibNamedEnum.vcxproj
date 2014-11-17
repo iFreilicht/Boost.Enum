@@ -85,6 +85,7 @@
     <ClInclude Include="macros\adapt_name_value_pair.h" />
     <ClInclude Include="macros\apply_to_all.h" />
     <ClInclude Include="macros\artifacts_namespace.h" />
+    <ClInclude Include="macros\cat.h" />
     <ClInclude Include="macros\define_enum_value.h" />
     <ClInclude Include="macros\define_name_value_pair.h" />
     <ClInclude Include="macros\derive_enum_base.h" />
