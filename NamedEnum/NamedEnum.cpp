@@ -55,7 +55,7 @@ namespace testing{
 		(four)
 	)
 
-	BOOST_ADVANCED_ENUM_DEFINE(MyEnum, 
+	BOOST_ADVANCED_ENUM_DEFINE(MyEnum, unsigned int,
 		(zero)
 		(one, _, "Eins")
 		(two, _)
@@ -63,7 +63,6 @@ namespace testing{
 		(four)
 	)
 }
-
 
 
 

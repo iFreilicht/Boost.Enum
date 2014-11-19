@@ -11,6 +11,8 @@
 #include <boost/config.hpp>
 #include <string>
 #include "Supplies.hpp"
+#include "etos_impl.hpp"
+#include "stoe_impl.hpp"
 
 #ifdef BOOST_MSVC
 #pragma warning(disable : 4503)
@@ -19,7 +21,6 @@
 
 namespace boost{
 	namespace advanced_enum{
-
 
 		///enum_storage is a compile-time container for enumeration values and their corresponding string.
 		/**The container is implemented as a reverse linked list, starting at the last entry.
@@ -41,7 +42,9 @@ namespace boost{
 			///Used for indexing
 			typedef typename std::make_unsigned<UnderlyingT>::type SizeT;
 			///Makes UnderlyingT publicly visible
-			typedef typename UnderlyingT UnderlyingT;
+			typedef UnderlyingT UnderlyingT;
+
+			typedef LastEntry LastEntry;
 		private:
 			//-------linked list------------
 			///value entries represent a value string pair each in a reverse linked list.
@@ -108,29 +111,11 @@ namespace boost{
 				stoemap_.clear();
 				LastEntry().insert_into_stoemap(stoemap_);
 			}
-			///Fast map lookup for etos conversion
-			UnderlyingT stoe_map_lookup(const std::string& key){
-				try{
-					return stoemap_.at(key);
-				}
-				catch (const std::out_of_range&){
-					throw std::invalid_argument(key + " is not convertible to this enum.");
-				}
-			}
-
+			
 			//init method for etosmap
 			void init_etosmap(){
 				etosmap_.clear();
 				LastEntry().insert_into_etosmap(etosmap_);
-			}
-			///Fast map lookup for etos conversion
-			std::string etos_map_lookup(UnderlyingT key){
-				try{
-					return etosmap_.at(key);
-				}
-				catch (const std::out_of_range&){
-					throw std::invalid_argument(std::to_string(key) + " is not a value in this enum.");
-				}
 			}
 
 			////------generator------
@@ -217,20 +202,6 @@ namespace boost{
 				}
 			};
 
-			///Linear lookup for etos conversion, used by etos(UnderlyingT)
-			template<typename CurrEntry>
-			static std::string etos_linear_lookup(UnderlyingT value){
-				if (value == CurrEntry::value)
-					return CurrEntry().name;
-				else
-					return etos_linear_lookup<CurrEntry::prev>(value);
-			}
-			///Failure case for etos_linear lookup when value is not a value in this enum
-			template<>
-			static inline std::string etos_linear_lookup<void>(UnderlyingT value){
-				throw std::invalid_argument(std::to_string(value) + " is not a value in this enum.");
-				return "";
-			}
 		public:
 			///generator to create a enum_storage
 			/**like so: 
@@ -255,28 +226,18 @@ namespace boost{
 
 			///Convert string to UnderlyingT
 			static UnderlyingT stoe(const std::string& name){
-				if (instance().stoemap_.empty()){
-					return stoe_linear_lookup<LastEntry>(name);
-				}
-				else{
-					return instance().stoe_map_lookup(name);
-				}
+				return stoe_impl<Options::arbitrary, enum_storage<UnderlyingT, Supply, LastEntry> >::f(name);
 			}
 
 			///Convert UnderlyingT to string at compiletime
 			template<UnderlyingT value>
 			static inline std::string etos(){
-				return etos_compiletime < LastEntry, static_cast<int>(value) >::get();
+				return etos_compiletime < LastEntry, value >::get();
 			}
 
 			///Convert UnderlyingT to string at runtime
 			static inline std::string etos(UnderlyingT value){
-				if (instance().etosmap_.empty()){
-					return etos_linear_lookup<LastEntry>(value);
-				}
-				else{
-					return instance().etos_map_lookup(value);
-				}
+				return etos_impl<Options::arbitrary, enum_storage<UnderlyingT, Supply, LastEntry> >::f(value);
 			}
 
 			///Get value of the entry at index with ::value

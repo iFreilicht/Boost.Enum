@@ -14,13 +14,13 @@
 
 #define BOOST_ADVANCED_ENUM__BEGIN_DEFINITION(enum_name, supply_)			\
 	BOOST_ADVANCED_ENUM__ENTER_ARTIFACTS_NS(enum_name)						\
-		typedef int UnderlyingT;											\
 		typedef supply_ supply;												\
-		enum class index : unsigned int{									\
+		typedef supply::UnderlyingT UnderlyingT;							\
+		enum class index : std::make_unsigned<UnderlyingT>::type{			\
 
 #define BOOST_ADVANCED_ENUM__BEGIN_ENUM_DEFINTION(enum_name)				\
 		};																	\
-		enum class EnumT{													\
+		enum class EnumT : UnderlyingT{										\
 
 
 #define BOOST_ADVANCED_ENUM__BEGIN_NAME_VALUE_DEFINITION(enum_name)			\
@@ -57,8 +57,9 @@
 	BOOST_ADVANCED_ENUM__EXIT_ARTIFACTS_NS									\
 	typedef BOOST_ADVANCED_ENUM__ARTIFACTS(enum_name)::EnumT enum_name;		\
 
-#define BOOST_ADVANCED_ENUM_DEFINE(enum_name, seq) \
-	BOOST_ADVANCED_ENUM_DEFINE_W_SUPPLY(enum_name, ::boost::advanced_enum::supplies::increment<int>, seq)
+#define BOOST_ADVANCED_ENUM_DEFINE(enum_name, underlyingT, seq) \
+	BOOST_ADVANCED_ENUM_DEFINE_W_SUPPLY(enum_name, \
+		::boost::advanced_enum::supplies::increment<underlyingT>, seq)
 
 
 namespace example{
@@ -70,9 +71,9 @@ namespace example{
 
 	namespace {
 		namespace _artifacts_AdaptLater{
-			typedef int UnderlyingT;
-			typedef ::boost::advanced_enum::supplies::shiftL1<UnderlyingT> supply;
-			enum class index : unsigned int{
+			typedef ::boost::advanced_enum::supplies::shiftL1<int> supply;
+			typedef supply::UnderlyingT UnderlyingT;
+			enum class index : std::make_unsigned<UnderlyingT>::type{
 				BOOST_ADVANCED_ENUM__NAME_COMMA(FIVE)
 				BOOST_ADVANCED_ENUM__NAME_COMMA(SIX)
 				BOOST_ADVANCED_ENUM__NAME_COMMA(SEVEN)

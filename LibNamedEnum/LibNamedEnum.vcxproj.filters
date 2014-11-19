@@ -72,6 +72,15 @@
     <ClInclude Include="macros\cat.h">
       <Filter>macros</Filter>
     </ClInclude>
+    <ClInclude Include="etos_impl.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="options.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stoe_impl.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Doxyfile" />

@@ -8,7 +8,7 @@
 BOOST_ADVANCED_ENUM_FWD_DECLARE(Action);
 
 //this is enough to define a named macro
-BOOST_ADVANCED_ENUM_DEFINE(Zott,
+BOOST_ADVANCED_ENUM_DEFINE(Zott, int,
 	(zero)
 	(one)
 	(two)
@@ -27,7 +27,7 @@ namespace something{
 	)
 }
 
-BOOST_ADVANCED_ENUM_DEFINE(Numbers,
+BOOST_ADVANCED_ENUM_DEFINE(Numbers, int,
 	(five)
 	(eight)
 	(twenty)
@@ -38,7 +38,7 @@ BOOST_ADVANCED_ENUM_DEFINE(Numbers,
 )
 
 
-BOOST_ADVANCED_ENUM_DEFINE(Many,
+BOOST_ADVANCED_ENUM_DEFINE(Many, unsigned int,
 	(a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m) (n) (o) (p) (q) (r) (s) (t) (u) (v) (w) (x) (y) (z)
 	(Aa)(Ab)(Ac)(Ad)(Ae)(Af)(Ag)(Ah)(Ai)(Aj)(Ak)(Al)(Am)(An)(Ao)(Ap)(Aq)(Ar)(As)(At)(Au)(Av)(Aw)(Ax)(Ay)(Az)
 	(Ba)(BB)(Bc)(Bd)(Be)(Bf)(Bg)(Bh)(Bi)(Bj)(Bk)(Bl)(Bm)(Bn)(Bo)(Bp)(Bq)(Br)(Bs)(Bt)(Bu)(Bv)(Bw)(Bx)(By)(Bz)
