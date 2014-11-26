@@ -57,9 +57,20 @@
 	BOOST_ADVANCED_ENUM__EXIT_ARTIFACTS_NS									\
 	typedef BOOST_ADVANCED_ENUM__ARTIFACTS(enum_name)::EnumT enum_name;		\
 
+#ifndef __INTELLISENSE__
 #define BOOST_ADVANCED_ENUM_DEFINE(enum_name, underlyingT, seq) \
 	BOOST_ADVANCED_ENUM_DEFINE_W_SUPPLY(enum_name, \
 		::boost::advanced_enum::supplies::increment<underlyingT>, seq)
+#else
+//WARNING! IntelliSense will not display the correct values!
+#define BOOST_ADVANCED_ENUM_DEFINE(enum_name, underlyingT, seq) \
+	enum class enum_name{ \
+		BOOST_ADVANCED_ENUM__NAME_COMMA(seq)				\
+	};
+#endif
+
+
+
 
 
 namespace example{

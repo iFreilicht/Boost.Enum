@@ -15,6 +15,22 @@ namespace boost{
 			map_lookup =	1 << 3
 		};
 
+		/*inline Options operator | (Options rhs, Options lhs){
+			return static_cast<Options>(static_cast<unsigned int>(rhs) | static_cast<unsigned int>(lhs));
+		}
+
+		inline Options operator & (Options rhs, Options lhs){
+			return static_cast<Options>(static_cast<unsigned int>(rhs) & static_cast<unsigned int>(lhs));
+		}
+
+		inline Options operator ^ (Options rhs, Options lhs){
+			return static_cast<Options>(static_cast<unsigned int>(rhs) ^ static_cast<unsigned int>(lhs));
+		}
+
+		inline Options operator ~ (Options operand){
+			return static_cast<Options>(~ static_cast<unsigned int>(operand));
+		}
+*/
 		template<Options options>
 		struct MyOptions{
 			enum : bool { roundtrip = (unsigned int)options & (unsigned int)Options::roundtrip | (unsigned int)options & (unsigned int)Options::is_flag };

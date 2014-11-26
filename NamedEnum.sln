@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NamedEnum", "NamedEnum\Name
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LibNamedEnum", "LibNamedEnum\LibNamedEnum.vcxproj", "{AB7772ED-3339-46CE-98E8-F216FFC4209F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestingStuff", "TestingStuff\TestingStuff.vcxproj", "{CFFDF60F-15D8-4AAD-969E-DC5804D17255}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -20,6 +22,10 @@ Global
 		{AB7772ED-3339-46CE-98E8-F216FFC4209F}.Debug|Win32.ActiveCfg = Debug|Win32
 		{AB7772ED-3339-46CE-98E8-F216FFC4209F}.Release|Win32.ActiveCfg = Release|Win32
 		{AB7772ED-3339-46CE-98E8-F216FFC4209F}.Release|Win32.Build.0 = Release|Win32
+		{CFFDF60F-15D8-4AAD-969E-DC5804D17255}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CFFDF60F-15D8-4AAD-969E-DC5804D17255}.Debug|Win32.Build.0 = Debug|Win32
+		{CFFDF60F-15D8-4AAD-969E-DC5804D17255}.Release|Win32.ActiveCfg = Release|Win32
+		{CFFDF60F-15D8-4AAD-969E-DC5804D17255}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
