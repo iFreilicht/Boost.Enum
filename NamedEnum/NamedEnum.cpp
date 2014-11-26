@@ -3,10 +3,6 @@
 
 #include "stdafx.h"
 
-#ifdef __INTELLISENSE__
-#define BOOST_PP_VARIADICS 1
-#define BOOST_PP_VARIADICS_MSVC 1
-#endif
 
 #include "Examples.h"
 
@@ -20,6 +16,7 @@
 #include <boost/lexical_cast.hpp>
 
 #include "macros/cat.h"
+#include "options.h"
 ///---OR---
 
 
@@ -107,7 +104,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	testing::MyEnum mEnum = lexical_cast<testing::MyEnum>("Sechs");
 
 	mEnum = testing::MyEnum::one;
-
+	//TODO: make this conversion work again
 	std::string mStr = lexical_cast<std::string>(mEnum);
 
 

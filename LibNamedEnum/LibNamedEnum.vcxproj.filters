@@ -81,6 +81,12 @@
     <ClInclude Include="stoe_impl.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="supply_selector.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="config.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Doxyfile" />

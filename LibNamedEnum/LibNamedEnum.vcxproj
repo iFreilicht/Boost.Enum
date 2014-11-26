@@ -78,6 +78,7 @@
   <ItemGroup>
     <ClInclude Include="advanced_enum_adapt.h" />
     <ClInclude Include="advanced_enum_define.h" />
+    <ClInclude Include="config.hpp" />
     <ClInclude Include="doc_index.h" />
     <ClInclude Include="advanced_enum_base.h" />
     <ClInclude Include="enum_storage_deprecated.hpp" />
@@ -96,6 +97,7 @@
     <ClInclude Include="options.h" />
     <ClInclude Include="stoe_impl.hpp" />
     <ClInclude Include="supplies.hpp" />
+    <ClInclude Include="supply_selector.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Doxyfile" />

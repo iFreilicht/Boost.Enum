@@ -10,7 +10,9 @@
 
 #include <boost/config.hpp>
 #include <string>
-#include "Supplies.hpp"
+#include "supplies.hpp"
+#include "supply_selector.hpp"
+#include "options.h"
 #include "etos_impl.hpp"
 #include "stoe_impl.hpp"
 
@@ -36,13 +38,14 @@ namespace boost{
 		 *     typedef enum_storage<[underlying type][, supply]>::gen<{entries}>::get myStorage_t;
 		 * \endcode
 		*/
-		template<typename UnderlyingT = int, template<UnderlyingT> class Supply = supplies::increment<UnderlyingT>::values, typename LastEntry = void>
+		template<
+			typename options = Options<>, 
+			typename LastEntry = void>
 		class enum_storage{
 		public:
+			typedef typename options::UnderlyingT UnderlyingT;
 			///Used for indexing
 			typedef typename std::make_unsigned<UnderlyingT>::type SizeT;
-			///Makes UnderlyingT publicly visible
-			typedef UnderlyingT UnderlyingT;
 
 			typedef LastEntry LastEntry;
 		private:
@@ -122,7 +125,7 @@ namespace boost{
 			///Replaces the last template argument of enum_storage with NewLastEntry
 			template<typename NewLastEntry>
 			struct with_last{
-				typedef enum_storage<UnderlyingT, Supply, NewLastEntry> get;
+				typedef enum_storage<options, NewLastEntry> get;
 			};
 			
 
@@ -226,7 +229,7 @@ namespace boost{
 
 			///Convert string to UnderlyingT
 			static UnderlyingT stoe(const std::string& name){
-				return stoe_impl<Options::arbitrary, enum_storage<UnderlyingT, Supply, LastEntry> >::f(name);
+				return stoe_impl<options, enum_storage<options, LastEntry> >::f(name);
 			}
 
 			///Convert UnderlyingT to string at compiletime
@@ -237,7 +240,7 @@ namespace boost{
 
 			///Convert UnderlyingT to string at runtime
 			static inline std::string etos(UnderlyingT value){
-				return etos_impl<Options::arbitrary, enum_storage<UnderlyingT, Supply, LastEntry> >::f(value);
+				return etos_impl<options, enum_storage<options, LastEntry> >::f(value);
 			}
 
 			///Get value of the entry at index with ::value

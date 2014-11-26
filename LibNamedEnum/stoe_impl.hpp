@@ -11,7 +11,7 @@
 
 namespace boost{
 	namespace advanced_enum{
-		template<Options Options_, typename EnumStorageT>
+		template<typename Options, typename EnumStorageT>
 		class stoe_impl{
 			typedef typename EnumStorageT::UnderlyingT UnderlyingT;
 			typedef std::string StringT;
@@ -89,8 +89,7 @@ namespace boost{
 
 		public:
 			static inline UnderlyingT f(const StringT& name){
-				typedef MyOptions<Options_> opt;
-				return impl_f < opt::roundtrip, opt::is_flag, opt::map_lookup >::exec(name);
+				return impl_f < Options::roundtrip, Options::is_flag, Options::map_lookup >::exec(name);
 			}
 		};
 	}

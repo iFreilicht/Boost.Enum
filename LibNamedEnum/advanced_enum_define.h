@@ -1,5 +1,7 @@
 #pragma once
 
+#include "config.hpp"
+#include <boost/preprocessor/tuple/rem.hpp>
 #include "macros/define_name_value_pair.h"
 #include "macros/define_enum_value.h"
 #include "macros/name_comma.h"
@@ -10,12 +12,13 @@
 
 #include "advanced_enum_base.h"
 #include "enum_storage.hpp"
+#include "options.h"
 
-
-#define BOOST_ADVANCED_ENUM__BEGIN_DEFINITION(enum_name, supply_)			\
+#define BOOST_ADVANCED_ENUM__BEGIN_DEFINITION(enum_name, ...)			\
 	BOOST_ADVANCED_ENUM__ENTER_ARTIFACTS_NS(enum_name)						\
-		typedef supply_ supply;												\
-		typedef supply::UnderlyingT UnderlyingT;							\
+		typedef ::boost::advanced_enum::Options<__VA_ARGS__> options;		\
+		typedef options::Supply supply;										\
+		typedef options::UnderlyingT UnderlyingT;							\
 		enum class index : std::make_unsigned<UnderlyingT>::type{			\
 
 #define BOOST_ADVANCED_ENUM__BEGIN_ENUM_DEFINTION(enum_name)				\
@@ -27,7 +30,8 @@
 		};																	\
 
 #define BOOST_ADVANCED_ENUM__BEGIN_STORAGE_DEFINITION(enum_name)			\
-		typedef ::boost::advanced_enum::enum_storage<UnderlyingT>::gen <	\
+		typedef ::boost::advanced_enum::									\
+			enum_storage<options>::gen <								\
 
 #define BOOST_ADVANCED_ENUM__END_DEFINITION(enum_name)						\
 		void > ::get enum_storage;											\
@@ -38,9 +42,12 @@
 	BOOST_ADVANCED_ENUM__EXIT_ARTIFACTS_NS									\
 	typedef BOOST_ADVANCED_ENUM__ARTIFACTS(enum_name)::EnumT enum_name;		\
 
-
-#define BOOST_ADVANCED_ENUM_DEFINE_W_SUPPLY(enum_name, supply, seq)			\
-	BOOST_ADVANCED_ENUM__BEGIN_DEFINITION(enum_name, supply)				\
+#ifndef __INTELLISENSE__
+#define BOOST_ADVANCED_ENUM_DEFINE_W_OPTIONS(enum_name, options, seq)		\
+	BOOST_ADVANCED_ENUM__BEGIN_DEFINITION(									\
+		enum_name,						\
+		BOOST_PP_CAT(BOOST_PP_REM, options)\
+	)\
 	BOOST_ADVANCED_ENUM__NAME_COMMA(seq)									\
 	BOOST_ADVANCED_ENUM__BEGIN_ENUM_DEFINTION(enum_name)					\
 	BOOST_ADVANCED_ENUM__DEFINE_ENUM_VALUE(seq)								\
@@ -49,6 +56,13 @@
 	BOOST_ADVANCED_ENUM__BEGIN_STORAGE_DEFINITION(enum_name)				\
 	BOOST_ADVANCED_ENUM__NAME_COMMA(seq)									\
 	BOOST_ADVANCED_ENUM__END_DEFINITION(enum_name)
+#else
+//WARNING! IntelliSense will not display the correct values!
+#define BOOST_ADVANCED_ENUM_DEFINE_W_OPTIONS(enum_name, underlyingT, seq) \
+	enum class enum_name{ \
+		BOOST_ADVANCED_ENUM__NAME_COMMA(seq)				\
+		};
+#endif
 
 
 #define BOOST_ADVANCED_ENUM_FWD_DECLARE(enum_name)							\
@@ -57,17 +71,10 @@
 	BOOST_ADVANCED_ENUM__EXIT_ARTIFACTS_NS									\
 	typedef BOOST_ADVANCED_ENUM__ARTIFACTS(enum_name)::EnumT enum_name;		\
 
-#ifndef __INTELLISENSE__
 #define BOOST_ADVANCED_ENUM_DEFINE(enum_name, underlyingT, seq) \
-	BOOST_ADVANCED_ENUM_DEFINE_W_SUPPLY(enum_name, \
-		::boost::advanced_enum::supplies::increment<underlyingT>, seq)
-#else
-//WARNING! IntelliSense will not display the correct values!
-#define BOOST_ADVANCED_ENUM_DEFINE(enum_name, underlyingT, seq) \
-	enum class enum_name{ \
-		BOOST_ADVANCED_ENUM__NAME_COMMA(seq)				\
-	};
-#endif
+	BOOST_ADVANCED_ENUM_DEFINE_W_OPTIONS(enum_name, \
+		(0, underlyingT), seq)
+
 
 
 
@@ -82,8 +89,9 @@ namespace example{
 
 	namespace {
 		namespace _artifacts_AdaptLater{
-			typedef ::boost::advanced_enum::supplies::shiftL1<int> supply;
-			typedef supply::UnderlyingT UnderlyingT;
+			typedef ::boost::advanced_enum::Options<0, int> options;
+			typedef options::Supply supply;
+			typedef options::UnderlyingT UnderlyingT;
 			enum class index : std::make_unsigned<UnderlyingT>::type{
 				BOOST_ADVANCED_ENUM__NAME_COMMA(FIVE)
 				BOOST_ADVANCED_ENUM__NAME_COMMA(SIX)
@@ -100,7 +108,7 @@ namespace example{
 			BOOST_ADVANCED_ENUM__DEFINE_NAME_VALUE_PAIR(SIX)
 			BOOST_ADVANCED_ENUM__DEFINE_NAME_VALUE_PAIR(SEVEN)
 			BOOST_ADVANCED_ENUM__DEFINE_NAME_VALUE_PAIR(TWENTY)
-			typedef ::boost::advanced_enum::enum_storage<UnderlyingT>::gen <
+			typedef ::boost::advanced_enum::enum_storage<options>::gen <
 				BOOST_ADVANCED_ENUM__NAME_COMMA(FIVE)
 				BOOST_ADVANCED_ENUM__NAME_COMMA(SIX)
 				BOOST_ADVANCED_ENUM__NAME_COMMA(SEVEN)
@@ -142,7 +150,7 @@ namespace example{
 	}*/
 
 
-	BOOST_ADVANCED_ENUM__BEGIN_DEFINITION(Adapt2, ::boost::advanced_enum::supplies::increment<int>) 
+	BOOST_ADVANCED_ENUM__BEGIN_DEFINITION(Adapt2, 0, int) 
 	BOOST_ADVANCED_ENUM__NAME_COMMA(FIVE SIX SEVEN TWENTY)
 	BOOST_ADVANCED_ENUM__BEGIN_ENUM_DEFINTION(Adapt2) 
 	BOOST_ADVANCED_ENUM__DEFINE_ENUM_VALUE(FIVE SIX SEVEN TWENTY)

@@ -2,8 +2,10 @@
 
 #include <advanced_enum_define.h>
 
+using ::boost::advanced_enum::OptionVals;
+
 //example for a macro that uses ENUM_DEFINE_W_SUPPLY
-#define DEFINE_FLAG_ENUM(enum_name, seq) BOOST_ADVANCED_ENUM_DEFINE_W_SUPPLY(enum_name, ::boost::advanced_enum::supplies::shiftL1<int>, seq)
+#define DEFINE_FLAG_ENUM(enum_name, seq) BOOST_ADVANCED_ENUM_DEFINE_W_OPTIONS(enum_name, (OptionVals::is_flag, unsigned int), seq)
 
 BOOST_ADVANCED_ENUM_FWD_DECLARE(Action);
 
