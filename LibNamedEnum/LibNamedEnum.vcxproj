@@ -84,6 +84,7 @@
     <ClInclude Include="enum_storage_deprecated.hpp" />
     <ClInclude Include="enum_storage.hpp" />
     <ClInclude Include="etos_impl.hpp" />
+    <ClInclude Include="instance_impl.h" />
     <ClInclude Include="macros\adapt_name_value_pair.h" />
     <ClInclude Include="macros\apply_to_all.h" />
     <ClInclude Include="macros\artifacts_namespace.h" />

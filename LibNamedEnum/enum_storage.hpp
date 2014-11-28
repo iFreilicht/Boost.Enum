@@ -15,6 +15,7 @@
 #include "options.h"
 #include "etos_impl.hpp"
 #include "stoe_impl.hpp"
+#include "instance_impl.h"
 
 #ifdef BOOST_MSVC
 #pragma warning(disable : 4503)
@@ -104,8 +105,10 @@ namespace boost{
 			std::map<UnderlyingT, std::string> etosmap_;
 
 			///Singleton instance
+			typedef instance_impl<enum_storage<options, LastEntry>, options::map_lookup> InstanceImpl;
+
 			static enum_storage& instance(){
-				static enum_storage instance_;
+				static enum_storage instance_ = InstanceImpl::newInstance();
 				return instance_;
 			}
 
@@ -223,9 +226,15 @@ namespace boost{
 
 			///Initialise lookup maps (not required, but recommended for large enums)
 			static void init_lookupmaps(){
-				instance().init_etosmap();
-				instance().init_stoemap();
+				instance().init_lookupmaps_non_static();
 			}
+
+			void init_lookupmaps_non_static(){
+				init_etosmap();
+				init_stoemap();
+			}
+			
+
 
 			///Convert string to UnderlyingT
 			static UnderlyingT stoe(const std::string& name){

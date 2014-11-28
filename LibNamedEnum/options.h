@@ -40,10 +40,10 @@ namespace boost{
 
 		template<unsigned int MyOptions = OptionVals::arbitrary, typename UnderlyingT = int, typename MySupply = NoCustomSupply>
 		struct Options{
-			enum : bool { roundtrip = MyOptions & OptionVals::roundtrip | MyOptions & OptionVals::is_flag };
-			enum : bool { is_flag = MyOptions & OptionVals::is_flag };
-			enum : bool { arbitrary = MyOptions & OptionVals::arbitrary };
-			enum : bool { map_lookup = MyOptions & OptionVals::map_lookup };
+			static const bool roundtrip = static_cast<bool>(MyOptions & OptionVals::roundtrip | MyOptions & OptionVals::is_flag);
+			static const bool is_flag = static_cast<bool>(MyOptions & OptionVals::is_flag);
+			static const bool arbitrary = static_cast<bool>(MyOptions & OptionVals::arbitrary);
+			static const bool map_lookup = static_cast<bool>(MyOptions & OptionVals::map_lookup);
 
 			//TODO: make this work
 			//typedef typename supply_selector<UnderlyingT, MySupply, (bool)is_flag>::supply Supply;
