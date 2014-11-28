@@ -34,32 +34,32 @@
 //------------------------------
 
 
-#define BOOST_ADVANCED_ENUM__BEGIN_ADAPTATION(enum_name, ...)			\
+#define BOOST_ADVANCED_ENUM__BEGIN_ADAPTATION(enum_name, options_)		\
 	BOOST_ADVANCED_ENUM__ENTER_ARTIFACTS_NS(enum_name)					\
 		typedef enum_name EnumT;										\
-		typedef ::boost::advanced_enum::Options<__VA_ARGS__> options;	\
+		typedef BOOST_PP_CAT(BOOST_PP_REM, options_) options;			\
 
-#define BOOST_ADVANCED_ENUM__BEGIN_STORAGE_ADAPTATION											\
-		typedef ::boost::advanced_enum::enum_storage<options>::gen<								\
+#define BOOST_ADVANCED_ENUM__BEGIN_STORAGE_ADAPTATION					\
+		typedef ::boost::advanced_enum::enum_storage<options>::gen<		\
 
 #define BOOST_ADVANCED_ENUM__END_ADAPTATION(enum_name)												\
 		void>::get enum_storage;																	\
 		typedef ::boost::advanced_enum::advanced_enum_base <enum_storage, EnumT> Base;				\
 		BOOST_ADVANCED_ENUM__DERIVE_ENUM_BASE														\
 	BOOST_ADVANCED_ENUM__EXIT_ARTIFACTS_NS															\
-	BOOST_ADVANCED_ENUM__OVERLOAD_STREAM_OPERATORS_W_NAME(enum_name)									\
+	BOOST_ADVANCED_ENUM__OVERLOAD_STREAM_OPERATORS_W_NAME(enum_name)								\
 
-#define BOOST_ADVANCED_ENUM_ADAPT_W_OPTIONS(enum_name, options, seq)						\
-	BOOST_ADVANCED_ENUM__BEGIN_ADAPTATION(enum_name, BOOST_PP_CAT(BOOST_PP_REM, options))		\
-	BOOST_ADVANCED_ENUM__ADAPT_NAME_VALUE_PAIR(seq)													\
-	BOOST_ADVANCED_ENUM__BEGIN_STORAGE_ADAPTATION													\
-	BOOST_ADVANCED_ENUM__NAME_COMMA(seq)															\
-	BOOST_ADVANCED_ENUM__END_ADAPTATION(enum_name)													\
+#define BOOST_ADVANCED_ENUM_ADAPT_W_OPTIONS(enum_name, options, seq)	\
+	BOOST_ADVANCED_ENUM__BEGIN_ADAPTATION(enum_name, options)			\
+	BOOST_ADVANCED_ENUM__ADAPT_NAME_VALUE_PAIR(seq)						\
+	BOOST_ADVANCED_ENUM__BEGIN_STORAGE_ADAPTATION						\
+	BOOST_ADVANCED_ENUM__NAME_COMMA(seq)								\
+	BOOST_ADVANCED_ENUM__END_ADAPTATION(enum_name)						\
 
 #define BOOST_ADVANCED_ENUM_ADAPT(enum_name, underlyingT, seq)			\
 	BOOST_ADVANCED_ENUM_ADAPT_W_OPTIONS(								\
 		enum_name,														\
-		(0, underlyingT),												\
+		(::boost::advanced_enum::Options<0, underlyingT>),				\
 		seq																\
 	)																	\
 
@@ -135,7 +135,7 @@ namespace example{
 		twenty = 20
 	};
 
-	BOOST_ADVANCED_ENUM__BEGIN_ADAPTATION(AdaptLater2, 0, int)									
+	BOOST_ADVANCED_ENUM__BEGIN_ADAPTATION(AdaptLater2, (::boost::advanced_enum::Options<>))
 	BOOST_ADVANCED_ENUM__ADAPT_NAME_VALUE_PAIR((five)(six, "Sechs")(twenty))
 	BOOST_ADVANCED_ENUM__BEGIN_STORAGE_ADAPTATION
 	BOOST_ADVANCED_ENUM__NAME_COMMA((five)(six, "Sechs")(twenty))

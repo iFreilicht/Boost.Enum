@@ -5,9 +5,11 @@
 using ::boost::advanced_enum::OptionVals;
 
 //example for a macro that uses ENUM_DEFINE_W_SUPPLY
-#define DEFINE_FLAG_ENUM(enum_name, seq) BOOST_ADVANCED_ENUM_DEFINE_W_OPTIONS(enum_name, (OptionVals::is_flag, unsigned int), seq)
+#define DEFINE_FLAG_ENUM(enum_name, seq) BOOST_ADVANCED_ENUM_DEFINE_W_OPTIONS(enum_name, (::boost::advanced_enum::Options<OptionVals::is_flag, unsigned int>), seq)
 
-BOOST_ADVANCED_ENUM_FWD_DECLARE(Action);
+namespace something{
+	BOOST_ADVANCED_ENUM_FWD_DECLARE(Action, unsigned int);
+}
 
 //this is enough to define a named macro
 BOOST_ADVANCED_ENUM_DEFINE(Zott, int,
@@ -27,6 +29,10 @@ namespace something{
 		(sleep)
 		(think)
 	)
+
+	//std::string etos(Action val){
+	//	return _artifacts_Action::advanced_enum::EnumStorage::etos(val);
+	//}
 }
 
 BOOST_ADVANCED_ENUM_DEFINE(Numbers, int,

@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 
+//#define BOOST_ADVANCED_ENUM_DISABLE_INTELLISENSE_WORKAROUND 1
 
 #include "Examples.h"
 
@@ -21,7 +22,7 @@
 
 
 using boost::lexical_cast;
-//using something::Action;
+using namespace something;
 using namespace boost::advanced_enum;
 
 enum class TestE{
@@ -48,7 +49,7 @@ namespace testing{
 		(four)
 	)
 
-	BOOST_ADVANCED_ENUM_DEFINE(MyEnum, unsigned int,
+	BOOST_ADVANCED_ENUM_DEFINE_W_OPTIONS(MyEnum, (Options<OptionVals::map_lookup, unsigned int>),
 		(zero)
 		(one, _, "Eins")
 		(two, _)
@@ -61,27 +62,25 @@ namespace testing{
 
 
 
-//void testLookup(){
-//	Action action;
-//	for (int i = 0; i < 200000; ++i){
-//		action = lexical_cast<Action>("jump");
-//	}
-//}
+void testLookup(){
+	Action action;
+	for (int i = 0; i < 200000; ++i){
+		action = lexical_cast<Action>("jump");
+	}
+}
 
 //Many oneOfMany = Many::g;
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	/*Action action;
+	Action action{};
 	testLookup();
-	something::Action_enum::init_lookupmaps();
-	testLookup();
-*/
+
 	testing::Enum myEnum = lexical_cast<testing::Enum>("four");
 
 	std::string enumStr = lexical_cast<std::string>(myEnum);
 
-	/*Action jump = lexical_cast<Action>("jump");
+	Action jump = lexical_cast<Action>("jump");
 
 	bool same = jump == action;
 
@@ -92,7 +91,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	bool same2 = jump == action;
 
 	std::cout << action;
-*/
+
 	Many myMany = Many::Nz;
 
 	example::AdaptLater adaEnum = lexical_cast<example::AdaptLater>("Zwanzig");
