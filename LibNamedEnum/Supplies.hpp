@@ -41,6 +41,9 @@ namespace boost{
 		 * write a supply that only operates on `unsigned char`s, for example.
 		*/
 		namespace supplies{
+			///Placeholder for when the supply should be selected by the compiler
+			struct NoCustomSupply;
+
 			///Shift left by 1, start at 1.
 			template<typename UnderlyingT>
 			struct shiftL1{

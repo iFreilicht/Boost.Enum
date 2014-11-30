@@ -76,6 +76,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	Action action{};
 	testLookup();
 
+	//TODO: make the syntax better
+	action = (Action)((unsigned int)Action::drink | (unsigned int)Action::jump);
+
 	testing::Enum myEnum = lexical_cast<testing::Enum>("four");
 
 	std::string enumStr = lexical_cast<std::string>(myEnum);

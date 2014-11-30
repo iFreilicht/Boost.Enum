@@ -6,6 +6,8 @@
 
 #pragma once
 
+#include "supply_selector.hpp"
+
 namespace boost{
 	namespace advanced_enum{
 		
@@ -35,10 +37,7 @@ namespace boost{
 			};
 		};
 
-		//used as standard argument for Options
-		class NoCustomSupply;
-
-		template<unsigned int MyOptions = OptionVals::arbitrary, typename UnderlyingT = int, typename MySupply = NoCustomSupply>
+		template<unsigned int MyOptions = OptionVals::arbitrary, typename UnderlyingT = int, typename MySupply = supplies::NoCustomSupply>
 		struct Options{
 			static const bool roundtrip = static_cast<bool>(MyOptions & OptionVals::roundtrip | MyOptions & OptionVals::is_flag);
 			static const bool is_flag = static_cast<bool>(MyOptions & OptionVals::is_flag);
@@ -46,9 +45,7 @@ namespace boost{
 			static const bool map_lookup = static_cast<bool>(MyOptions & OptionVals::map_lookup);
 
 			//TODO: make this work
-			//typedef typename supply_selector<UnderlyingT, MySupply, (bool)is_flag>::supply Supply;
-
-			typedef typename supplies::increment < UnderlyingT > Supply;
+			typedef typename ::boost::advanced_enum::supply_selector<UnderlyingT, MySupply, (bool)is_flag>::supply Supply;
 
 			typedef UnderlyingT UnderlyingT;
 		};

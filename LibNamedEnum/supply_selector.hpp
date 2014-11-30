@@ -6,7 +6,6 @@
 
 #pragma once
 
-#include "options.h"
 #include "supplies.hpp"
 
 namespace boost{
@@ -36,7 +35,7 @@ namespace boost{
 
 			//specialisation of impl for the empty supply argument
 			template<bool is_flag>
-			struct impl < NoCustomSupply, is_flag > {
+			struct impl < supplies::NoCustomSupply, is_flag > {
 				typedef typename impl_no_supply<is_flag>::supply supply;
 			};
 
