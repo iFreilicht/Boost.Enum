@@ -58,7 +58,8 @@
 #define BOOST_ADVANCED_ENUM_DEFINE_W_OPTIONS(enum_name, options, seq) \
 	enum class enum_name{ \
 		BOOST_ADVANCED_ENUM__NAME_COMMA(seq)				\
-		};
+		}; \
+	BOOST_ADVANCED_ENUM__FWD_OVERLOAD_STREAM_OPERATORS_W_NAME(enum_name);
 #endif
 
 

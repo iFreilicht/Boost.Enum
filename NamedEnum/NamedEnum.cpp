@@ -85,6 +85,10 @@ int _tmain(int argc, _TCHAR* argv[])
 	bool same = jump == action;
 
 	std::string str = lexical_cast<std::string>(jump);
+	std::string str2 = etos(jump);
+
+	//TODO: make the syntax better
+	Action act; stoe(str2, act);
 
 	std::cin >> action;
 
@@ -103,8 +107,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	testing::MyEnum mEnum = lexical_cast<testing::MyEnum>("Sechs");
 
 	mEnum = testing::MyEnum::one;
-	//TODO: make this conversion work again
+
 	std::string mStr = lexical_cast<std::string>(mEnum);
+	std::string mStr2 = etos(mEnum);
 
 
 	return 0;
