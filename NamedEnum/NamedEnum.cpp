@@ -49,7 +49,7 @@ namespace testing{
 		(four)
 	)
 
-	BOOST_ADVANCED_ENUM_DEFINE_W_OPTIONS(MyEnum, (Options<OptionVals::map_lookup, unsigned int>),
+	BOOST_ADVANCED_ENUM_DEFINE_W_OPTIONS(MyEnum, (Options<OptionVals::map_lookup | OptionVals::roundtrip, unsigned int>),
 		(zero)
 		(one, _, "Eins")
 		(two, _)
@@ -76,8 +76,12 @@ int _tmain(int argc, _TCHAR* argv[])
 	Action action{};
 	testLookup();
 
-	//TODO: make the syntax better
-	action = (Action)((unsigned int)Action::drink | (unsigned int)Action::jump);
+	Action sleep = Action::sleep;
+
+	action |= Action::sleep;
+	action = Action(Action::drink) | Action::eat;
+	action = Action::drink | Action(Action::jump);
+	action = Action::drink | Action::sleep;
 
 	testing::Enum myEnum = lexical_cast<testing::Enum>("four");
 
@@ -88,10 +92,10 @@ int _tmain(int argc, _TCHAR* argv[])
 	bool same = jump == action;
 
 	std::string str = lexical_cast<std::string>(jump);
-	std::string str2 = etos(jump);
+	std::string str2 = static_cast<std::string>(jump);
 
 	//TODO: make the syntax better
-	Action act; stoe(str2, act);
+	Action act = static_cast<Action>(str2);
 
 	std::cin >> action;
 
@@ -112,7 +116,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	mEnum = testing::MyEnum::one;
 
 	std::string mStr = lexical_cast<std::string>(mEnum);
-	std::string mStr2 = etos(mEnum);
+	std::string mStr2 = static_cast<std::string>(mEnum);
 
 
 	return 0;

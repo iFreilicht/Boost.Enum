@@ -44,6 +44,8 @@ namespace boost{
 			typedef typename options::UnderlyingT UnderlyingT;
 			///Used for indexing
 			typedef typename std::make_unsigned<UnderlyingT>::type SizeT;
+			
+			typedef typename options::StringT StringT;
 
 			typedef LastEntry LastEntry;
 		private:
@@ -208,11 +210,7 @@ namespace boost{
 
 
 			////-----------conversion------------
-			template<typename Options, typename EnumStorageT>
 			class stoe_impl{
-				typedef typename EnumStorageT::UnderlyingT UnderlyingT;
-				typedef std::string StringT;
-
 				//linear lookup
 				template<typename CurrEntry>
 				static UnderlyingT linear_lookup(const StringT& name){
@@ -231,7 +229,7 @@ namespace boost{
 				//map_lookup
 				static UnderlyingT map_lookup(const StringT& name){
 					try{
-						return EnumStorageT::instance().stoemap_.at(name);
+						return instance().stoemap_.at(name);
 					}
 					catch (const std::out_of_range&){
 						throw std::invalid_argument(name + " is not convertible to this enum.");
@@ -244,7 +242,7 @@ namespace boost{
 
 				template<>
 				static inline UnderlyingT lookup<false>(const StringT& name){
-					return linear_lookup<EnumStorageT::LastEntry>(name);
+					return linear_lookup<LastEntry>(name);
 				}
 
 				template<>
@@ -286,15 +284,11 @@ namespace boost{
 
 			public:
 				static inline UnderlyingT f(const StringT& name){
-					return impl_f < Options::roundtrip, Options::is_flag, Options::map_lookup >::exec(name);
+					return impl_f < options::roundtrip, options::is_flag, options::map_lookup >::exec(name);
 				}
 			};
 
-			template<typename Options, typename EnumStorageT>
 			class etos_impl{
-				typedef typename EnumStorageT::UnderlyingT UnderlyingT;
-				typedef std::string StringT;
-
 				//linear_lookup
 				template<typename CurrEntry>
 				static StringT linear_lookup(UnderlyingT value){
@@ -313,7 +307,7 @@ namespace boost{
 				//map_lookup
 				static inline StringT map_lookup(UnderlyingT key){
 					try{
-						return EnumStorageT::instance().etosmap_.at(key);
+						return instance().etosmap_.at(key);
 					}
 					catch (const std::out_of_range&){
 						throw std::invalid_argument(std::to_string(key) + " is not a value in this enum.");
@@ -326,7 +320,7 @@ namespace boost{
 
 				template<>
 				static inline StringT lookup<false>(UnderlyingT val){
-					return linear_lookup<EnumStorageT::LastEntry>(val);
+					return linear_lookup<LastEntry>(val);
 				}
 
 				template<>
@@ -370,7 +364,50 @@ namespace boost{
 				};
 			public:
 				static inline StringT f(UnderlyingT val){
-					return impl_f < Options::roundtrip, Options::is_flag, Options::map_lookup >::exec(val);
+					return impl_f < options::roundtrip, options::is_flag, options::map_lookup >::exec(val);
+				}
+			};
+
+			class has_val_impl{
+				//linear_lookup
+				template<typename CurrEntry>
+				static bool linear_search(UnderlyingT value){
+					if (value == CurrEntry::value)
+						return true;
+					else
+						return linear_search<CurrEntry::prev>(value);
+				}
+
+				template<>
+				static inline bool linear_search<void>(UnderlyingT value){
+					return false;
+				}
+
+				//map_lookup
+				static inline bool map_search(UnderlyingT key){
+					return instance().etosmap_.find(key) != instance().etosmap_.end();
+				}
+
+
+				template<bool Map_lookup>
+				struct impl_f;
+
+				template<>
+				struct impl_f < false > {
+					static inline bool exec(UnderlyingT value){
+						return linear_search<LastEntry>(value);
+					}
+				};
+
+				template<>
+				struct impl_f < true > {
+					static inline bool exec(UnderlyingT value){
+						return map_search(value);
+					}
+				};
+			public:
+				static inline bool f(UnderlyingT value){
+					return impl_f<options::map_lookup>::exec(value);
 				}
 			};
 
@@ -412,7 +449,7 @@ namespace boost{
 
 			///Convert string to UnderlyingT
 			static UnderlyingT stoe(const std::string& name){
-				return stoe_impl<options, enum_storage<options, LastEntry> >::f(name);
+				return stoe_impl::f(name);
 			}
 
 			///Convert UnderlyingT to string at compiletime
@@ -423,7 +460,12 @@ namespace boost{
 
 			///Convert UnderlyingT to string at runtime
 			static inline std::string etos(UnderlyingT value){
-				return etos_impl<options, enum_storage<options, LastEntry> >::f(value);
+				return etos_impl::f(value);
+			}
+
+			///Check whether a value exists in the enumeration
+			static inline bool has_value(UnderlyingT value){
+				return has_val_impl::f(value);
 			}
 
 			///Get value of the entry at index with ::value

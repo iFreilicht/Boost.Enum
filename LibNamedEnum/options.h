@@ -33,21 +33,24 @@ namespace boost{
 				roundtrip = 1 << 0,
 				is_flag = 1 << 1,
 				arbitrary = 1 << 2,
-				map_lookup = 1 << 3
+				map_lookup = 1 << 3,
+				no_ordering = 1 << 4
 			};
 		};
 
-		template<unsigned int MyOptions = OptionVals::arbitrary, typename UnderlyingT = int, typename MySupply = supplies::NoCustomSupply>
+		template<unsigned int MyOptions = OptionVals::arbitrary, typename UnderlyingT = int, typename MySupply = supplies::NoCustomSupply, typename StringT = std::string>
 		struct Options{
 			static const bool roundtrip = static_cast<bool>(MyOptions & OptionVals::roundtrip | MyOptions & OptionVals::is_flag);
 			static const bool is_flag = static_cast<bool>(MyOptions & OptionVals::is_flag);
 			static const bool arbitrary = static_cast<bool>(MyOptions & OptionVals::arbitrary);
 			static const bool map_lookup = static_cast<bool>(MyOptions & OptionVals::map_lookup);
+			static const bool no_ordering = static_cast<bool>(MyOptions & OptionVals::no_ordering);
 
-			//TODO: make this work
 			typedef typename ::boost::advanced_enum::supply_selector<UnderlyingT, MySupply, (bool)is_flag>::supply Supply;
 
 			typedef UnderlyingT UnderlyingT;
+
+			typedef StringT StringT;
 		};
 	}
 }

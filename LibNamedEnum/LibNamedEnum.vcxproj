@@ -83,6 +83,7 @@
     <ClInclude Include="advanced_enum_base.h" />
     <ClInclude Include="enum_storage_deprecated.hpp" />
     <ClInclude Include="enum_storage.hpp" />
+    <ClInclude Include="function_implementations.h" />
     <ClInclude Include="macros\adapt_name_value_pair.h" />
     <ClInclude Include="macros\apply_to_all.h" />
     <ClInclude Include="macros\artifacts_namespace.h" />
@@ -91,6 +92,7 @@
     <ClInclude Include="macros\define_name_value_pair.h" />
     <ClInclude Include="macros\derive_enum_base.h" />
     <ClInclude Include="macros\empty_argument.h" />
+    <ClInclude Include="macros\insert_enum_value.h" />
     <ClInclude Include="macros\name_comma.h" />
     <ClInclude Include="macros\overload_stream_operators.h" />
     <ClInclude Include="options.h" />
