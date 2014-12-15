@@ -4,7 +4,7 @@
 #include <type_traits>
 
 template<class Type, class ValueT, bool active>
-struct ImplAdd{
+class ImplAdd{
 };
 
 template<class Type, class ValueT>
@@ -28,42 +28,41 @@ public:
 		Type ret = lhs;
 		return ret += rhs;
 	}
-
-	template<typename T>
-	friend typename std::enable_if<std::is_same<T, ValueT>::value, Type>::type
-	operator+(T lhs, T rhs)
-	{
-		return /*Type(lhs) + Type(rhs)*/;
-	}
 };
 
-namespace artifacts{
-	enum class ValueT{
-		zero, one, two
+namespace things{
+	namespace artifacts{
+		enum class ValueT{
+			zero, one, two
+		};
+	}
+
+	class MyEnum : public ImplAdd < MyEnum, artifacts::ValueT, true > {
+		typedef artifacts::ValueT ValueT;
+		friend class ImplAdd < MyEnum, ValueT, true > ;
+		int get_val_impl() const{
+			return (int)value;
+		}
+		void set_val_impl(int v){
+			value = (ValueT)v;
+		}
+		typedef  int UnderlyingT;
+		ValueT value;
+	public:
+		static const ValueT zero = artifacts::ValueT::zero;
+		static const ValueT one = artifacts::ValueT::one;
+		static const ValueT two = artifacts::ValueT::two;
+
+		MyEnum(ValueT x) : value(x){}
+		MyEnum(const MyEnum& other) : value(other.value){}
 	};
+
+	template<typename ValueT>
+	typename std::enable_if<std::is_convertible<ValueT, MyEnum>::value && !std::is_same<ValueT, MyEnum>::value, MyEnum>::type 
+	operator+(ValueT lhs, ValueT rhs){
+		return MyEnum(lhs) + MyEnum(rhs);
+	}
 }
-
-class MyEnum : public ImplAdd<MyEnum, artifacts::ValueT, true>{
-	typedef artifacts::ValueT ValueT;
-	friend class ImplAdd < MyEnum, ValueT, true > ;
-	int get_val_impl() const{
-		return (int)value;
-	}
-	void set_val_impl(int v){
-		value = (ValueT)v;
-	}
-	typedef  int UnderlyingT;
-	ValueT value;
-public:
-	static const ValueT zero = artifacts::ValueT::zero;
-	static const ValueT one = artifacts::ValueT::one;
-	static const ValueT two = artifacts::ValueT::two;
-
-	MyEnum(ValueT x) : value(x){}
-	MyEnum(const MyEnum& other) : value(other.value){}
-};
-
-
 //MyEnum operator+(artifacts::ValueT lhs, artifacts::ValueT rhs){
 //	return MyEnum(lhs) + MyEnum(rhs);
 //}
@@ -95,6 +94,9 @@ public:
 //Foo operator+(FooValueT lhs, FooValueT rhs){
 //	return (Foo)lhs + (Foo)rhs;
 //}
+
+using things::MyEnum;
+using things::operator+;
 
 int main(int argc, char* argv[])
 {

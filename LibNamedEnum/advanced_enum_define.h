@@ -94,6 +94,31 @@
 																			\
 	};																		\
 																			\
+	template<typename ValueT>												\
+	typename std::enable_if<std::is_convertible<ValueT, enum_name>::value &&\
+		!std::is_same<ValueT, enum_name>::value, enum_name>::type			\
+	operator&(ValueT lhs, ValueT rhs){										\
+		return enum_name(lhs) & enum_name(rhs);								\
+	}																		\
+	template<typename ValueT>												\
+	typename std::enable_if<std::is_convertible<ValueT, enum_name>::value &&\
+		!std::is_same<ValueT, enum_name>::value, enum_name>::type			\
+	operator|(ValueT lhs, ValueT rhs){										\
+		return enum_name(lhs) | enum_name(rhs);								\
+	}																		\
+	template<typename ValueT>												\
+	typename std::enable_if<std::is_convertible<ValueT, enum_name>::value &&\
+		!std::is_same<ValueT, enum_name>::value, enum_name>::type			\
+	operator^(ValueT lhs, ValueT rhs){										\
+		return enum_name(lhs) ^ enum_name(rhs);								\
+	}																		\
+	template<typename ValueT>												\
+	typename std::enable_if<std::is_convertible<ValueT, enum_name>::value &&\
+		!std::is_same<ValueT, enum_name>::value, enum_name>::type			\
+	operator~(ValueT rhs){													\
+		return ~enum_name(rhs);												\
+	}																		\
+																			\
 	bool operator ==(const enum_name& lhs, const enum_name& rhs)			\
 		{ return lhs.value_ == rhs.value_; }								\
 	bool operator !=(const enum_name& lhs, const enum_name& rhs)			\
@@ -223,10 +248,10 @@ namespace example{
 
 		typedef ::boost::advanced_enum::function_impl::UnderlyingToEnumImpl<NewTest, options::arbitrary> UnderlyingToEnumImpl;
 	public:
-		static const NewTest five;
-		static const NewTest six;
-		static const NewTest seven;
-		static const NewTest twenty;
+		static const EnumT five = EnumT::five;
+		static const EnumT six = EnumT::six;
+		static const EnumT seven = EnumT::seven;
+		static const EnumT twenty = EnumT::twenty;
 
 		NewTest(){}
 		NewTest(const NewTest& other) : value_(other.value_){}
@@ -245,13 +270,30 @@ namespace example{
 		friend bool operator ==(const NewTest&, const NewTest&);
 	};
 
-	const NewTest NewTest::five = _artifacts_NewTest::EnumT::five;
-	const NewTest NewTest::six = _artifacts_NewTest::EnumT::six;
-	const NewTest NewTest::seven = _artifacts_NewTest::EnumT::seven;
-	const NewTest NewTest::twenty = _artifacts_NewTest::EnumT::twenty;
-
 	bool operator ==(const NewTest& lhs, const NewTest& rhs){ return lhs.value_ == rhs.value_; }
 	bool operator !=(const NewTest& lhs, const NewTest& rhs){ return !(lhs == rhs); }
+
+	//overload operators for ValueT <op> ValueT calls
+	template<typename ValueT>
+	typename std::enable_if<std::is_convertible<ValueT, NewTest>::value && !std::is_same<ValueT, NewTest>::value, NewTest>::type
+		operator&(ValueT lhs, ValueT rhs){
+		return NewTest(lhs) & NewTest(rhs);
+	}
+	template<typename ValueT>
+	typename std::enable_if<std::is_convertible<ValueT, NewTest>::value && !std::is_same<ValueT, NewTest>::value, NewTest>::type
+		operator|(ValueT lhs, ValueT rhs){
+		return NewTest(lhs) | NewTest(rhs);
+	}
+	template<typename ValueT>
+	typename std::enable_if<std::is_convertible<ValueT, NewTest>::value && !std::is_same<ValueT, NewTest>::value, NewTest>::type
+		operator^(ValueT lhs, ValueT rhs){
+		return NewTest(lhs) ^ NewTest(rhs);
+	}
+	template<typename ValueT>
+	typename std::enable_if<std::is_convertible<ValueT, NewTest>::value && !std::is_same<ValueT, NewTest>::value, NewTest>::type
+		operator~(ValueT rhs){
+		return ~NewTest(rhs);
+	}
 
 	std::istream& operator>>(std::istream& is, NewTest& nt){
 		std::string str;
