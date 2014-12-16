@@ -159,9 +159,15 @@
 #else
 //WARNING! IntelliSense will not display the correct values!
 #define BOOST_ADVANCED_ENUM_DEFINE_W_OPTIONS(enum_name, options, seq)		\
-	enum class enum_name{													\
-		BOOST_ADVANCED_ENUM__NAME_COMMA(seq)								\
-	};	
+	BOOST_ADVANCED_ENUM_DEFINE_I(enum_name, options)						\
+	BOOST_ADVANCED_ENUM__NAME_COMMA(seq)									\
+	BOOST_ADVANCED_ENUM_DEFINE_II(enum_name)								\
+	BOOST_ADVANCED_ENUM__NAME_COMMA(seq)								\
+	BOOST_ADVANCED_ENUM_DEFINE_III(enum_name)								\
+	BOOST_ADVANCED_ENUM_DEFINE_IV(enum_name)								\
+	BOOST_ADVANCED_ENUM_DEFINE_V(enum_name)									\
+	BOOST_ADVANCED_ENUM__INSERT_ENUM_VALUE(seq)								\
+	BOOST_ADVANCED_ENUM_DEFINE_VI(enum_name)								\
 
 #endif
 

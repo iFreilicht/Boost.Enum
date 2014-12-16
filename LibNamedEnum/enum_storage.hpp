@@ -47,9 +47,7 @@ namespace boost{
 			///Used for indexing
 			typedef typename std::make_unsigned<UnderlyingT>::type SizeT;
 			
-			//swap those out again
-			//typedef typename options::StringT StringT;
-			typedef std::string StringT;
+			typedef typename options::StringT StringT;
 
 			typedef LastEntry LastEntry;
 		private:

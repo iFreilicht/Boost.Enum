@@ -78,7 +78,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	Action sleep = Action::sleep;
 
-	action |= Action::sleep;
+	action |= Action::move;
 	action = Action(Action::drink) | Action::eat;
 	action = Action::drink | Action(Action::jump);
 	action = Action::drink | Action::sleep;
