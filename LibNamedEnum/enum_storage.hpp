@@ -10,6 +10,8 @@
 
 #include <boost/config.hpp>
 #include <string>
+#include <map>
+#include <vector>
 #include "supplies.hpp"
 #include "supply_selector.hpp"
 #include "options.h"
@@ -45,7 +47,9 @@ namespace boost{
 			///Used for indexing
 			typedef typename std::make_unsigned<UnderlyingT>::type SizeT;
 			
-			typedef typename options::StringT StringT;
+			//swap those out again
+			//typedef typename options::StringT StringT;
+			typedef std::string StringT;
 
 			typedef LastEntry LastEntry;
 		private:
@@ -62,10 +66,16 @@ namespace boost{
 				const std::string name = NameValuePair::name;
 				enum : UnderlyingT{ value = NameValuePair::value };
 
+				///Inserts the value into vec
+				static void insert_into_valuevec(std::vector<UnderlyingT>& vec){
+					prev::insert_into_valuevec(vec);
+					vec.push_back(value);
+				}
+
 				///Inserts string value pair into map
 				/**The same is done recursively for PrevEntry
 				*/
-				void insert_into_stoemap(std::map<std::string, UnderlyingT>& map){
+				void insert_into_stoemap(std::map<std::string, UnderlyingT>& map) const{
 					prev().insert_into_stoemap(map);
 					map.insert(std::pair<std::string, UnderlyingT>(name, value));
 				}
@@ -73,7 +83,7 @@ namespace boost{
 				///Inserts value string pair into map
 				/**The same is done recursively for PrevEntry
 				*/
-				void insert_into_etosmap(std::map<UnderlyingT, std::string>& map){
+				void insert_into_etosmap(std::map<UnderlyingT, std::string>& map) const{
 					prev().insert_into_etosmap(map);
 					map.insert(std::pair<UnderlyingT, std::string>(value, name));
 				}
@@ -86,16 +96,31 @@ namespace boost{
 				const std::string name = NameValuePair::name;
 				enum : UnderlyingT{ value = NameValuePair::value };
 
+				///\sa value_entry::insert_into_valuevec
+				static void insert_into_valuevec(std::vector<UnderlyingT>& vec){
+					vec.push_back(value);
+				}
+
 				///\sa value_entry::insert_into_stoemap 
-				void insert_into_stoemap(std::map<std::string, UnderlyingT>& map){
+				void insert_into_stoemap(std::map<std::string, UnderlyingT>& map) const{
 					map.insert(std::pair<std::string, UnderlyingT>(name, value));
 				}
 
 				///\sa value_entry::insert_into_etosmap
-				void insert_into_etosmap(std::map<UnderlyingT, std::string>& map){
+				void insert_into_etosmap(std::map<UnderlyingT, std::string>& map) const{
 					map.insert(std::pair<UnderlyingT, std::string>(value, name));
 				}
 			};
+
+			//-----iteration----------
+			///Vector for iteration through all possible values
+			std::vector<UnderlyingT> valuevec_;
+
+			void init_valuevec(){
+				valuevec_.clear();
+				valuevec_.reserve(num_vals);
+				LastEntry::insert_into_valuevec(valuevec_);
+			}
 
 			//-----lookup maps--------
 			///Map for fast lookup of values with strings
@@ -104,34 +129,36 @@ namespace boost{
 			std::map<UnderlyingT, std::string> etosmap_;
 
 			///Singleton instance
-			template<typename EnumStorageT, bool map_lookup>
+			template<bool map_lookup>
 			class instance_impl{
 				template<bool map_lookup>
 				struct newInstance;
 
 				template<>
 				struct newInstance<false>{
-					static EnumStorageT get(){
-						EnumStorageT storage{};
+					static enum_storage get(){
+						enum_storage storage{};
+						storage.init_valuevec();
 						return storage;
 					}
 				};
 
 				template<>
 				struct newInstance<true>{
-					static EnumStorageT get(){
-						EnumStorageT storage{};
+					static enum_storage get(){
+						enum_storage storage{};
 						storage.init_lookupmaps_non_static();
+						storage.init_valuevec();
 						return storage;
 					}
 				};
 			public:
-				static EnumStorageT get(){
+				static enum_storage get(){
 					return newInstance<map_lookup>::get();
 				}
 			};
 
-			typedef instance_impl<enum_storage<options, LastEntry>, options::map_lookup> InstanceImpl;
+			typedef instance_impl<options::map_lookup> InstanceImpl;
 
 			static enum_storage& instance(){
 				static enum_storage instance_ = InstanceImpl::get();
@@ -278,7 +305,19 @@ namespace boost{
 				template<bool Map_lookup>
 				struct impl_f<true, true, Map_lookup>{
 					static inline UnderlyingT exec(const StringT& name){
-						return lookup<Map_lookup>(name);
+						static StringT::size_type valBegin;
+						static StringT::size_type valEnd;
+						valBegin = 0;
+						UnderlyingT val = 0;
+						while (true){
+							valEnd = name.find_first_of('|', valBegin);
+							val |= lookup<Map_lookup>(name.substr(valBegin,valEnd));
+							if (valEnd == StringT::npos){
+								break;
+							}
+							valBegin = valEnd + 1;
+						}
+						return val;
 					}
 				};
 
@@ -345,7 +384,7 @@ namespace boost{
 				template<bool Map_lookup>
 				struct impl_f < true, false, Map_lookup > {
 					static inline StringT exec(UnderlyingT val){
-						StringT ret;
+						StringT ret{};
 						try{
 							ret = lookup<Map_lookup>(val);
 						}
@@ -359,7 +398,17 @@ namespace boost{
 				template<bool Map_lookup>
 				struct impl_f < true, true, Map_lookup > {
 					static inline StringT exec(UnderlyingT val){
-						return lookup<Map_lookup>(val);
+						static UnderlyingT currFlag;
+						StringT ret{};
+						for (UnderlyingT maskval : valuevec()){
+							currFlag = val & maskval;
+							if (currFlag != 0){
+								ret.append(lookup<Map_lookup>(currFlag));
+								ret.push_back('|');
+							}
+						}
+						ret.pop_back();
+						return ret;
 					}
 				};
 			public:
@@ -442,13 +491,13 @@ namespace boost{
 			///Number of values the enum has
 			enum : SizeT { num_vals = number_of_elements<LastEntry>::value };
 
-			///Initialise lookup maps (not required, but recommended for large enums)
-			static void init_lookupmaps(){
-				instance().init_lookupmaps_non_static();
-			}
+			/////Initialise lookup maps (not required, but recommended for large enums)
+			//static void init_lookupmaps(){
+			//	instance().init_lookupmaps_non_static();
+			//}
 
 			///Convert string to UnderlyingT
-			static UnderlyingT stoe(const std::string& name){
+			static inline UnderlyingT stoe(const std::string& name){
 				return stoe_impl::f(name);
 			}
 
@@ -466,6 +515,10 @@ namespace boost{
 			///Check whether a value exists in the enumeration
 			static inline bool has_value(UnderlyingT value){
 				return has_val_impl::f(value);
+			}
+
+			static inline const std::vector<UnderlyingT>& valuevec(){
+				return instance().valuevec_;
 			}
 
 			///Get value of the entry at index with ::value

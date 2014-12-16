@@ -42,7 +42,7 @@ namespace boost{
 		struct Options{
 			static const bool roundtrip = static_cast<bool>(MyOptions & OptionVals::roundtrip | MyOptions & OptionVals::is_flag);
 			static const bool is_flag = static_cast<bool>(MyOptions & OptionVals::is_flag);
-			static const bool arbitrary = static_cast<bool>(MyOptions & OptionVals::arbitrary);
+			static const bool arbitrary = static_cast<bool>(MyOptions & OptionVals::arbitrary | MyOptions & OptionVals::roundtrip | MyOptions & OptionVals::is_flag);
 			static const bool map_lookup = static_cast<bool>(MyOptions & OptionVals::map_lookup);
 			static const bool no_ordering = static_cast<bool>(MyOptions & OptionVals::no_ordering);
 

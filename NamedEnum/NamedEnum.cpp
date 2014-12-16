@@ -74,7 +74,7 @@ void testLookup(){
 int _tmain(int argc, _TCHAR* argv[])
 {
 	Action action{};
-	testLookup();
+	//testLookup();
 
 	Action sleep = Action::sleep;
 
@@ -82,6 +82,10 @@ int _tmain(int argc, _TCHAR* argv[])
 	action = Action(Action::drink) | Action::eat;
 	action = Action::drink | Action(Action::jump);
 	action = Action::drink | Action::sleep;
+
+	std::string combinedStr = static_cast<std::string>(action);
+
+	action = static_cast<Action>(combinedStr);
 
 	testing::Enum myEnum = lexical_cast<testing::Enum>("four");
 
@@ -94,7 +98,6 @@ int _tmain(int argc, _TCHAR* argv[])
 	std::string str = lexical_cast<std::string>(jump);
 	std::string str2 = static_cast<std::string>(jump);
 
-	//TODO: make the syntax better
 	Action act = static_cast<Action>(str2);
 
 	std::cin >> action;
@@ -117,7 +120,6 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	std::string mStr = lexical_cast<std::string>(mEnum);
 	std::string mStr2 = static_cast<std::string>(mEnum);
-
 
 	return 0;
 }
