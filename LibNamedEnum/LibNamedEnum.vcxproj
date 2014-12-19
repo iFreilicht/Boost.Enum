@@ -77,6 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="advanced_enum_adapt.h" />
+    <ClInclude Include="advanced_enum_class_draft.h" />
     <ClInclude Include="advanced_enum_define.h" />
     <ClInclude Include="config.hpp" />
     <ClInclude Include="doc_index.h" />

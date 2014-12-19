@@ -5,3 +5,5 @@
 #define BOOST_PP_VARIADICS 1
 #define BOOST_PP_VARIADICS_MSVC 1
 #endif
+
+#include <boost/config.hpp>

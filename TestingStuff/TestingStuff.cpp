@@ -96,6 +96,7 @@ namespace things{
 //}
 
 using things::MyEnum;
+using things::operator+;
 
 int main(int argc, char* argv[])
 {

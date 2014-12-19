@@ -41,7 +41,7 @@ namespace testing{
 		four
 	};
 
-	BOOST_ADVANCED_ENUM_ADAPT(Enum, int, 
+	BOOST_ADVANCED_ENUM_ADAPT_W_OPTIONS(Enum, (AdaptOptions<OptionVals::is_flag>), 
 		(zero)
 		(one) 
 		(two, "Zwo")
@@ -58,10 +58,6 @@ namespace testing{
 	)
 }
 
-
-
-
-
 void testLookup(){
 	Action action;
 	for (int i = 0; i < 200000; ++i){
@@ -73,38 +69,44 @@ void testLookup(){
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+	//<Action>
+
 	Action action{};
 	//testLookup();
 
 	Action sleep = Action::sleep;
 
 	action |= Action::move;
+
+	BOOST_ASSERT((unsigned int)action == ((unsigned int)Action::sleep | (unsigned int)Action::move));
+
 	action = Action(Action::drink) | Action::eat;
 	action = Action::drink | Action(Action::jump);
 	action = Action::drink | Action::sleep;
 
+	BOOST_ASSERT((unsigned int)action == ((unsigned int)Action::drink | (unsigned int)Action::move));
+
+	bool is_drink = static_cast<bool>(Action::drink & action);
+
+	BOOST_ASSERT(is_drink);
+
 	std::string combinedStr = static_cast<std::string>(action);
 
-	action = static_cast<Action>(combinedStr);
+	Action action2 = static_cast<Action>(combinedStr);
+
+	BOOST_ASSERT(action2 == action);
+
+	combinedStr = lexical_cast<std::string>(action);
+
+	action2 = lexical_cast<Action>(combinedStr);
+
+	BOOST_ASSERT(action2 == action);
+
+	//</Action>
 
 	testing::Enum myEnum = lexical_cast<testing::Enum>("four");
 
 	std::string enumStr = lexical_cast<std::string>(myEnum);
-
-	Action jump = lexical_cast<Action>("jump");
-
-	bool same = jump == action;
-
-	std::string str = lexical_cast<std::string>(jump);
-	std::string str2 = static_cast<std::string>(jump);
-
-	Action act = static_cast<Action>(str2);
-
-	std::cin >> action;
-
-	bool same2 = jump == action;
-
-	std::cout << action;
 
 	Many myMany = Many::Nz;
 

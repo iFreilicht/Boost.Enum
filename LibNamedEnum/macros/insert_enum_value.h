@@ -8,14 +8,23 @@
 
 //evaluates to the first argument of a tuple, followed by a comma
 
+#include "../config.hpp"
 #include <boost/preprocessor/variadic/elem.hpp>
 #include <boost/preprocessor/cat.hpp>
 #include "cat.h"
 
 //actual implementation
+#ifdef BOOST_NO_CONSTEXPR
 #define BOOST_ADVANCED_ENUM__IINSERT_ENUM_VALUE(...)								\
 	static const EnumT BOOST_PP_VARIADIC_ELEM(0, __VA_ARGS__) =							\
 		EnumT::BOOST_PP_VARIADIC_ELEM(0, __VA_ARGS__);								\
+
+#else
+#define BOOST_ADVANCED_ENUM__IINSERT_ENUM_VALUE(...)								\
+	static constexpr OwnT BOOST_PP_VARIADIC_ELEM(0, __VA_ARGS__) =							\
+		EnumT::BOOST_PP_VARIADIC_ELEM(0, __VA_ARGS__);								\
+
+#endif
 
 //sequence unpacking
 #define BOOST_ADVANCED_ENUM__IINSERT_ENUM_VALUE_A(...)								\

@@ -87,6 +87,9 @@
     <ClInclude Include="macros\insert_enum_value.h">
       <Filter>macros</Filter>
     </ClInclude>
+    <ClInclude Include="advanced_enum_class_draft.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Doxyfile" />

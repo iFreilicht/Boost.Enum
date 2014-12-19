@@ -38,6 +38,7 @@ namespace boost{
 			};
 		};
 
+		//The UnderlyingT argument is either of integral type for defined enums or the enum that is adapted
 		template<unsigned int MyOptions = OptionVals::arbitrary, typename UnderlyingT = int, typename MySupply = supplies::NoCustomSupply, typename StringT = std::string>
 		struct Options{
 			static const bool roundtrip = static_cast<bool>(MyOptions & OptionVals::roundtrip | MyOptions & OptionVals::is_flag);
@@ -51,6 +52,14 @@ namespace boost{
 			typedef UnderlyingT UnderlyingT;
 
 			typedef StringT StringT;
+		};
+
+		template<unsigned int MyOptions = OptionVals::arbitrary, typename StringT = std::string>
+		struct AdaptOptions{
+			template<typename EnumT>
+			struct Options{
+				typedef typename ::boost::advanced_enum::Options < MyOptions, typename std::underlying_type<EnumT>::type, supplies::NoCustomSupply, StringT > type;
+			};
 		};
 	}
 }

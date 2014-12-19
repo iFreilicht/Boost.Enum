@@ -51,6 +51,7 @@
 			BOOST_ADVANCED_ENUM__ARTIFACTS(enum_name)::options::is_flag		\
 		>																	\
 	{																		\
+		typedef enum_name OwnT;												\
 	public:																	\
 		typedef BOOST_ADVANCED_ENUM__ARTIFACTS(enum_name)::options options;	\
 		typedef options::Supply supply;										\
@@ -196,7 +197,7 @@ namespace example{
 
 	namespace {
 		namespace _artifacts_NewTest{
-			typedef ::boost::advanced_enum::Options<0, int> options;
+			typedef ::boost::advanced_enum::Options<0> options;
 			typedef options::Supply supply;
 			typedef options::UnderlyingT UnderlyingT;
 			enum class index : std::make_unsigned<UnderlyingT>::type{
@@ -238,6 +239,7 @@ namespace example{
 			_artifacts_NewTest::options::is_flag
 		>
 	{
+		typedef NewTest OwnT;
 	public:
 		typedef _artifacts_NewTest::options options;
 		typedef options::Supply supply;
@@ -254,10 +256,10 @@ namespace example{
 
 		typedef ::boost::advanced_enum::function_impl::UnderlyingToEnumImpl<NewTest, options::arbitrary> UnderlyingToEnumImpl;
 	public:
-		static const EnumT five = EnumT::five;
-		static const EnumT six = EnumT::six;
-		static const EnumT seven = EnumT::seven;
-		static const EnumT twenty = EnumT::twenty;
+		BOOST_ADVANCED_ENUM__INSERT_ENUM_VALUE(FIVE)
+		BOOST_ADVANCED_ENUM__INSERT_ENUM_VALUE(SIX)
+		BOOST_ADVANCED_ENUM__INSERT_ENUM_VALUE(SEVEN)
+		BOOST_ADVANCED_ENUM__INSERT_ENUM_VALUE(TWENTY)
 
 		NewTest(){}
 		NewTest(const NewTest& other) : value_(other.value_){}
@@ -279,6 +281,7 @@ namespace example{
 	bool operator ==(const NewTest& lhs, const NewTest& rhs){ return lhs.value_ == rhs.value_; }
 	bool operator !=(const NewTest& lhs, const NewTest& rhs){ return !(lhs == rhs); }
 
+#ifdef BOOST_NO_CONSTEXPR
 	//overload operators for ValueT <op> ValueT calls
 	template<typename ValueT>
 	typename std::enable_if<std::is_convertible<ValueT, NewTest>::value && !std::is_same<ValueT, NewTest>::value, NewTest>::type
@@ -300,6 +303,7 @@ namespace example{
 		operator~(ValueT rhs){
 		return ~NewTest(rhs);
 	}
+#endif
 
 	std::istream& operator>>(std::istream& is, NewTest& nt){
 		std::string str;
@@ -314,81 +318,16 @@ namespace example{
 	std::ostream& operator<<(std::ostream& os, const NewTest& nt){
 		return os << static_cast<std::string>(nt);
 	}
-	
 
-
-	namespace {
-		namespace _artifacts_AdaptLater{
-			typedef ::boost::advanced_enum::Options<0, int> options;
-			typedef options::Supply supply;
-			typedef options::UnderlyingT UnderlyingT;
-			enum class index : std::make_unsigned<UnderlyingT>::type{
-				BOOST_ADVANCED_ENUM__NAME_COMMA(FIVE)
-				BOOST_ADVANCED_ENUM__NAME_COMMA(SIX)
-				BOOST_ADVANCED_ENUM__NAME_COMMA(SEVEN)
-				BOOST_ADVANCED_ENUM__NAME_COMMA(TWENTY)
-			};
-			enum class EnumT{
-				BOOST_ADVANCED_ENUM__DEFINE_ENUM_VALUE(FIVE)
-				BOOST_ADVANCED_ENUM__DEFINE_ENUM_VALUE(SIX)
-				BOOST_ADVANCED_ENUM__DEFINE_ENUM_VALUE(SEVEN)
-				BOOST_ADVANCED_ENUM__DEFINE_ENUM_VALUE(TWENTY)
-			};
-			BOOST_ADVANCED_ENUM__DEFINE_NAME_VALUE_PAIR(FIVE)
-			BOOST_ADVANCED_ENUM__DEFINE_NAME_VALUE_PAIR(SIX)
-			BOOST_ADVANCED_ENUM__DEFINE_NAME_VALUE_PAIR(SEVEN)
-			BOOST_ADVANCED_ENUM__DEFINE_NAME_VALUE_PAIR(TWENTY)
-			typedef ::boost::advanced_enum::enum_storage<options>::gen <
-				BOOST_ADVANCED_ENUM__NAME_COMMA(FIVE)
-				BOOST_ADVANCED_ENUM__NAME_COMMA(SIX)
-				BOOST_ADVANCED_ENUM__NAME_COMMA(SEVEN)
-				BOOST_ADVANCED_ENUM__NAME_COMMA(TWENTY)
-			void > ::get enum_storage;
-			typedef ::boost::advanced_enum::advanced_enum_base <enum_storage, EnumT> Base;
-			struct advanced_enum : Base{
-					advanced_enum() : Base(){}
-					advanced_enum(ValueT v) : Base(v){}
-					explicit advanced_enum(UnderlyingT v) : Base(v){}
-					explicit advanced_enum(const std::string& s) : Base(s){}
-			};
-			std::istream& operator >>(std::istream& lhs, EnumT& rhs){
-				std::string s;
-				lhs >> s;
-				try{
-					rhs = static_cast<advanced_enum>(s);
-				}
-				catch (const std::invalid_argument&){}
-				return lhs;
-			}
-			inline std::ostream& operator <<(std::ostream& lhs, EnumT rhs){
-				return lhs << static_cast<std::string>((advanced_enum)rhs);
-			}
-		}
-	}
-	typedef _artifacts_AdaptLater::EnumT AdaptLater;
-	/*std::istream& operator >>(std::istream& lhs, AdaptLater& rhs){
-		std::string s;
-		lhs >> s;
-		try{
-			rhs = (AdaptLater)static_cast<int>(static_cast<_artifacts_AdaptLater::advanced_enum>(s));
-		}
-		catch (const std::invalid_argument&){}
-		return lhs;
-	}
-	inline std::ostream& operator <<(std::ostream& lhs, AdaptLater rhs){
-		return lhs << static_cast<std::string>((_artifacts_AdaptLater::advanced_enum)(int)rhs);
-	}*/
-
-
-	BOOST_ADVANCED_ENUM_DEFINE_I(Adapt2, (::boost::advanced_enum::Options<>))
+	BOOST_ADVANCED_ENUM_DEFINE_I(NewTest2, (::boost::advanced_enum::Options<>))
 	BOOST_ADVANCED_ENUM__NAME_COMMA(FIVE SIX SEVEN TWENTY)
-	BOOST_ADVANCED_ENUM_DEFINE_II(Adapt2)
+	BOOST_ADVANCED_ENUM_DEFINE_II(NewTest2)
 	BOOST_ADVANCED_ENUM__DEFINE_ENUM_VALUE(FIVE SIX SEVEN TWENTY)
-	BOOST_ADVANCED_ENUM_DEFINE_III(Adapt2)
+	BOOST_ADVANCED_ENUM_DEFINE_III(NewTest2)
 	BOOST_ADVANCED_ENUM__DEFINE_NAME_VALUE_PAIR(FIVE SIX SEVEN TWENTY)
-	BOOST_ADVANCED_ENUM_DEFINE_IV(Adapt2)
+	BOOST_ADVANCED_ENUM_DEFINE_IV(NewTest2)
 	BOOST_ADVANCED_ENUM__NAME_COMMA(FIVE SIX SEVEN TWENTY)
-	BOOST_ADVANCED_ENUM_DEFINE_V(Adapt2)
+	BOOST_ADVANCED_ENUM_DEFINE_V(NewTest2)
 	BOOST_ADVANCED_ENUM__INSERT_ENUM_VALUE(FIVE SIX SEVEN TWENTY)
-	BOOST_ADVANCED_ENUM_DEFINE_VI(Adapt2)
+	BOOST_ADVANCED_ENUM_DEFINE_VI(NewTest2)
 }
