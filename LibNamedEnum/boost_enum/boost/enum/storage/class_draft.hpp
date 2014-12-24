@@ -1,14 +1,23 @@
-#include "options.h"
-#include "enum_storage.hpp"
+
+//          Copyright Felix Uhl 2014
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)
+
+#ifndef BOOST_ENUM_IG_CLASS_DRAFT_HPP
+#define BOOST_ENUM_IG_CLASS_DRAFT_HPP
+
+#include <boost/enum/options/options.hpp>
+#include <boost/enum/storage/storage.hpp>
 
 
 class IAdvanced_enum{
 	enum class EnumType{};
 public:
-	typedef ::boost::advanced_enum::Options<> options;
+	typedef ::boost::enum_::options<> options;
 	typedef options::UnderlyingT UnderlyingT;
 	typedef options::StringT StringT;
-	typedef ::boost::advanced_enum::enum_storage<options> EnumStorage;
+	typedef ::boost::enum_::storage<options> EnumStorage;
 	typedef EnumType EnumT;
 
 	IAdvanced_enum();
@@ -66,3 +75,6 @@ std::istream& operator>>(std::istream& is, IAdvanced_enum& nt){
 std::ostream& operator<<(std::ostream& os, const IAdvanced_enum& nt){
 	return os << static_cast<IAdvanced_enum::StringT>(nt);
 }
+
+
+#endif

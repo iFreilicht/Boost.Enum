@@ -4,11 +4,12 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
-#pragma once
+#ifndef BOOST_ENUM_IG_FUNCTION_IMPL_HPP
+#define BOOST_ENUM_IG_FUNCTION_IMPL_HPP
 
 
 namespace boost{
-	namespace advanced_enum{
+	namespace enum_{
 		namespace function_impl{
 			template<typename Type, bool arbitrary>
 			struct UnderlyingToEnumImpl;
@@ -150,3 +151,5 @@ namespace boost{
 		}
 	}
 }
+
+#endif

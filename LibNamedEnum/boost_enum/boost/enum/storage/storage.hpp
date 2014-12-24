@@ -5,16 +5,16 @@
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 
-#ifndef BOOST_ADVANCEDENUM_ENUM_STORAGE2_HPP
-#define BOOST_ADVANCEDENUM_ENUM_STORAGE2_HPP
+#ifndef BOOST_ENUM_IG_STORAGE_HPP
+#define BOOST_ENUM_IG_STORAGE_HPP
 
 #include <boost/config.hpp>
 #include <string>
 #include <map>
 #include <vector>
-#include "supplies.hpp"
-#include "supply_selector.hpp"
-#include "options.h"
+#include <boost/enum/options/supplies.hpp>
+#include <boost/enum/options/supply_selector.hpp>
+#include <boost/enum/options/options.hpp>
 
 #ifdef BOOST_MSVC
 #pragma warning(disable : 4503)
@@ -22,32 +22,32 @@
 
 
 namespace boost{
-	namespace advanced_enum{
+	namespace enum_{
 
-		///enum_storage is a compile-time container for enumeration values and their corresponding string.
+		///storage is a compile-time container for enumeration values and their corresponding string.
 		/**The container is implemented as a reverse linked list, starting at the last entry.
 		 * Besides containing all value string pairs of an enumeration, it provides methods
-		 * for conversion and initialisation of an advanced_enum and is therefore its
+		 * for conversion and initialisation of an enum and is therefore its
 		 * implementation.
 		 * The conversions are abbreviated with stoe (string to enum) and etos (enum to string).
 		 * For the most part, it consists only of constants and types, but the two std::maps
 		 * used for lookups can only accessed via the instance() member function.
 		 * There is generally no need to use this class directly.
-		 * For instantiating the enum_storage template, use the following syntax:
+		 * For instantiating the storage template, use the following syntax:
 		 * \code 
-		 *     typedef enum_storage<[underlying type][, supply]>::gen<{entries}>::get myStorage_t;
+		 *     typedef storage<[underlying type][, supply]>::gen<{entries}>::get myStorage_t;
 		 * \endcode
 		*/
 		template<
-			typename options = Options<>, 
+			typename Options = options<>, 
 			typename LastEntry = void>
-		class enum_storage{
+		class storage{
 		public:
-			typedef typename options::UnderlyingT UnderlyingT;
+			typedef typename Options::UnderlyingT UnderlyingT;
 			///Used for indexing
 			typedef typename std::make_unsigned<UnderlyingT>::type SizeT;
 			
-			typedef typename options::StringT StringT;
+			typedef typename Options::StringT StringT;
 
 			typedef LastEntry LastEntry;
 		private:
@@ -56,7 +56,7 @@ namespace boost{
 			/**The only arguments are the string and previous entry, the value is determined by instantiating
 			 * the  Supply template with the value of PrevEntry.
 			 * The list has to be reversed to make the definition of enums with 
-			 *  BOOST_ADVANCED_ENUM_DEFINE_W_SUPPLY possible.
+			 *  BOOST_ENUM_DEFINE_W_SUPPLY possible.
 			*/
 			template<typename NameValuePair, typename PrevEntry>
 			struct value_entry{
@@ -134,8 +134,8 @@ namespace boost{
 
 				template<>
 				struct newInstance<false>{
-					static enum_storage get(){
-						enum_storage storage{};
+					static storage get(){
+						storage storage{};
 						storage.init_valuevec();
 						return storage;
 					}
@@ -143,23 +143,23 @@ namespace boost{
 
 				template<>
 				struct newInstance<true>{
-					static enum_storage get(){
-						enum_storage storage{};
+					static storage get(){
+						storage storage{};
 						storage.init_lookupmaps_non_static();
 						storage.init_valuevec();
 						return storage;
 					}
 				};
 			public:
-				static enum_storage get(){
+				static storage get(){
 					return newInstance<map_lookup>::get();
 				}
 			};
 
-			typedef instance_impl<options::map_lookup> InstanceImpl;
+			typedef instance_impl<Options::map_lookup> InstanceImpl;
 
-			static enum_storage& instance(){
-				static enum_storage instance_ = InstanceImpl::get();
+			static storage& instance(){
+				static storage instance_ = InstanceImpl::get();
 				return instance_;
 			}
 
@@ -182,30 +182,30 @@ namespace boost{
 			}
 
 			////------generator------
-			///Replaces the last template argument of enum_storage with NewLastEntry
+			///Replaces the last template argument of storage with NewLastEntry
 			template<typename NewLastEntry>
 			struct with_last{
-				typedef enum_storage<options, NewLastEntry> get;
+				typedef storage<Options, NewLastEntry> get;
 			};
 			
 
-			///Generator for enum_storage, used by gen
+			///Generator for storage, used by gen
 			template<typename PrevEntry, typename entry_name, typename ... next_entries>
 			struct generator{
-				typedef typename enum_storage::template value_entry<entry_name, PrevEntry> entry;
+				typedef typename storage::template value_entry<entry_name, PrevEntry> entry;
 				typedef typename generator<entry, next_entries ...>::enumeration enumeration;
 			};
 			///End case for generator
 			template<typename PrevEntry, typename entry_name>
 			struct generator < PrevEntry, entry_name> {
-				typedef typename enum_storage::template value_entry<entry_name, PrevEntry> entry;
-				typedef typename enum_storage::template with_last<entry>::get enumeration;
+				typedef typename storage::template value_entry<entry_name, PrevEntry> entry;
+				typedef typename storage::template with_last<entry>::get enumeration;
 			};
 
 			template<typename PrevEntry>
 			struct generator < PrevEntry, void > {
 				typedef PrevEntry entry;
-				typedef typename enum_storage::template with_last<entry>::get enumeration;
+				typedef typename storage::template with_last<entry>::get enumeration;
 			};
 
 
@@ -321,7 +321,7 @@ namespace boost{
 
 			public:
 				static inline UnderlyingT f(const StringT& name){
-					return impl_f < options::roundtrip, options::is_flag, options::map_lookup >::exec(name);
+					return impl_f < Options::roundtrip, Options::is_flag, Options::map_lookup >::exec(name);
 				}
 			};
 
@@ -411,7 +411,7 @@ namespace boost{
 				};
 			public:
 				static inline StringT f(UnderlyingT val){
-					return impl_f < options::roundtrip, options::is_flag, options::map_lookup >::exec(val);
+					return impl_f < Options::roundtrip, Options::is_flag, Options::map_lookup >::exec(val);
 				}
 			};
 
@@ -454,7 +454,7 @@ namespace boost{
 				};
 			public:
 				static inline bool f(UnderlyingT value){
-					return impl_f<options::map_lookup>::exec(value);
+					return impl_f<Options::map_lookup>::exec(value);
 				}
 			};
 
@@ -474,10 +474,10 @@ namespace boost{
 			};
 
 		public:
-			///generator to create a enum_storage
+			///generator to create a storage
 			/**like so: 
 			 * \code 
-			 *     typedef enum_storage<[Supply]>::gen<entry{, entry}>::get myStorage;
+			 *     typedef storage<[Supply]>::gen<entry{, entry}>::get myStorage;
 			 * \endcode
 			 * \note It is required to make the last argument void, which is needed by certain macros
 			*/

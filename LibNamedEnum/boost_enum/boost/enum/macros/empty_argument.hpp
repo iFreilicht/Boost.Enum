@@ -8,16 +8,19 @@
 //WARNING! currently the result is only defined for _ and Boost.PP data types
 
 //the result is 1 for _ and 0 for everything else
-#pragma once
+
+#ifndef BOOST_ENUM_IG_EMPTY_ARGUMENT_HPP
+#define BOOST_ENUM_IG_EMPTY_ARGUMENT_HPP
 
 #include <boost/preprocessor/cat.hpp>
 
-#define BOOST_ADVANCED_ENUM_EMPTY_ARG(a)									\
-	BOOST_PP_CAT(BOOST_ADVANCED_ENUM__EMPTY_ARG_, a)						\
+#define BOOST_ENUM_EMPTY_ARG(a)									\
+	BOOST_PP_CAT(BOOST_ENUM_EMPTY_ARG_, a)						\
 
 //argument is _
-#define BOOST_ADVANCED_ENUM__EMPTY_ARG__ 1
+#define BOOST_ENUM_EMPTY_ARG__ 1
 
 //argument is a tuple, array or list
-#define BOOST_ADVANCED_ENUM__EMPTY_ARG_(a) 0
+#define BOOST_ENUM_EMPTY_ARG_(a) 0
 
+#endif

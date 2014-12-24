@@ -1,18 +1,18 @@
 #pragma once
 
-#include <advanced_enum_define.h>
+#include <boost/enum/adapt.hpp>
+#include <boost/enum/define.hpp>
+#include <boost/enum/define_flag.hpp>
 
-using ::boost::advanced_enum::OptionVals;
 
-//example for a macro that uses ENUM_DEFINE_W_SUPPLY
-#define DEFINE_FLAG_ENUM(enum_name, seq) BOOST_ADVANCED_ENUM_DEFINE_W_OPTIONS(enum_name, (::boost::advanced_enum::Options<OptionVals::is_flag, unsigned int>), seq)
+using ::boost::enum_::option_vals;
 
 namespace something{
-	//BOOST_ADVANCED_ENUM_FWD_DECLARE(Action, unsigned int);
+	//BOOST_ENUM_FWD_DECLARE(Action, unsigned int);
 }
 
 //this is enough to define a named macro
-BOOST_ADVANCED_ENUM_DEFINE(Zott, int,
+BOOST_ENUM_DEFINE(Zott,
 	(zero)
 	(one)
 	(two)
@@ -21,7 +21,7 @@ BOOST_ADVANCED_ENUM_DEFINE(Zott, int,
 
 
 namespace something{
-	DEFINE_FLAG_ENUM(Action,
+	BOOST_ENUM_DEFINE_FLAG(Action,
 		(jump)
 		(look)
 		(move)
@@ -32,7 +32,7 @@ namespace something{
 	)
 }
 
-BOOST_ADVANCED_ENUM_DEFINE(Numbers, int,
+BOOST_ENUM_DEFINE(Numbers,
 	(five)
 	(eight)
 	(twenty)
@@ -43,7 +43,7 @@ BOOST_ADVANCED_ENUM_DEFINE(Numbers, int,
 )
 
 
-BOOST_ADVANCED_ENUM_DEFINE(Many, unsigned int,
+BOOST_ENUM_DEFINE(Many,
 	(a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m) (n) (o) (p) (q) (r) (s) (t) (u) (v) (w) (x) (y) (z)
 	(Aa)(Ab)(Ac)(Ad)(Ae)(Af)(Ag)(Ah)(Ai)(Aj)(Ak)(Al)(Am)(An)(Ao)(Ap)(Aq)(Ar)(As)(At)(Au)(Av)(Aw)(Ax)(Ay)(Az)
 	(Ba)(BB)(Bc)(Bd)(Be)(Bf)(Bg)(Bh)(Bi)(Bj)(Bk)(Bl)(Bm)(Bn)(Bo)(Bp)(Bq)(Br)(Bs)(Bt)(Bu)(Bv)(Bw)(Bx)(By)(Bz)

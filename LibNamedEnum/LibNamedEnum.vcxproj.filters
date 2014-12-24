@@ -5,93 +5,93 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="macros">
-      <UniqueIdentifier>{3e7a8e76-6f5a-4554-ab4d-d65f2c7e5020}</UniqueIdentifier>
+    <Filter Include="Main Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Main Files\impl">
+      <UniqueIdentifier>{fad2b609-bd3d-43d1-ae76-7258c3b99738}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main Files\macros">
+      <UniqueIdentifier>{69a9a594-e1e8-4970-a435-05db01c9152d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="doc_index.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="supplies.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="advanced_enum_adapt.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="advanced_enum_base.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="advanced_enum_define.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="macros\empty_argument.h">
-      <Filter>macros</Filter>
-    </ClInclude>
-    <ClInclude Include="macros\name_comma.h">
-      <Filter>macros</Filter>
-    </ClInclude>
-    <ClInclude Include="macros\define_enum_value.h">
-      <Filter>macros</Filter>
-    </ClInclude>
-    <ClInclude Include="macros\derive_enum_base.h">
-      <Filter>macros</Filter>
-    </ClInclude>
-    <ClInclude Include="macros\adapt_name_value_pair.h">
-      <Filter>macros</Filter>
-    </ClInclude>
-    <ClInclude Include="macros\define_name_value_pair.h">
-      <Filter>macros</Filter>
-    </ClInclude>
-    <ClInclude Include="macros\artifacts_namespace.h">
-      <Filter>macros</Filter>
-    </ClInclude>
-    <ClInclude Include="macros\apply_to_all.h">
-      <Filter>macros</Filter>
-    </ClInclude>
-    <ClInclude Include="macros\overload_stream_operators.h">
-      <Filter>macros</Filter>
-    </ClInclude>
-    <ClInclude Include="enum_storage_deprecated.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="enum_storage.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="macros\cat.h">
-      <Filter>macros</Filter>
-    </ClInclude>
-    <ClInclude Include="options.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="supply_selector.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="config.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="function_implementations.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="macros\insert_enum_value.h">
-      <Filter>macros</Filter>
-    </ClInclude>
-    <ClInclude Include="advanced_enum_class_draft.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <None Include="Doxyfile" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Doxyfile" />
+    <ClInclude Include="boost_enum\boost\enum\adapt.hpp">
+      <Filter>Main Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boost_enum\boost\enum\define.hpp">
+      <Filter>Main Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boost_enum\boost\enum\options\options.hpp">
+      <Filter>Main Files\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="boost_enum\boost\enum\options\supplies.hpp">
+      <Filter>Main Files\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="boost_enum\boost\enum\options\supply_selector.hpp">
+      <Filter>Main Files\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="boost_enum\boost\enum\storage\base.hpp">
+      <Filter>Main Files\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="boost_enum\boost\enum\storage\class_draft.hpp">
+      <Filter>Main Files\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="boost_enum\boost\enum\storage\function_impl.hpp">
+      <Filter>Main Files\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="boost_enum\boost\enum\storage\storage.hpp">
+      <Filter>Main Files\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="boost_enum\boost\enum\macros\adapt_name_value_pair.hpp">
+      <Filter>Main Files\macros</Filter>
+    </ClInclude>
+    <ClInclude Include="boost_enum\boost\enum\macros\apply_to_all.hpp">
+      <Filter>Main Files\macros</Filter>
+    </ClInclude>
+    <ClInclude Include="boost_enum\boost\enum\macros\artifacts_namespace.hpp">
+      <Filter>Main Files\macros</Filter>
+    </ClInclude>
+    <ClInclude Include="boost_enum\boost\enum\macros\cat.hpp">
+      <Filter>Main Files\macros</Filter>
+    </ClInclude>
+    <ClInclude Include="boost_enum\boost\enum\macros\define_enum_value.hpp">
+      <Filter>Main Files\macros</Filter>
+    </ClInclude>
+    <ClInclude Include="boost_enum\boost\enum\macros\define_name_value_pair.hpp">
+      <Filter>Main Files\macros</Filter>
+    </ClInclude>
+    <ClInclude Include="boost_enum\boost\enum\macros\derive_enum_base.hpp">
+      <Filter>Main Files\macros</Filter>
+    </ClInclude>
+    <ClInclude Include="boost_enum\boost\enum\macros\empty_argument.hpp">
+      <Filter>Main Files\macros</Filter>
+    </ClInclude>
+    <ClInclude Include="boost_enum\boost\enum\macros\insert_enum_value.hpp">
+      <Filter>Main Files\macros</Filter>
+    </ClInclude>
+    <ClInclude Include="boost_enum\boost\enum\macros\name_comma.hpp">
+      <Filter>Main Files\macros</Filter>
+    </ClInclude>
+    <ClInclude Include="boost_enum\boost\enum\macros\overload_stream_operators.hpp">
+      <Filter>Main Files\macros</Filter>
+    </ClInclude>
+    <ClInclude Include="boost_enum\boost\enum\options.hpp">
+      <Filter>Main Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boost_enum\boost\enum\define_flag.hpp">
+      <Filter>Main Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -5,19 +5,19 @@
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 
-#ifndef BOOST_ADVANVEDENUM_SUPPLIES_HPP
-#define BOOST_ADVANVEDENUM_SUPPLIES_HPP
+#ifndef BOOST_ENUM_IG_SUPPLIES_HPP
+#define BOOST_ENUM_IG_SUPPLIES_HPP
 
 namespace boost{
-	namespace advanced_enum{
-		///Supplies are a concept used to provide values to advanced_enums.
+	namespace enum_{
+		///Supplies are a concept used to provide values to enums.
 		/** Supplies describe the convention on which the selection for underlying
 		 * values of an enumeration is based. Regular C/C++-enums for example use
 		 * an incrementing convention, starting at 0 and increasing for every new
 		 * enum value defined.
 		 * This is the same convention is described by supplies::increment.
 		 * 
-		 * A supply suitable for use with an advanced_enum is reuqired to have a certain structure,
+		 * A supply suitable for use with an enum is reuqired to have a certain structure,
 		 * as demonstrated on the example of supplies::shiftL1<unsigned int>::values
 		 * \code
 		 *     template<unsigned int Val>

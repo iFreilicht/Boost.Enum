@@ -4,21 +4,22 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
-#pragma once
+#ifndef BOOST_ENUM_IG_SUPPLY_SELECTOR_HPP
+#define BOOST_ENUM_IG_SUPPLY_SELECTOR_HPP
 
-#include "supplies.hpp"
+#include <boost/enum/options/supplies.hpp>
 
 namespace boost{
-	namespace advanced_enum{
+	namespace enum_{
 		template<typename UnderlyingT, typename Supply, bool is_flag>
 		class supply_selector{
-			//If the Options define a supply, this one is used
+			//If the options define a supply, this one is used
 			template<typename supply, bool is_flag>
 			struct impl{
 				typedef supply supply;
 			};
 
-			//If the Options don't define a supply,
+			//If the options don't define a supply,
 			//one needs to be selected based on the options flags
 			template < bool is_flag >
 			struct impl_no_supply;
@@ -45,3 +46,5 @@ namespace boost{
 		};
 	}
 }
+
+#endif

@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 
-//#define BOOST_ADVANCED_ENUM_DISABLE_INTELLISENSE_WORKAROUND 1
+//#define BOOST_ENUM_DISABLE_INTELLISENSE_WORKAROUND 1
 
 #include "Examples.h"
 
@@ -11,24 +11,23 @@
 
 
 #include <iostream>
-#include <supplies.hpp>
-#include <advanced_enum_define.h>
-#include <advanced_enum_adapt.h>
+#include <boost/enum/adapt.hpp>
+#include <boost/enum/define.hpp>
 #include <boost/lexical_cast.hpp>
 
-#include "macros/cat.h"
-#include "options.h"
+#include <boost/enum/macros/cat.hpp>
+#include <boost/enum/options/options.hpp>
 ///---OR---
 
 
 using boost::lexical_cast;
 using namespace something;
-using namespace boost::advanced_enum;
+using namespace boost::enum_;
 
 enum class TestE{
-	BOOST_ADVANCED_ENUM__NAME_COMMA((five, (5)))
-	BOOST_ADVANCED_ENUM__NAME_COMMA((six))
-	BOOST_ADVANCED_ENUM__NAME_COMMA((seven))
+	BOOST_ENUM_NAME_COMMA((five, (5)))
+	BOOST_ENUM_NAME_COMMA((six))
+	BOOST_ENUM_NAME_COMMA((seven))
 };
 
 //Zott one = Zott::one;
@@ -41,7 +40,7 @@ namespace testing{
 		four
 	};
 
-	BOOST_ADVANCED_ENUM_ADAPT_W_OPTIONS(Enum, (AdaptOptions<OptionVals::is_flag>), 
+	BOOST_ENUM_ADAPT_W_OPTIONS(Enum, (adapt_options<option_vals::is_flag>), 
 		(zero)
 		(one) 
 		(two, "Zwo")
@@ -49,7 +48,7 @@ namespace testing{
 		(four)
 	)
 
-	BOOST_ADVANCED_ENUM_DEFINE_W_OPTIONS(MyEnum, (Options<OptionVals::map_lookup | OptionVals::roundtrip, unsigned int>),
+	BOOST_ENUM_DEFINE_W_OPTIONS(MyEnum, (options<option_vals::map_lookup | option_vals::roundtrip, unsigned int>),
 		(zero)
 		(one, _, "Eins")
 		(two, _)
@@ -76,7 +75,8 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	Action sleep = Action::sleep;
 
-	action |= Action::move;
+	action = Action::move;
+	action |= sleep;
 
 	BOOST_ASSERT((unsigned int)action == ((unsigned int)Action::sleep | (unsigned int)Action::move));
 
@@ -84,7 +84,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	action = Action::drink | Action(Action::jump);
 	action = Action::drink | Action::sleep;
 
-	BOOST_ASSERT((unsigned int)action == ((unsigned int)Action::drink | (unsigned int)Action::move));
+	BOOST_ASSERT((unsigned int)action == ((unsigned int)Action::drink | (unsigned int)Action::sleep));
 
 	bool is_drink = static_cast<bool>(Action::drink & action);
 
@@ -110,11 +110,11 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	Many myMany = Many::Nz;
 
-	example::AdaptLater adaEnum = lexical_cast<example::AdaptLater>("Zwanzig");
+	//example::AdaptLater adaEnum = lexical_cast<example::AdaptLater>("Zwanzig");
 
-	adaEnum = example::AdaptLater::five;
+	//adaEnum = example::AdaptLater::five;
 
-	std::string adaStr = lexical_cast<std::string>(adaEnum);
+	//std::string adaStr = lexical_cast<std::string>(adaEnum);
 
 	testing::MyEnum mEnum = lexical_cast<testing::MyEnum>("Sechs");
 
