@@ -17,6 +17,7 @@
 #include <boost/enum/macros/overload_stream_operators.hpp>
 #include <boost/enum/macros/apply_to_all.hpp>
 #include <boost/enum/macros/insert_enum_value.hpp>
+#include <boost/enum/macros/overload_binary_operators.hpp>
 
 #include <boost/enum/storage/base.hpp>
 #include <boost/enum/storage/function_impl.hpp>
@@ -56,20 +57,20 @@
 #define BOOST_ENUM_ADAPT_III(enum_name)						\
 		void>::get storage;										\
 	BOOST_ENUM_EXIT_ARTIFACTS_NS								\
-	class BOOST_PP_CAT(enum_name, _adv) :								\
+	class BOOST_PP_CAT(enum_name, _e) :								\
 	public ::boost::enum_::function_impl::OrderingImpl<			\
 		BOOST_ENUM_ARTIFACTS(enum_name)::EnumT,				\
 		BOOST_ENUM_ARTIFACTS(enum_name)::options::UnderlyingT,\
 		BOOST_ENUM_ARTIFACTS(enum_name)::options::no_ordering	\
 	>,																	\
 	public ::boost::enum_::function_impl::BitwiseImpl<			\
-	BOOST_PP_CAT(enum_name, _adv),										\
+	BOOST_PP_CAT(enum_name, _e),										\
 	BOOST_ENUM_ARTIFACTS(enum_name)::EnumT,					\
 	BOOST_ENUM_ARTIFACTS(enum_name)::options::UnderlyingT,	\
 	BOOST_ENUM_ARTIFACTS(enum_name)::options::is_flag			\
 	>																	\
 		{																\
-	typedef BOOST_PP_CAT(enum_name, _adv) OwnT;							\
+	typedef BOOST_PP_CAT(enum_name, _e) OwnT;							\
 	public:																\
 		typedef BOOST_ENUM_ARTIFACTS(enum_name)::options options;	\
 		typedef ::boost::enum_::supplies::NoCustomSupply supply;\
@@ -84,25 +85,25 @@
 			{ return static_cast<UnderlyingT>(value_); }				\
 		void set_val_(UnderlyingT val) override							\
 			{ value_ = static_cast<EnumT>(val); }						\
-		BOOST_PP_CAT(enum_name, _adv)* this_() override{ return this; }	\
+		BOOST_PP_CAT(enum_name, _e)* this_() override{ return this; }	\
 																		\
 		typedef ::boost::enum_::function_impl::					\
-			UnderlyingToEnumImpl<BOOST_PP_CAT(enum_name, _adv), options::arbitrary> 	\
+			UnderlyingToEnumImpl<BOOST_PP_CAT(enum_name, _e), options::arbitrary> 	\
 			UnderlyingToEnumImpl;										\
 	public:																\
 
 #define BOOST_ENUM_ADAPT_IV(enum_name)							\
-		BOOST_PP_CAT(enum_name, _adv)(){}														\
-		BOOST_PP_CAT(enum_name, _adv)(const BOOST_PP_CAT(enum_name, _adv)& other) : value_(other.value_){}			\
-		BOOST_PP_CAT(enum_name, _adv)(const EnumT val) : value_(val){}							\
+		BOOST_PP_CAT(enum_name, _e)(){}														\
+		BOOST_PP_CAT(enum_name, _e)(const BOOST_PP_CAT(enum_name, _e)& other) : value_(other.value_){}			\
+		BOOST_PP_CAT(enum_name, _e)(const EnumT val) : value_(val){}							\
 		operator EnumT() const { return value_; }							\
-		BOOST_PP_CAT(enum_name, _adv)& operator =(const BOOST_PP_CAT(enum_name, _adv)& rhs)							\
+		BOOST_PP_CAT(enum_name, _e)& operator =(const BOOST_PP_CAT(enum_name, _e)& rhs)							\
 						{ value_ = rhs.value_; return *this; }				\
-		BOOST_PP_CAT(enum_name, _adv)& operator =(EnumT rhs){ value_ = rhs; return *this; }		\
+		BOOST_PP_CAT(enum_name, _e)& operator =(EnumT rhs){ value_ = rhs; return *this; }		\
 																			\
-		explicit BOOST_PP_CAT(enum_name, _adv)(UnderlyingT val) :								\
+		explicit BOOST_PP_CAT(enum_name, _e)(UnderlyingT val) :								\
 			value_(UnderlyingToEnumImpl::f(val)){}							\
-		explicit BOOST_PP_CAT(enum_name, _adv)(const StringT& str) :							\
+		explicit BOOST_PP_CAT(enum_name, _e)(const StringT& str) :							\
 			value_(UnderlyingToEnumImpl::f(EnumStorage::stoe(str))) {}		\
 		explicit operator UnderlyingT() const								\
 						{ return static_cast<UnderlyingT>(value_); }		\
@@ -112,52 +113,29 @@
 		static bool has_value(UnderlyingT val)								\
 						{ return EnumStorage::has_value(val); }				\
 																			\
-		friend bool operator ==(const BOOST_PP_CAT(enum_name, _adv)&, const BOOST_PP_CAT(enum_name, _adv)&);		\
+		friend bool operator ==(const BOOST_PP_CAT(enum_name, _e)&, const BOOST_PP_CAT(enum_name, _e)&);		\
 																			\
 		};																	\
 																			\
-	template<typename ValueT>												\
-	typename std::enable_if<std::is_convertible<ValueT, BOOST_PP_CAT(enum_name, _adv)>::value &&\
-		!std::is_same<ValueT, BOOST_PP_CAT(enum_name, _adv)>::value, BOOST_PP_CAT(enum_name, _adv)>::type			\
-	operator&(ValueT lhs, ValueT rhs){										\
-		return BOOST_PP_CAT(enum_name, _adv)(lhs) & BOOST_PP_CAT(enum_name, _adv)(rhs);								\
-		}																	\
-	template<typename ValueT>												\
-	typename std::enable_if<std::is_convertible<ValueT, BOOST_PP_CAT(enum_name, _adv)>::value &&\
-		!std::is_same<ValueT, BOOST_PP_CAT(enum_name, _adv)>::value, BOOST_PP_CAT(enum_name, _adv)>::type			\
-	operator|(ValueT lhs, ValueT rhs){										\
-		return BOOST_PP_CAT(enum_name, _adv)(lhs) | BOOST_PP_CAT(enum_name, _adv)(rhs);								\
-		}																	\
-	template<typename ValueT>												\
-	typename std::enable_if<std::is_convertible<ValueT, BOOST_PP_CAT(enum_name, _adv)>::value &&\
-		!std::is_same<ValueT, BOOST_PP_CAT(enum_name, _adv)>::value, BOOST_PP_CAT(enum_name, _adv)>::type			\
-	operator^(ValueT lhs, ValueT rhs){										\
-		return BOOST_PP_CAT(enum_name, _adv)(lhs) ^ BOOST_PP_CAT(enum_name, _adv)(rhs);								\
-		}																	\
-	template<typename ValueT>												\
-	typename std::enable_if<std::is_convertible<ValueT, BOOST_PP_CAT(enum_name, _adv)>::value &&\
-		!std::is_same<ValueT, BOOST_PP_CAT(enum_name, _adv)>::value, BOOST_PP_CAT(enum_name, _adv)>::type			\
-	operator~(ValueT rhs){													\
-		return ~BOOST_PP_CAT(enum_name, _adv)(rhs);												\
-		}																	\
+	BOOST_ENUM_OVERLOAD_BINARY_OPERATORS(BOOST_PP_CAT(enum_name, _e))		\
 																			\
-	bool operator ==(const BOOST_PP_CAT(enum_name, _adv)& lhs, const BOOST_PP_CAT(enum_name, _adv)& rhs)			\
+	bool operator ==(const BOOST_PP_CAT(enum_name, _e)& lhs, const BOOST_PP_CAT(enum_name, _e)& rhs)			\
 				{ return lhs.value_ == rhs.value_; }						\
-	bool operator !=(const BOOST_PP_CAT(enum_name, _adv)& lhs, const BOOST_PP_CAT(enum_name, _adv)& rhs)			\
+	bool operator !=(const BOOST_PP_CAT(enum_name, _e)& lhs, const BOOST_PP_CAT(enum_name, _e)& rhs)			\
 				{ return !(lhs == rhs); }									\
 																			\
 	std::istream& operator>>(std::istream& is, enum_name& nt){				\
 		std::string str;													\
 		is >> str;															\
 		try{																\
-			nt = static_cast<BOOST_PP_CAT(enum_name, _adv)>(str);								\
+			nt = static_cast<BOOST_PP_CAT(enum_name, _e)>(str);								\
 				}															\
 		catch(const std::invalid_argument&){}								\
 		return is;															\
 		}																	\
 																			\
 	std::ostream& operator<<(std::ostream& os, const enum_name& nt){		\
-		return os << static_cast<std::string>(static_cast<BOOST_PP_CAT(enum_name, _adv)>(nt));							\
+		return os << static_cast<std::string>(static_cast<BOOST_PP_CAT(enum_name, _e)>(nt));							\
 		}																	\
 																			\
 
@@ -210,20 +188,20 @@
 //	}
 //
 //	
-//	class AdaptLater_adv : 
+//	class AdaptLater_e : 
 //		public ::boost::enum_::function_impl::OrderingImpl<
 //			_artifacts_AdaptLater::EnumT, 
 //			_artifacts_AdaptLater::options::UnderlyingT, 
 //			_artifacts_AdaptLater::options::no_ordering
 //		>,
 //		public ::boost::enum_::function_impl::BitwiseImpl<
-//			AdaptLater_adv,
+//			AdaptLater_e,
 //			_artifacts_AdaptLater::EnumT,
 //			_artifacts_AdaptLater::options::UnderlyingT,
 //			_artifacts_AdaptLater::options::is_flag
 //		>
 //	{
-//		typedef AdaptLater_adv OwnT;
+//		typedef AdaptLater_e OwnT;
 //	public:
 //		typedef _artifacts_AdaptLater::options options;
 //		typedef ::boost::enum_::supplies::NoCustomSupply supply;
@@ -236,56 +214,56 @@
 //
 //		UnderlyingT get_val_() const override{ return static_cast<UnderlyingT>(value_); }
 //		void set_val_(UnderlyingT val) override{ value_ = static_cast<EnumT>(val); }
-//		AdaptLater_adv* this_() override{ return this; }
+//		AdaptLater_e* this_() override{ return this; }
 //
-//		typedef ::boost::enum_::function_impl::UnderlyingToEnumImpl<AdaptLater_adv, options::arbitrary> UnderlyingToEnumImpl;
+//		typedef ::boost::enum_::function_impl::UnderlyingToEnumImpl<AdaptLater_e, options::arbitrary> UnderlyingToEnumImpl;
 //	public:
 //		BOOST_ENUM_INSERT_ENUM_VALUE(FIVE)
 //		BOOST_ENUM_INSERT_ENUM_VALUE(SIX)
 //		BOOST_ENUM_INSERT_ENUM_VALUE(SEVEN)
 //		BOOST_ENUM_INSERT_ENUM_VALUE(TWENTY)
 //
-//		AdaptLater_adv(){}
-//		AdaptLater_adv(const AdaptLater_adv& other) : value_(other.value_){}
-//		AdaptLater_adv(const EnumT val) : value_(val){}
+//		AdaptLater_e(){}
+//		AdaptLater_e(const AdaptLater_e& other) : value_(other.value_){}
+//		AdaptLater_e(const EnumT val) : value_(val){}
 //		operator EnumT() const { return value_; }
-//		AdaptLater_adv& operator =(const AdaptLater_adv& rhs){ value_ = rhs.value_; return *this; }
-//		AdaptLater_adv& operator =(EnumT rhs){ value_ = rhs; return *this; }
+//		AdaptLater_e& operator =(const AdaptLater_e& rhs){ value_ = rhs.value_; return *this; }
+//		AdaptLater_e& operator =(EnumT rhs){ value_ = rhs; return *this; }
 //
-//		explicit AdaptLater_adv(UnderlyingT val) : value_(UnderlyingToEnumImpl::f(val)){}
-//		explicit AdaptLater_adv(const StringT& str) : value_(UnderlyingToEnumImpl::f(EnumStorage::stoe(str))) {}
+//		explicit AdaptLater_e(UnderlyingT val) : value_(UnderlyingToEnumImpl::f(val)){}
+//		explicit AdaptLater_e(const StringT& str) : value_(UnderlyingToEnumImpl::f(EnumStorage::stoe(str))) {}
 //		explicit operator UnderlyingT() const{ return static_cast<UnderlyingT>(value_); }
 //		explicit operator StringT() const{ return EnumStorage::etos(static_cast<UnderlyingT>(value_)); }
 //
 //		static bool has_value(UnderlyingT val){ return EnumStorage::has_value(val); }
 //
-//		friend bool operator ==(const AdaptLater_adv&, const AdaptLater_adv&);
+//		friend bool operator ==(const AdaptLater_e&, const AdaptLater_e&);
 //	};
 //
-//	bool operator ==(const AdaptLater_adv& lhs, const AdaptLater_adv& rhs){ return lhs.value_ == rhs.value_; }
-//	bool operator !=(const AdaptLater_adv& lhs, const AdaptLater_adv& rhs){ return !(lhs == rhs); }
+//	bool operator ==(const AdaptLater_e& lhs, const AdaptLater_e& rhs){ return lhs.value_ == rhs.value_; }
+//	bool operator !=(const AdaptLater_e& lhs, const AdaptLater_e& rhs){ return !(lhs == rhs); }
 //
 //#ifdef BOOST_NO_CONSTEXPR
 //	//overload operators for ValueT <op> ValueT calls
 //	template<typename ValueT>
-//	typename std::enable_if<std::is_convertible<ValueT, AdaptLater_adv>::value && !std::is_same<ValueT, AdaptLater_adv>::value, AdaptLater_adv>::type
+//	typename std::enable_if<std::is_convertible<ValueT, AdaptLater_e>::value && !std::is_same<ValueT, AdaptLater_e>::value, AdaptLater_e>::type
 //		operator&(ValueT lhs, ValueT rhs){
-//		return AdaptLater_adv(lhs) & AdaptLater_adv(rhs);
+//		return AdaptLater_e(lhs) & AdaptLater_e(rhs);
 //	}
 //	template<typename ValueT>
-//	typename std::enable_if<std::is_convertible<ValueT, AdaptLater_adv>::value && !std::is_same<ValueT, AdaptLater_adv>::value, AdaptLater_adv>::type
+//	typename std::enable_if<std::is_convertible<ValueT, AdaptLater_e>::value && !std::is_same<ValueT, AdaptLater_e>::value, AdaptLater_e>::type
 //		operator|(ValueT lhs, ValueT rhs){
-//		return AdaptLater_adv(lhs) | AdaptLater_adv(rhs);
+//		return AdaptLater_e(lhs) | AdaptLater_e(rhs);
 //	}
 //	template<typename ValueT>
-//	typename std::enable_if<std::is_convertible<ValueT, AdaptLater_adv>::value && !std::is_same<ValueT, AdaptLater_adv>::value, AdaptLater_adv>::type
+//	typename std::enable_if<std::is_convertible<ValueT, AdaptLater_e>::value && !std::is_same<ValueT, AdaptLater_e>::value, AdaptLater_e>::type
 //		operator^(ValueT lhs, ValueT rhs){
-//		return AdaptLater_adv(lhs) ^ AdaptLater_adv(rhs);
+//		return AdaptLater_e(lhs) ^ AdaptLater_e(rhs);
 //	}
 //	template<typename ValueT>
-//	typename std::enable_if<std::is_convertible<ValueT, AdaptLater_adv>::value && !std::is_same<ValueT, AdaptLater_adv>::value, AdaptLater_adv>::type
+//	typename std::enable_if<std::is_convertible<ValueT, AdaptLater_e>::value && !std::is_same<ValueT, AdaptLater_e>::value, AdaptLater_e>::type
 //		operator~(ValueT rhs){
-//		return ~AdaptLater_adv(rhs);
+//		return ~AdaptLater_e(rhs);
 //	}
 //#endif
 //
@@ -293,14 +271,14 @@
 //		std::string str;
 //		is >> str;
 //		try{
-//			nt = static_cast<AdaptLater_adv>(str);
+//			nt = static_cast<AdaptLater_e>(str);
 //		}
 //		catch(const std::invalid_argument&){}
 //		return is;
 //	}
 //
 //	std::ostream& operator<<(std::ostream& os, const AdaptLater& nt){
-//		return os << static_cast<AdaptLater_adv::StringT>(static_cast<AdaptLater_adv>(nt));
+//		return os << static_cast<AdaptLater_e::StringT>(static_cast<AdaptLater_e>(nt));
 //	}
 //
 //	enum class AdaptLater2{

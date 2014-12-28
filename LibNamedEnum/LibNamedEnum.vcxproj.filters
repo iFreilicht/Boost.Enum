@@ -93,5 +93,8 @@
     <ClInclude Include="boost_enum\boost\enum\define_flag.hpp">
       <Filter>Main Files</Filter>
     </ClInclude>
+    <ClInclude Include="boost_enum\boost\enum\macros\overload_binary_operators.hpp">
+      <Filter>Main Files\macros</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -92,6 +92,7 @@
     <ClInclude Include="boost_enum\boost\enum\macros\empty_argument.hpp" />
     <ClInclude Include="boost_enum\boost\enum\macros\insert_enum_value.hpp" />
     <ClInclude Include="boost_enum\boost\enum\macros\name_comma.hpp" />
+    <ClInclude Include="boost_enum\boost\enum\macros\overload_binary_operators.hpp" />
     <ClInclude Include="boost_enum\boost\enum\macros\overload_stream_operators.hpp" />
     <ClInclude Include="boost_enum\boost\enum\options.hpp" />
     <ClInclude Include="boost_enum\boost\enum\options\options.hpp" />

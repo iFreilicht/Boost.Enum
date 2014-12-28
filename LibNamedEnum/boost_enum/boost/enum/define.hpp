@@ -16,7 +16,7 @@
 #include <boost/enum/macros/artifacts_namespace.hpp>
 #include <boost/enum/macros/derive_enum_base.hpp>
 #include <boost/enum/macros/overload_stream_operators.hpp>
-#include <boost/enum/macros/apply_to_all.hpp>
+#include <boost/enum/macros/overload_binary_operators.hpp>
 
 #include <boost/enum/storage/base.hpp>
 #include <boost/enum/storage/storage.hpp>
@@ -102,35 +102,11 @@
 																			\
 	};																		\
 																			\
-	template<typename ValueT>												\
-	typename std::enable_if<std::is_convertible<ValueT, enum_name>::value &&\
-		!std::is_same<ValueT, enum_name>::value, enum_name>::type			\
-	operator&(ValueT lhs, ValueT rhs){										\
-		return enum_name(lhs) & enum_name(rhs);								\
-	}																		\
-	template<typename ValueT>												\
-	typename std::enable_if<std::is_convertible<ValueT, enum_name>::value &&\
-		!std::is_same<ValueT, enum_name>::value, enum_name>::type			\
-	operator|(ValueT lhs, ValueT rhs){										\
-		return enum_name(lhs) | enum_name(rhs);								\
-	}																		\
-	template<typename ValueT>												\
-	typename std::enable_if<std::is_convertible<ValueT, enum_name>::value &&\
-		!std::is_same<ValueT, enum_name>::value, enum_name>::type			\
-	operator^(ValueT lhs, ValueT rhs){										\
-		return enum_name(lhs) ^ enum_name(rhs);								\
-	}																		\
-	template<typename ValueT>												\
-	typename std::enable_if<std::is_convertible<ValueT, enum_name>::value &&\
-		!std::is_same<ValueT, enum_name>::value, enum_name>::type			\
-	operator~(ValueT rhs){													\
-		return ~enum_name(rhs);												\
-	}																		\
-																			\
+	BOOST_ENUM_OVERLOAD_BINARY_OPERATORS(enum_name)							\
 	bool operator ==(const enum_name& lhs, const enum_name& rhs)			\
-		{ return lhs.value_ == rhs.value_; }								\
+				{ return lhs.value_ == rhs.value_; }						\
 	bool operator !=(const enum_name& lhs, const enum_name& rhs)			\
-		{ return !(lhs == rhs); }											\
+				{ return !(lhs == rhs); }									\
 																			\
 	std::istream& operator>>(std::istream& is, enum_name& nt){				\
 		std::string str;													\

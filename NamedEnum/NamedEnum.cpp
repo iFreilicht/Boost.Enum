@@ -105,6 +105,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	//</Action>
 
 	testing::Enum myEnum = lexical_cast<testing::Enum>("four");
+	testing::Enum_e myEnum2 = myEnum;
 
 	std::string enumStr = lexical_cast<std::string>(myEnum);
 
