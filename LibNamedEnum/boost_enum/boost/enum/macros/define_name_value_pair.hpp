@@ -16,13 +16,13 @@
 //implementation
 #define BOOST_ENUM_IDEFINE_NAME_VALUE_PAIR_3(...)					\
     struct BOOST_PP_VARIADIC_ELEM(0, __VA_ARGS__){							\
-        static const std::string name;										\
+        static const std::string name(){								\
+			return BOOST_PP_VARIADIC_ELEM(2, __VA_ARGS__);					\
+		}																	\
         static const EnumT value =											\
 			EnumT::BOOST_PP_VARIADIC_ELEM(0, __VA_ARGS__);					\
 	};																		\
-    const std::string BOOST_PP_VARIADIC_ELEM(0, __VA_ARGS__)::name =		\
-		BOOST_PP_VARIADIC_ELEM(2, __VA_ARGS__);								\
-
+ 
 
 #define BOOST_ENUM_IDEFINE_NAME_VALUE_PAIR_1(...)					\
 	BOOST_ENUM_IDEFINE_NAME_VALUE_PAIR_3(							\

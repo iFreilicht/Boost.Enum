@@ -11,7 +11,7 @@
 #include <boost/enum/storage/storage.hpp>
 
 
-class IAdvanced_enum{
+class IEnum{
 	enum class EnumType{};
 public:
 	typedef ::boost::enum_::options<> options;
@@ -20,60 +20,60 @@ public:
 	typedef ::boost::enum_::storage<options> EnumStorage;
 	typedef EnumType EnumT;
 
-	IAdvanced_enum();
-	IAdvanced_enum(const IAdvanced_enum& other);
-	IAdvanced_enum(const EnumT val);
+	IEnum();
+	IEnum(const IEnum& other);
+	IEnum(const EnumT val);
 	operator EnumT() const;
-	IAdvanced_enum& operator =(const IAdvanced_enum& rhs);
-	IAdvanced_enum& operator =(EnumT rhs);
+	IEnum& operator =(const IEnum& rhs);
+	IEnum& operator =(EnumT rhs);
 
-	explicit IAdvanced_enum(UnderlyingT val);
-	explicit IAdvanced_enum(const StringT& str);
+	explicit IEnum(UnderlyingT val);
+	explicit IEnum(const StringT& str);
 	explicit operator UnderlyingT() const;
 	explicit operator StringT() const;
 
 	static bool has_value(UnderlyingT val);
 
-	friend bool operator ==(const IAdvanced_enum&, const IAdvanced_enum&);
+	friend bool operator ==(const IEnum&, const IEnum&);
 };
 
-bool operator ==(const IAdvanced_enum& lhs, const IAdvanced_enum& rhs);
-bool operator !=(const IAdvanced_enum& lhs, const IAdvanced_enum& rhs);
+bool operator ==(const IEnum& lhs, const IEnum& rhs);
+bool operator !=(const IEnum& lhs, const IEnum& rhs);
 
 //overload operators for ValueT <op> ValueT calls
 template<typename ValueT>
-typename std::enable_if<std::is_convertible<ValueT, IAdvanced_enum>::value && !std::is_same<ValueT, IAdvanced_enum>::value, IAdvanced_enum>::type
+typename std::enable_if<std::is_convertible<ValueT, IEnum>::value && !std::is_same<ValueT, IEnum>::value, IEnum>::type
 operator&(ValueT lhs, ValueT rhs){
-	return IAdvanced_enum(lhs) & IAdvanced_enum(rhs);
+	return IEnum(lhs) & IEnum(rhs);
 }
 template<typename ValueT>
-typename std::enable_if<std::is_convertible<ValueT, IAdvanced_enum>::value && !std::is_same<ValueT, IAdvanced_enum>::value, IAdvanced_enum>::type
+typename std::enable_if<std::is_convertible<ValueT, IEnum>::value && !std::is_same<ValueT, IEnum>::value, IEnum>::type
 operator|(ValueT lhs, ValueT rhs){
-	return IAdvanced_enum(lhs) | IAdvanced_enum(rhs);
+	return IEnum(lhs) | IEnum(rhs);
 }
 template<typename ValueT>
-typename std::enable_if<std::is_convertible<ValueT, IAdvanced_enum>::value && !std::is_same<ValueT, IAdvanced_enum>::value, IAdvanced_enum>::type
+typename std::enable_if<std::is_convertible<ValueT, IEnum>::value && !std::is_same<ValueT, IEnum>::value, IEnum>::type
 operator^(ValueT lhs, ValueT rhs){
-	return IAdvanced_enum(lhs) ^ IAdvanced_enum(rhs);
+	return IEnum(lhs) ^ IEnum(rhs);
 }
 template<typename ValueT>
-typename std::enable_if<std::is_convertible<ValueT, IAdvanced_enum>::value && !std::is_same<ValueT, IAdvanced_enum>::value, IAdvanced_enum>::type
+typename std::enable_if<std::is_convertible<ValueT, IEnum>::value && !std::is_same<ValueT, IEnum>::value, IEnum>::type
 operator~(ValueT rhs){
-	return ~IAdvanced_enum(rhs);
+	return ~IEnum(rhs);
 }
 
-std::istream& operator>>(std::istream& is, IAdvanced_enum& nt){
+std::istream& operator>>(std::istream& is, IEnum& nt){
 	std::string str;
 	is >> str;
 	try{
-		nt = static_cast<IAdvanced_enum>(str);
+		nt = static_cast<IEnum>(str);
 	}
 	catch (const std::invalid_argument&){}
 	return is;
 }
 
-std::ostream& operator<<(std::ostream& os, const IAdvanced_enum& nt){
-	return os << static_cast<IAdvanced_enum::StringT>(nt);
+std::ostream& operator<<(std::ostream& os, const IEnum& nt){
+	return os << static_cast<IEnum::StringT>(nt);
 }
 
 

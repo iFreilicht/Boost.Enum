@@ -8,24 +8,19 @@
 #define BOOST_ENUM_IG_ADAPT_HPP
 
 #include <boost/preprocessor/tuple/rem.hpp>
-#include <boost/enum/macros/empty_argument.hpp>
 #include <boost/enum/macros/name_comma.hpp>
 #include <boost/enum/macros/adapt_name_value_pair.hpp>
 #include <boost/enum/macros/define_enum_value.hpp>
 #include <boost/enum/macros/artifacts_namespace.hpp>
-#include <boost/enum/macros/derive_enum_base.hpp>
-#include <boost/enum/macros/overload_stream_operators.hpp>
-#include <boost/enum/macros/apply_to_all.hpp>
 #include <boost/enum/macros/insert_enum_value.hpp>
 #include <boost/enum/macros/overload_binary_operators.hpp>
+#include <boost/enum/macros/overload_stream_operators.hpp>
+#include <boost/enum/macros/overload_equality_operators.hpp>
 
-#include <boost/enum/storage/base.hpp>
 #include <boost/enum/storage/function_impl.hpp>
+#include <boost/enum/options.hpp>
 #include <boost/enum/storage/storage.hpp>
 #include <boost/preprocessor/cat.hpp>
-#include <boost/preprocessor/stringize.hpp>
-#include <boost/preprocessor/tuple.hpp>
-#include <string>
 
 //-----------------------------
 //IMPORTANT!
@@ -44,66 +39,66 @@
 //------------------------------
 
 
-#define BOOST_ENUM_ADAPT_I(enum_name, options_)				\
-	BOOST_ENUM_ENTER_ARTIFACTS_NS(enum_name)					\
-		typedef BOOST_PP_CAT(BOOST_PP_REM, options_)					\
-			::options<enum_name>::type options;							\
-		typedef options::UnderlyingT UnderlyingT;						\
-		typedef enum_name EnumT;										\
+#define BOOST_ENUM_ADAPT_I(enum_name, options_)								\
+	BOOST_ENUM_ENTER_ARTIFACTS_NS(enum_name)								\
+		typedef BOOST_PP_CAT(BOOST_PP_REM, options_)						\
+			::options<enum_name>::type options;								\
+		typedef options::UnderlyingT UnderlyingT;							\
+		typedef enum_name EnumT;											\
 
-#define BOOST_ENUM_ADAPT_II									\
-		typedef ::boost::enum_::storage<options>::gen<		\
+#define BOOST_ENUM_ADAPT_II													\
+		typedef ::boost::enum_::storage<options>::gen<						\
 
-#define BOOST_ENUM_ADAPT_III(enum_name)						\
-		void>::get storage;										\
-	BOOST_ENUM_EXIT_ARTIFACTS_NS								\
-	class BOOST_PP_CAT(enum_name, _e) :								\
-	public ::boost::enum_::function_impl::OrderingImpl<			\
-		BOOST_ENUM_ARTIFACTS(enum_name)::EnumT,				\
-		BOOST_ENUM_ARTIFACTS(enum_name)::options::UnderlyingT,\
-		BOOST_ENUM_ARTIFACTS(enum_name)::options::no_ordering	\
-	>,																	\
-	public ::boost::enum_::function_impl::BitwiseImpl<			\
-	BOOST_PP_CAT(enum_name, _e),										\
-	BOOST_ENUM_ARTIFACTS(enum_name)::EnumT,					\
-	BOOST_ENUM_ARTIFACTS(enum_name)::options::UnderlyingT,	\
-	BOOST_ENUM_ARTIFACTS(enum_name)::options::is_flag			\
-	>																	\
-		{																\
-	typedef BOOST_PP_CAT(enum_name, _e) OwnT;							\
-	public:																\
-		typedef BOOST_ENUM_ARTIFACTS(enum_name)::options options;	\
-		typedef ::boost::enum_::supplies::NoCustomSupply supply;\
-		typedef options::UnderlyingT UnderlyingT;						\
-		typedef options::StringT StringT;								\
+#define BOOST_ENUM_ADAPT_III(enum_name)										\
+		void>::get storage;													\
+	BOOST_ENUM_EXIT_ARTIFACTS_NS											\
+	class BOOST_PP_CAT(enum_name, _e) :										\
+	public ::boost::enum_::function_impl::OrderingImpl<						\
+		BOOST_ENUM_ARTIFACTS(enum_name)::EnumT,								\
+		BOOST_ENUM_ARTIFACTS(enum_name)::options::UnderlyingT,				\
+		BOOST_ENUM_ARTIFACTS(enum_name)::options::no_ordering				\
+	>,																		\
+	public ::boost::enum_::function_impl::BitwiseImpl<						\
+	BOOST_PP_CAT(enum_name, _e),											\
+	BOOST_ENUM_ARTIFACTS(enum_name)::EnumT,									\
+	BOOST_ENUM_ARTIFACTS(enum_name)::options::UnderlyingT,					\
+	BOOST_ENUM_ARTIFACTS(enum_name)::options::is_flag						\
+	>																		\
+		{																	\
+	typedef BOOST_PP_CAT(enum_name, _e) OwnT;								\
+	public:																	\
+		typedef BOOST_ENUM_ARTIFACTS(enum_name)::options options;			\
+		typedef ::boost::enum_::supplies::NoCustomSupply supply;			\
+		typedef options::UnderlyingT UnderlyingT;							\
+		typedef options::StringT StringT;									\
 		typedef BOOST_ENUM_ARTIFACTS(enum_name)::storage EnumStorage;		\
-		typedef BOOST_ENUM_ARTIFACTS(enum_name)::EnumT EnumT;						\
-	private:															\
-		EnumT value_;													\
-																		\
-		UnderlyingT get_val_() const override							\
-			{ return static_cast<UnderlyingT>(value_); }				\
-		void set_val_(UnderlyingT val) override							\
-			{ value_ = static_cast<EnumT>(val); }						\
-		BOOST_PP_CAT(enum_name, _e)* this_() override{ return this; }	\
-																		\
-		typedef ::boost::enum_::function_impl::					\
+		typedef BOOST_ENUM_ARTIFACTS(enum_name)::EnumT EnumT;				\
+	private:																\
+		EnumT value_;														\
+																			\
+		UnderlyingT get_val_() const override								\
+			{ return static_cast<UnderlyingT>(value_); }					\
+		void set_val_(UnderlyingT val) override								\
+			{ value_ = static_cast<EnumT>(val); }							\
+		BOOST_PP_CAT(enum_name, _e)* this_() override{ return this; }		\
+																			\
+		typedef ::boost::enum_::function_impl::								\
 			UnderlyingToEnumImpl<BOOST_PP_CAT(enum_name, _e), options::arbitrary> 	\
-			UnderlyingToEnumImpl;										\
-	public:																\
+			UnderlyingToEnumImpl;											\
+	public:																	\
 
-#define BOOST_ENUM_ADAPT_IV(enum_name)							\
-		BOOST_PP_CAT(enum_name, _e)(){}														\
+#define BOOST_ENUM_ADAPT_IV(enum_name)										\
+		BOOST_PP_CAT(enum_name, _e)(){}										\
 		BOOST_PP_CAT(enum_name, _e)(const BOOST_PP_CAT(enum_name, _e)& other) : value_(other.value_){}			\
-		BOOST_PP_CAT(enum_name, _e)(const EnumT val) : value_(val){}							\
+		BOOST_PP_CAT(enum_name, _e)(const EnumT val) : value_(val){}		\
 		operator EnumT() const { return value_; }							\
 		BOOST_PP_CAT(enum_name, _e)& operator =(const BOOST_PP_CAT(enum_name, _e)& rhs)							\
 						{ value_ = rhs.value_; return *this; }				\
 		BOOST_PP_CAT(enum_name, _e)& operator =(EnumT rhs){ value_ = rhs; return *this; }		\
 																			\
-		explicit BOOST_PP_CAT(enum_name, _e)(UnderlyingT val) :								\
+		explicit BOOST_PP_CAT(enum_name, _e)(UnderlyingT val) :				\
 			value_(UnderlyingToEnumImpl::f(val)){}							\
-		explicit BOOST_PP_CAT(enum_name, _e)(const StringT& str) :							\
+		explicit BOOST_PP_CAT(enum_name, _e)(const StringT& str) :			\
 			value_(UnderlyingToEnumImpl::f(EnumStorage::stoe(str))) {}		\
 		explicit operator UnderlyingT() const								\
 						{ return static_cast<UnderlyingT>(value_); }		\
@@ -119,42 +114,26 @@
 																			\
 	BOOST_ENUM_OVERLOAD_BINARY_OPERATORS(BOOST_PP_CAT(enum_name, _e))		\
 																			\
-	bool operator ==(const BOOST_PP_CAT(enum_name, _e)& lhs, const BOOST_PP_CAT(enum_name, _e)& rhs)			\
-				{ return lhs.value_ == rhs.value_; }						\
-	bool operator !=(const BOOST_PP_CAT(enum_name, _e)& lhs, const BOOST_PP_CAT(enum_name, _e)& rhs)			\
-				{ return !(lhs == rhs); }									\
+	BOOST_ENUM_OVERLOAD_EQUALITY_OPERATORS(BOOST_PP_CAT(enum_name, _e))		\
 																			\
-	std::istream& operator>>(std::istream& is, enum_name& nt){				\
-		std::string str;													\
-		is >> str;															\
-		try{																\
-			nt = static_cast<BOOST_PP_CAT(enum_name, _e)>(str);								\
-				}															\
-		catch(const std::invalid_argument&){}								\
-		return is;															\
-		}																	\
-																			\
-	std::ostream& operator<<(std::ostream& os, const enum_name& nt){		\
-		return os << static_cast<std::string>(static_cast<BOOST_PP_CAT(enum_name, _e)>(nt));							\
-		}																	\
-																			\
+	BOOST_ENUM_OVERLOAD_STREAM_OPERATORS_ADAPT(enum_name, BOOST_PP_CAT(enum_name, _e))\
 
 
-#define BOOST_ENUM_ADAPT_W_OPTIONS(enum_name, options, seq)	\
-	BOOST_ENUM_ADAPT_I(enum_name, options)					\
-	BOOST_ENUM_ADAPT_NAME_VALUE_PAIR(seq)						\
-	BOOST_ENUM_ADAPT_II										\
-	BOOST_ENUM_NAME_COMMA(seq)								\
-	BOOST_ENUM_ADAPT_III(enum_name)							\
-	BOOST_ENUM_INSERT_ENUM_VALUE(seq)							\
-	BOOST_ENUM_ADAPT_IV(enum_name)		\
+#define BOOST_ENUM_ADAPT_W_OPTIONS(enum_name, options, seq)					\
+	BOOST_ENUM_ADAPT_I(enum_name, options)									\
+	BOOST_ENUM_ADAPT_NAME_VALUE_PAIR(seq)									\
+	BOOST_ENUM_ADAPT_II														\
+	BOOST_ENUM_NAME_COMMA(seq)												\
+	BOOST_ENUM_ADAPT_III(enum_name)											\
+	BOOST_ENUM_INSERT_ENUM_VALUE(seq)										\
+	BOOST_ENUM_ADAPT_IV(enum_name)											\
 
-#define BOOST_ENUM_ADAPT(enum_name, seq)						\
-	BOOST_ENUM_ADAPT_W_OPTIONS(								\
-		enum_name,														\
-		(::boost::enum_::adapt_options<>),						\
-		seq																\
-	)																	\
+#define BOOST_ENUM_ADAPT(enum_name, seq)									\
+	BOOST_ENUM_ADAPT_W_OPTIONS(												\
+		enum_name,															\
+		(::boost::enum_::adapt_options<>),									\
+		seq																	\
+	)																		\
 
 //namespace example{
 //#define FIVE (five)

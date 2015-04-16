@@ -15,25 +15,25 @@
 	template<typename ValueT>												\
 	typename std::enable_if<std::is_convertible<ValueT, enum_name>::value &&\
 		!std::is_same<ValueT, enum_name>::value, enum_name>::type			\
-	operator&(ValueT lhs, ValueT rhs){										\
+	inline operator&(ValueT lhs, ValueT rhs){								\
 		return enum_name(lhs) & enum_name(rhs);								\
 		}																	\
 	template<typename ValueT>												\
 	typename std::enable_if<std::is_convertible<ValueT, enum_name>::value &&\
 		!std::is_same<ValueT, enum_name>::value, enum_name>::type			\
-	operator|(ValueT lhs, ValueT rhs){										\
+	inline operator|(ValueT lhs, ValueT rhs){								\
 		return enum_name(lhs) | enum_name(rhs);								\
 		}																	\
 	template<typename ValueT>												\
 	typename std::enable_if<std::is_convertible<ValueT, enum_name>::value &&\
 		!std::is_same<ValueT, enum_name>::value, enum_name>::type			\
-	operator^(ValueT lhs, ValueT rhs){										\
+	inline operator^(ValueT lhs, ValueT rhs){								\
 		return enum_name(lhs) ^ enum_name(rhs);								\
 		}																	\
 	template<typename ValueT>												\
 	typename std::enable_if<std::is_convertible<ValueT, enum_name>::value &&\
 		!std::is_same<ValueT, enum_name>::value, enum_name>::type			\
-	operator~(ValueT rhs){													\
+	inline operator~(ValueT rhs){											\
 		return ~enum_name(rhs);												\
 		}																	\
 

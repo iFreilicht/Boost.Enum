@@ -8,6 +8,7 @@
 #define BOOST_ENUM_IG_OPTIONS_HPP
 
 #include <boost/enum/options/supply_selector.hpp>
+#include <string>
 
 namespace boost{
 	namespace enum_{

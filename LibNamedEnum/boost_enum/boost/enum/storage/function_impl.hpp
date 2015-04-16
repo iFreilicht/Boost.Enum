@@ -25,7 +25,6 @@ namespace boost{
 				}
 			};
 
-			//TODO: change this to disallow arbitrary values
 			template<typename Type>
 			struct UnderlyingToEnumImpl < Type, false > {
 			private:
@@ -116,6 +115,10 @@ namespace boost{
 				}
 
 			public:
+				operator bool() const{
+					return get_val_() != 0;
+				}
+
 				Deriver& operator &=(const Deriver& other){
 					set_val_(and(other));
 					return *this_();

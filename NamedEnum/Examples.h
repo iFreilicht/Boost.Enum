@@ -7,9 +7,6 @@
 
 using ::boost::enum_::option_vals;
 
-namespace something{
-	//BOOST_ENUM_FWD_DECLARE(Action, unsigned int);
-}
 
 //this is enough to define a named macro
 BOOST_ENUM_DEFINE(Zott,
@@ -29,8 +26,8 @@ namespace something{
 		(drink)
 		(sleep)
 		(think)
-	)
-}
+		)
+};
 
 BOOST_ENUM_DEFINE(Numbers,
 	(five)

@@ -15,20 +15,15 @@
 #include <boost/enum/define.hpp>
 #include <boost/lexical_cast.hpp>
 
-#include <boost/enum/macros/cat.hpp>
 #include <boost/enum/options/options.hpp>
+
+#include <libs/enum/example/define_flag.h>
 ///---OR---
 
 
 using boost::lexical_cast;
 using namespace something;
 using namespace boost::enum_;
-
-enum class TestE{
-	BOOST_ENUM_NAME_COMMA((five, (5)))
-	BOOST_ENUM_NAME_COMMA((six))
-	BOOST_ENUM_NAME_COMMA((seven))
-};
 
 //Zott one = Zott::one;
 namespace testing{
@@ -68,6 +63,7 @@ void testLookup(){
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+	bool define_flag_success = define_flag_test::test();
 	//<Action>
 
 	Action action{};

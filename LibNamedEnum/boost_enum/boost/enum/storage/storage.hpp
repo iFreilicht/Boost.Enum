@@ -61,7 +61,7 @@ namespace boost{
 			template<typename NameValuePair, typename PrevEntry>
 			struct value_entry{
 				typedef PrevEntry prev;
-				const std::string name = NameValuePair::name;
+				const std::string name = NameValuePair::name();
 				enum : UnderlyingT{ value = NameValuePair::value };
 
 				///Inserts the value into vec
@@ -91,7 +91,7 @@ namespace boost{
 			template <typename NameValuePair>
 			struct value_entry < NameValuePair, void > {
 				typedef void prev;
-				const std::string name = NameValuePair::name;
+				const std::string name = NameValuePair::name();
 				enum : UnderlyingT{ value = NameValuePair::value };
 
 				///\sa value_entry::insert_into_valuevec

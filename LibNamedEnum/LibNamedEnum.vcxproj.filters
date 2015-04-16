@@ -19,6 +19,9 @@
     <Filter Include="Main Files\macros">
       <UniqueIdentifier>{69a9a594-e1e8-4970-a435-05db01c9152d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Examples">
+      <UniqueIdentifier>{d9abd6a4-6221-498a-9c5a-7ec127243da2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -94,6 +97,12 @@
       <Filter>Main Files</Filter>
     </ClInclude>
     <ClInclude Include="boost_enum\boost\enum\macros\overload_binary_operators.hpp">
+      <Filter>Main Files\macros</Filter>
+    </ClInclude>
+    <ClInclude Include="boost_enum\libs\enum\example\define_flag.h">
+      <Filter>Examples</Filter>
+    </ClInclude>
+    <ClInclude Include="boost_enum\boost\enum\macros\overload_equality_operators.hpp">
       <Filter>Main Files\macros</Filter>
     </ClInclude>
   </ItemGroup>

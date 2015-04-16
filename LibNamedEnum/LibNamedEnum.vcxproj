@@ -40,7 +40,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)..\boost_1_56_0;$(ProjectDir)\boost_enum;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\boost_1_57_0;$(ProjectDir)\boost_enum;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -93,6 +93,7 @@
     <ClInclude Include="boost_enum\boost\enum\macros\insert_enum_value.hpp" />
     <ClInclude Include="boost_enum\boost\enum\macros\name_comma.hpp" />
     <ClInclude Include="boost_enum\boost\enum\macros\overload_binary_operators.hpp" />
+    <ClInclude Include="boost_enum\boost\enum\macros\overload_equality_operators.hpp" />
     <ClInclude Include="boost_enum\boost\enum\macros\overload_stream_operators.hpp" />
     <ClInclude Include="boost_enum\boost\enum\options.hpp" />
     <ClInclude Include="boost_enum\boost\enum\options\options.hpp" />
@@ -102,6 +103,7 @@
     <ClInclude Include="boost_enum\boost\enum\storage\class_draft.hpp" />
     <ClInclude Include="boost_enum\boost\enum\storage\function_impl.hpp" />
     <ClInclude Include="boost_enum\boost\enum\storage\storage.hpp" />
+    <ClInclude Include="boost_enum\libs\enum\example\define_flag.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -10,15 +10,14 @@
 
 #include <boost/preprocessor/cat.hpp>
 
-#define BOOST_ENUM_ARTIFACTS(enum_name)							\
-	BOOST_PP_CAT(_artifacts_, enum_name)									\
+#define BOOST_ENUM_ARTIFACTS(enum_name)								\
+	BOOST_PP_CAT(_artifacts_, enum_name)							\
 
 #define BOOST_ENUM_ENTER_ARTIFACTS_NS(enum_name)					\
-	namespace {																\
-		namespace BOOST_ENUM_ARTIFACTS(enum_name) {				\
+	class BOOST_ENUM_ARTIFACTS(enum_name) {							\
+		public:														\
 
 #define BOOST_ENUM_EXIT_ARTIFACTS_NS								\
-		}																	\
-	}																		\
+	};																\
 
 #endif
