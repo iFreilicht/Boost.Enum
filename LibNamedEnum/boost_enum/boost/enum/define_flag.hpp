@@ -9,10 +9,17 @@
 
 #include <boost/enum/define.hpp>
 
-#define BOOST_ENUM_DEFINE_FLAG(enum_name, seq)		\
-	BOOST_ENUM_DEFINE_W_OPTIONS(enum_name,			\
+#define BOOST_ENUM_DEFINE_FLAG_IN_CLASS_I(enum_name, seq)					\
+	BOOST_ENUM_DEFINE_IN_CLASS_I_W_OPTIONS(enum_name,									\
 		(::boost::enum_::options<::boost::enum_::option_vals::is_flag, unsigned int>),\
-		seq\
-	)
+		seq																	\
+	)																		\
+
+#define BOOST_ENUM_DEFINE_FLAG_IN_CLASS_II(enum_name)						\
+	BOOST_ENUM_DEFINE_IN_CLASS_II(enum_name)								\
+
+#define BOOST_ENUM_DEFINE_FLAG(enum_name, seq)								\
+	BOOST_ENUM_DEFINE_FLAG_IN_CLASS_I(enum_name, seq)						\
+	BOOST_ENUM_DEFINE_FLAG_IN_CLASS_II(enum_name)							\
 
 #endif

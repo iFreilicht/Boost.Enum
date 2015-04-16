@@ -22,7 +22,8 @@
 
 
 using boost::lexical_cast;
-using namespace something;
+//using namespace something;
+typedef ClassWithAction::Action Action;
 using namespace boost::enum_;
 
 //Zott one = Zott::one;
@@ -74,7 +75,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	action = Action::move;
 	action |= sleep;
 
-	BOOST_ASSERT((unsigned int)action == ((unsigned int)Action::sleep | (unsigned int)Action::move));
+	BOOST_ASSERT(action == (Action)(Action::sleep | Action::move));
 
 	action = Action(Action::drink) | Action::eat;
 	action = Action::drink | Action(Action::jump);
@@ -114,6 +115,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	//std::string adaStr = lexical_cast<std::string>(adaEnum);
 
 	testing::MyEnum mEnum = lexical_cast<testing::MyEnum>("Sechs");
+	//testing::MyEnum mEnum2 = static_cast<testing::MyEnum>("Sechs");
 
 	mEnum = testing::MyEnum::one;
 

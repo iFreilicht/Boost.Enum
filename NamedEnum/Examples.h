@@ -29,6 +29,21 @@ namespace something{
 		)
 };
 
+class ClassWithAction{ public:
+	BOOST_ENUM_DEFINE_FLAG_IN_CLASS_I(Action,
+		(jump)
+		(look)
+		(move)
+		(eat)
+		(drink)
+		(sleep)
+		(think)
+		)
+};
+
+BOOST_ENUM_DEFINE_FLAG_IN_CLASS_II(ClassWithAction::Action)
+
+
 BOOST_ENUM_DEFINE(Numbers,
 	(five)
 	(eight)

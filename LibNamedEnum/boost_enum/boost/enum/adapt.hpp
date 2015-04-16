@@ -148,22 +148,20 @@
 //		twenty = 20
 //	};
 //
-//	namespace {
-//		namespace _artifacts_AdaptLater{
-//			typedef ::boost::enum_::adapt_options<>::options<AdaptLater>::type options;
-//			typedef options::UnderlyingT UnderlyingT;
-//			typedef AdaptLater EnumT;
-//			BOOST_ENUM_ADAPT_NAME_VALUE_PAIR(FIVE)
-//			BOOST_ENUM_ADAPT_NAME_VALUE_PAIR(SIX)
-//			BOOST_ENUM_ADAPT_NAME_VALUE_PAIR(SEVEN)
-//			BOOST_ENUM_ADAPT_NAME_VALUE_PAIR(TWENTY)
-//			typedef ::boost::enum_::storage<options>::gen < 
-//				BOOST_ENUM_NAME_COMMA(FIVE)
-//				BOOST_ENUM_NAME_COMMA(SIX)
-//				BOOST_ENUM_NAME_COMMA(SEVEN)
-//				BOOST_ENUM_NAME_COMMA(TWENTY)
-//			void > ::get storage;
-//		}
+//	class _artifacts_AdaptLater{
+//		typedef ::boost::enum_::adapt_options<>::options<AdaptLater>::type options;
+//		typedef options::UnderlyingT UnderlyingT;
+//		typedef AdaptLater EnumT;
+//		BOOST_ENUM_ADAPT_NAME_VALUE_PAIR(FIVE)
+//		BOOST_ENUM_ADAPT_NAME_VALUE_PAIR(SIX)
+//		BOOST_ENUM_ADAPT_NAME_VALUE_PAIR(SEVEN)
+//		BOOST_ENUM_ADAPT_NAME_VALUE_PAIR(TWENTY)
+//		typedef ::boost::enum_::storage<options>::gen < 
+//			BOOST_ENUM_NAME_COMMA(FIVE)
+//			BOOST_ENUM_NAME_COMMA(SIX)
+//			BOOST_ENUM_NAME_COMMA(SEVEN)
+//			BOOST_ENUM_NAME_COMMA(TWENTY)
+//		void > ::get storage;
 //	}
 //
 //	

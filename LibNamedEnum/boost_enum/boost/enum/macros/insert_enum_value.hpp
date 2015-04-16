@@ -17,54 +17,54 @@
 
 //actual implementation
 #ifdef BOOST_NO_CONSTEXPR
-#define BOOST_ENUM_IINSERT_ENUM_VALUE(...)								\
-	static const EnumT BOOST_PP_VARIADIC_ELEM(0, __VA_ARGS__) =							\
-		EnumT::BOOST_PP_VARIADIC_ELEM(0, __VA_ARGS__);								\
+#define BOOST_ENUM_IINSERT_ENUM_VALUE(...)									\
+	static const EnumT BOOST_PP_VARIADIC_ELEM(0, __VA_ARGS__) =				\
+		EnumT::BOOST_PP_VARIADIC_ELEM(0, __VA_ARGS__);						\
 
 #else
-#define BOOST_ENUM_IINSERT_ENUM_VALUE(...)								\
-	static constexpr OwnT BOOST_PP_VARIADIC_ELEM(0, __VA_ARGS__) =							\
-		EnumT::BOOST_PP_VARIADIC_ELEM(0, __VA_ARGS__);								\
+#define BOOST_ENUM_IINSERT_ENUM_VALUE(...)									\
+	static constexpr OwnT BOOST_PP_VARIADIC_ELEM(0, __VA_ARGS__) =			\
+		EnumT::BOOST_PP_VARIADIC_ELEM(0, __VA_ARGS__);						\
 
 #endif
 
 //sequence unpacking
 #define BOOST_ENUM_IINSERT_ENUM_VALUE_A(...)								\
-	BOOST_ENUM_IINSERT_ENUM_VALUE(__VA_ARGS__)							\
-		BOOST_ENUM_IINSERT_ENUM_VALUE_B									\
+	BOOST_ENUM_IINSERT_ENUM_VALUE(__VA_ARGS__)								\
+		BOOST_ENUM_IINSERT_ENUM_VALUE_B										\
 
 #define BOOST_ENUM_IINSERT_ENUM_VALUE_B(...)								\
-	BOOST_ENUM_IINSERT_ENUM_VALUE(__VA_ARGS__)							\
-		BOOST_ENUM_IINSERT_ENUM_VALUE_A									\
+	BOOST_ENUM_IINSERT_ENUM_VALUE(__VA_ARGS__)								\
+		BOOST_ENUM_IINSERT_ENUM_VALUE_A										\
 
 #define BOOST_ENUM_IINSERT_ENUM_VALUE_A_
 #define BOOST_ENUM_IINSERT_ENUM_VALUE_B_
 
 //macro to call
-#define BOOST_ENUM_INSERT_ENUM_VALUE(seq)								\
+#define BOOST_ENUM_INSERT_ENUM_VALUE(seq)									\
 	BOOST_ENUM_CAT(BOOST_ENUM_IINSERT_ENUM_VALUE_A seq, _)					\
 
 
 
 //actual implementation
-#define BOOST_ENUM_IDECLARE_ENUM_VALUE(...)								\
-	static const EnumT BOOST_PP_VARIADIC_ELEM(0, __VA_ARGS__) =							\
-		EnumT::BOOST_PP_VARIADIC_ELEM(0, __VA_ARGS__);								\
+#define BOOST_ENUM_IDECLARE_ENUM_VALUE(...)									\
+	static const EnumT BOOST_PP_VARIADIC_ELEM(0, __VA_ARGS__) =				\
+		EnumT::BOOST_PP_VARIADIC_ELEM(0, __VA_ARGS__);						\
 
 //sequence unpacking
-#define BOOST_ENUM_IDECLARE_ENUM_VALUE_A(enum_name, ...)								\
-	BOOST_ENUM_IDECLARE_ENUM_VALUE(__VA_ARGS__)							\
+#define BOOST_ENUM_IDECLARE_ENUM_VALUE_A(enum_name, ...)					\
+	BOOST_ENUM_IDECLARE_ENUM_VALUE(__VA_ARGS__)								\
 		BOOST_ENUM_IDECLARE_ENUM_VALUE_B									\
 
 #define BOOST_ENUM_IDECLARE_ENUM_VALUE_B(...)								\
-	BOOST_ENUM_IDECLARE_ENUM_VALUE(__VA_ARGS__)							\
+	BOOST_ENUM_IDECLARE_ENUM_VALUE(__VA_ARGS__)								\
 		BOOST_ENUM_IDECLARE_ENUM_VALUE_A									\
 
 #define BOOST_ENUM_IDECLARE_ENUM_VALUE_A_
 #define BOOST_ENUM_IDECLARE_ENUM_VALUE_B_
 
 //macro to call
-#define BOOST_ENUM_DECLARE_ENUM_VALUE(enum_name, seq)								\
+#define BOOST_ENUM_DECLARE_ENUM_VALUE(enum_name, seq)						\
 	BOOST_ENUM_CAT(BOOST_ENUM_IDECLARE_ENUM_VALUE_A seq, _)					\
 
 #endif

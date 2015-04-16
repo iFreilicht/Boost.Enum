@@ -102,6 +102,8 @@
 		friend bool operator ==(const enum_name&, const enum_name&);		\
 																			\
 	};																		\
+
+#define BOOST_ENUM_DEFINE_VII(enum_name)									\
 																			\
 	BOOST_ENUM_OVERLOAD_BINARY_OPERATORS(enum_name)							\
 																			\
@@ -114,7 +116,7 @@
 
 
 #if defined BOOST_ENUM_DISABLE_INTELLISENSE_WORKAROUND || !defined __INTELLISENSE__
-#define BOOST_ENUM_DEFINE_W_OPTIONS(enum_name, options, seq)				\
+#define BOOST_ENUM_DEFINE_IN_CLASS_I_W_OPTIONS(enum_name, options, seq)		\
 	BOOST_ENUM_DEFINE_I(enum_name, options)									\
 	BOOST_ENUM_NAME_COMMA(seq)												\
 	BOOST_ENUM_DEFINE_II(enum_name)											\
@@ -129,7 +131,7 @@
 
 #else
 //WARNING! IntelliSense will not display the correct values!
-#define BOOST_ENUM_DEFINE_W_OPTIONS(enum_name, options, seq)				\
+#define BOOST_ENUM_DEFINE_IN_CLASS_I_W_OPTIONS(enum_name, options, seq)		\
 	BOOST_ENUM_DEFINE_I(enum_name, options)									\
 	BOOST_ENUM_NAME_COMMA(seq)												\
 	BOOST_ENUM_DEFINE_II(enum_name)											\
@@ -142,6 +144,12 @@
 
 #endif
 
+#define BOOST_ENUM_DEFINE_IN_CLASS_I(enum_name, seq)						\
+	BOOST_ENUM_DEFINE_IN_CLASS_I_W_OPTIONS(enum_name,						\
+		(::boost::enum_::options<>), seq)									\
+
+#define BOOST_ENUM_DEFINE_IN_CLASS_II(enum_name)							\
+	BOOST_ENUM_DEFINE_VII(enum_name)										\
 
 //#define BOOST_ENUM_FWD_DECLARE(enum_name, underlyingT)					\
 //	BOOST_ENUM_ENTER_ARTIFACTS_NS(enum_name)								\
@@ -149,9 +157,13 @@
 //	BOOST_ENUM_EXIT_ARTIFACTS_NS											\
 //	typedef BOOST_ENUM_ARTIFACTS(enum_name)::EnumT enum_name;				\
 
+#define BOOST_ENUM_DEFINE_W_OPTIONS(enum_name, options, seq)				\
+	BOOST_ENUM_DEFINE_IN_CLASS_I_W_OPTIONS(enum_name, options, seq)			\
+	BOOST_ENUM_DEFINE_IN_CLASS_II(enum_name)								\
+
 #define BOOST_ENUM_DEFINE(enum_name, seq)									\
-	BOOST_ENUM_DEFINE_W_OPTIONS(enum_name,									\
-		(::boost::enum_::options<>), seq)									\
+	BOOST_ENUM_DEFINE_IN_CLASS_I(enum_name, seq)							\
+	BOOST_ENUM_DEFINE_IN_CLASS_II(enum_name)								\
 
 
 
@@ -287,6 +299,7 @@ namespace example{
 	BOOST_ENUM_DEFINE_V(NewTest2)
 	BOOST_ENUM_INSERT_ENUM_VALUE(FIVE SIX SEVEN TWENTY)
 	BOOST_ENUM_DEFINE_VI(NewTest2)
+	BOOST_ENUM_DEFINE_VII(NewTest2)
 }
 
 /**/
