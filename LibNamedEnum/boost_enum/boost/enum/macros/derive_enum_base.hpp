@@ -17,7 +17,7 @@ struct advanced_enum : Base{												\
 	advanced_enum() : Base(){}												\
 	advanced_enum(ValueT v) : Base(v){}										\
 	explicit advanced_enum(UnderlyingT v) : Base(v){}						\
-	explicit advanced_enum(const std::string& s) : Base(s){}				\
+	explicit advanced_enum(const StringT& s) : Base(s){}				\
 };																			\
 
 #endif

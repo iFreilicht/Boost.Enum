@@ -25,6 +25,7 @@
 #define BOOST_ENUM_DEFINE_I(enum_name, options_)							\
 	BOOST_ENUM_ENTER_ARTIFACTS_NS(enum_name)								\
 		typedef BOOST_PP_CAT(BOOST_PP_REM, options_) options;				\
+		typedef options::StringT StringT;									\
 		typedef options::Supply supply;										\
 		typedef options::UnderlyingT UnderlyingT;							\
 		enum class index : std::make_unsigned<UnderlyingT>::type{			\
@@ -63,6 +64,8 @@
 		typedef options::Supply supply;										\
 		typedef options::UnderlyingT UnderlyingT;							\
 		typedef options::StringT StringT;									\
+		using istream_type = options::istream_type;							\
+		using ostream_type = options::ostream_type;							\
 		typedef BOOST_ENUM_ARTIFACTS(enum_name)::storage EnumStorage;		\
 		typedef BOOST_ENUM_ARTIFACTS(enum_name)::EnumT EnumT;				\
 	private:																\
@@ -179,6 +182,7 @@ namespace example{
 
 	class _artifacts_NewTest{ public:
 			typedef ::boost::enum_::options<0> options;
+			typedef options::StringT StringT;
 			typedef options::Supply supply;
 			typedef options::UnderlyingT UnderlyingT;
 			enum class index : std::make_unsigned<UnderlyingT>::type{
@@ -226,6 +230,8 @@ namespace example{
 		typedef options::Supply supply;
 		typedef options::UnderlyingT UnderlyingT;
 		typedef options::StringT StringT;
+		using istream_type = options::istream_type;
+		using ostream_type = options::ostream_type;
 		typedef _artifacts_NewTest::storage EnumStorage;
 		typedef _artifacts_NewTest::EnumT EnumT;
 	private:

@@ -43,6 +43,7 @@
 	BOOST_ENUM_ENTER_ARTIFACTS_NS(enum_name)								\
 		typedef BOOST_PP_CAT(BOOST_PP_REM, options_)						\
 			::options<enum_name>::type options;								\
+		typedef options::StringT StringT;									\
 		typedef options::UnderlyingT UnderlyingT;							\
 		typedef enum_name EnumT;											\
 
@@ -71,6 +72,8 @@
 		typedef ::boost::enum_::supplies::NoCustomSupply supply;			\
 		typedef options::UnderlyingT UnderlyingT;							\
 		typedef options::StringT StringT;									\
+		using istream_type = options::istream_type;							\
+		using ostream_type = options::ostream_type;							\
 		typedef BOOST_ENUM_ARTIFACTS(enum_name)::storage EnumStorage;		\
 		typedef BOOST_ENUM_ARTIFACTS(enum_name)::EnumT EnumT;				\
 	private:																\

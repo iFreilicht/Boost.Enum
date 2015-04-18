@@ -17,8 +17,8 @@
 
 #include <boost/enum/options/options.hpp>
 
+#include <libs/enum/example/define.h>
 #include <libs/enum/example/define_flag.h>
-///---OR---
 
 
 using boost::lexical_cast;

@@ -105,5 +105,8 @@
     <ClInclude Include="boost_enum\boost\enum\macros\overload_equality_operators.hpp">
       <Filter>Main Files\macros</Filter>
     </ClInclude>
+    <ClInclude Include="boost_enum\libs\enum\example\define.h">
+      <Filter>Examples</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -10,6 +10,7 @@
 #include <string>
 
 namespace define_flag_test{
+	//bare minimum
 	BOOST_ENUM_DEFINE_FLAG(Action,
 		(move)
 		(eat)
@@ -18,12 +19,39 @@ namespace define_flag_test{
 		(think)
 	)
 
+	//inside class
+	class Actor{
+	public:
+		BOOST_ENUM_DEFINE_FLAG_IN_CLASS_I(Action,
+			(move)
+			(eat)
+			(drink)
+			(sleep)
+			(think)
+		)
+
+		Actor(Action action) : action_(action){}
+
+		Action get(){ return action_; }
+		void set(Action action){ action_ = action; }
+	private:
+		Action action_;
+	};
+
+	BOOST_ENUM_DEFINE_FLAG_IN_CLASS_II(Actor::Action)
+
+	//examples on usage
 	bool test(){
 		Action act0 = Action::move;
 		std::string str0 = "move";
 		Action act1 = static_cast<Action>(str0);
 
 		bool success = act0 == act1;
+
+		Actor a0{ Actor::Action::move };
+		Actor a1{ static_cast<Actor::Action>(str0) };
+
+		success &= a0.get() == a1.get();
 
 		std::string str1 = "move|think";
 		act0 |= Action::think;

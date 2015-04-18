@@ -103,6 +103,7 @@
     <ClInclude Include="boost_enum\boost\enum\storage\class_draft.hpp" />
     <ClInclude Include="boost_enum\boost\enum\storage\function_impl.hpp" />
     <ClInclude Include="boost_enum\boost\enum\storage\storage.hpp" />
+    <ClInclude Include="boost_enum\libs\enum\example\define.h" />
     <ClInclude Include="boost_enum\libs\enum\example\define_flag.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -7,16 +7,6 @@
 
 using ::boost::enum_::option_vals;
 
-
-//this is enough to define a named macro
-BOOST_ENUM_DEFINE(Zott,
-	(zero)
-	(one)
-	(two)
-	(three)
-)
-
-
 namespace something{
 	BOOST_ENUM_DEFINE_FLAG(Action,
 		(jump)

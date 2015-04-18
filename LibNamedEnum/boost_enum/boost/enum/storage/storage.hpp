@@ -61,7 +61,7 @@ namespace boost{
 			template<typename NameValuePair, typename PrevEntry>
 			struct value_entry{
 				typedef PrevEntry prev;
-				const std::string name = NameValuePair::name();
+				const StringT name = NameValuePair::name();
 				enum : UnderlyingT{ value = NameValuePair::value };
 
 				///Inserts the value into vec
@@ -73,17 +73,17 @@ namespace boost{
 				///Inserts string value pair into map
 				/**The same is done recursively for PrevEntry
 				*/
-				void insert_into_stoemap(std::map<std::string, UnderlyingT>& map) const{
+				void insert_into_stoemap(std::map<StringT, UnderlyingT>& map) const{
 					prev().insert_into_stoemap(map);
-					map.insert(std::pair<std::string, UnderlyingT>(name, value));
+					map.insert(std::pair<StringT, UnderlyingT>(name, value));
 				}
 
 				///Inserts value string pair into map
 				/**The same is done recursively for PrevEntry
 				*/
-				void insert_into_etosmap(std::map<UnderlyingT, std::string>& map) const{
+				void insert_into_etosmap(std::map<UnderlyingT, StringT>& map) const{
 					prev().insert_into_etosmap(map);
-					map.insert(std::pair<UnderlyingT, std::string>(value, name));
+					map.insert(std::pair<UnderlyingT, StringT>(value, name));
 				}
 			};
 
@@ -91,7 +91,7 @@ namespace boost{
 			template <typename NameValuePair>
 			struct value_entry < NameValuePair, void > {
 				typedef void prev;
-				const std::string name = NameValuePair::name();
+				const StringT name = NameValuePair::name();
 				enum : UnderlyingT{ value = NameValuePair::value };
 
 				///\sa value_entry::insert_into_valuevec
@@ -100,13 +100,13 @@ namespace boost{
 				}
 
 				///\sa value_entry::insert_into_stoemap 
-				void insert_into_stoemap(std::map<std::string, UnderlyingT>& map) const{
-					map.insert(std::pair<std::string, UnderlyingT>(name, value));
+				void insert_into_stoemap(std::map<StringT, UnderlyingT>& map) const{
+					map.insert(std::pair<StringT, UnderlyingT>(name, value));
 				}
 
 				///\sa value_entry::insert_into_etosmap
-				void insert_into_etosmap(std::map<UnderlyingT, std::string>& map) const{
-					map.insert(std::pair<UnderlyingT, std::string>(value, name));
+				void insert_into_etosmap(std::map<UnderlyingT, StringT>& map) const{
+					map.insert(std::pair<UnderlyingT, StringT>(value, name));
 				}
 			};
 
@@ -122,9 +122,9 @@ namespace boost{
 
 			//-----lookup maps--------
 			///Map for fast lookup of values with strings
-			std::map<std::string, UnderlyingT> stoemap_;
+			std::map<StringT, UnderlyingT> stoemap_;
 			///Map for fast lookup of strings with values
-			std::map<UnderlyingT, std::string> etosmap_;
+			std::map<UnderlyingT, StringT> etosmap_;
 
 			///Singleton instance
 			template<bool map_lookup>
@@ -246,8 +246,8 @@ namespace boost{
 				}
 				///Failure case when name is not the name of a value
 				template<>
-				static inline UnderlyingT linear_lookup<void>(const std::string& name){
-					throw std::invalid_argument(name + " is not convertible to this enum.");
+				static inline UnderlyingT linear_lookup<void>(const StringT& name){
+					throw std::invalid_argument("String is not convertible to this enum.");
 					return 0;
 				}
 
@@ -257,9 +257,11 @@ namespace boost{
 						return instance().stoemap_.at(name);
 					}
 					catch (const std::out_of_range&){
-						throw std::invalid_argument(name + " is not convertible to this enum.");
+						throw std::invalid_argument("String is not convertible to this enum.");
 					}
 				}
+
+				
 
 				//lookup
 				template<bool Map_lookup>
@@ -338,7 +340,7 @@ namespace boost{
 				template<>
 				static inline StringT linear_lookup<void>(UnderlyingT value){
 					throw std::invalid_argument(std::to_string(value) + " is not a value in this enum.");
-					return "";
+					return StringT();
 				}
 
 				//map_lookup
@@ -409,6 +411,14 @@ namespace boost{
 						return ret;
 					}
 				};
+
+				//should never be instantiated
+				template<bool Map_lookup>
+				struct impl_f < false, true, Map_lookup > {
+					static inline StringT exec(UnderlyingT val){
+						impl_f < true, true, Map_lookup>::exec(val);
+					}
+				};
 			public:
 				static inline StringT f(UnderlyingT val){
 					return impl_f < Options::roundtrip, Options::is_flag, Options::map_lookup >::exec(val);
@@ -461,14 +471,14 @@ namespace boost{
 			///Compile time etos conversion, used by etos<UnderlyingT>
 			template<typename CurrEntry, UnderlyingT value, UnderlyingT CurrVal = CurrEntry::value>
 			struct etos_compiletime{
-				static inline std::string get(){
+				static inline StringT get(){
 					return etos_compiletime<CurrEntry::prev, value>::get();
 				}
 			};
 			///End case for etos_compiletime
 			template<typename CurrEntry, UnderlyingT value>
 			struct etos_compiletime < CurrEntry, value, value > {
-				static inline std::string get(){
+				static inline StringT get(){
 					return CurrEntry().name;
 				}
 			};
@@ -495,18 +505,18 @@ namespace boost{
 			//}
 
 			///Convert string to UnderlyingT
-			static inline UnderlyingT stoe(const std::string& name){
+			static inline UnderlyingT stoe(const StringT& name){
 				return stoe_impl::f(name);
 			}
 
 			///Convert UnderlyingT to string at compiletime
 			template<UnderlyingT value>
-			static inline std::string etos(){
+			static inline StringT etos(){
 				return etos_compiletime < LastEntry, value >::get();
 			}
 
 			///Convert UnderlyingT to string at runtime
-			static inline std::string etos(UnderlyingT value){
+			static inline StringT etos(UnderlyingT value){
 				return etos_impl::f(value);
 			}
 

@@ -12,8 +12,9 @@
 #include <boost/enum/macros/artifacts_namespace.hpp>
 
 #define BOOST_ENUM_OVERLOAD_STREAM_OPERATORS_ADAPT(enum_name, enum_name_e)	\
-inline std::istream& operator>>(std::istream& lhs, enum_name& rhs){			\
-	std::string str;														\
+inline enum_name_e::istream_type&											\
+operator>>(enum_name_e::istream_type& lhs, enum_name& rhs){					\
+	enum_name_e::StringT str;												\
 	lhs >> str;																\
 	try{																	\
 		rhs = static_cast<enum_name_e>(str);								\
@@ -22,13 +23,17 @@ inline std::istream& operator>>(std::istream& lhs, enum_name& rhs){			\
 	return lhs;																\
 }																			\
 																			\
-inline std::ostream& operator<<(std::ostream& lhs, const enum_name& rhs){	\
-	return lhs << static_cast<std::string>(static_cast<enum_name_e>(rhs));	\
+inline enum_name_e::ostream_type&											\
+operator<<(enum_name_e::ostream_type& lhs, const enum_name& rhs){			\
+	return lhs << static_cast<enum_name_e::StringT>(						\
+		static_cast<enum_name_e>(rhs)										\
+	);																		\
 }																			\
 
 #define BOOST_ENUM_OVERLOAD_STREAM_OPERATORS(enum_name)						\
-inline std::istream& operator >>(std::istream& lhs, enum_name& rhs){		\
-	std::string str;														\
+inline enum_name::istream_type&												\
+operator >>(enum_name::istream_type& lhs, enum_name& rhs){					\
+	enum_name::StringT str;													\
 	lhs >> str;																\
 	try{																	\
 		rhs = static_cast<enum_name>(str);									\
@@ -36,8 +41,9 @@ inline std::istream& operator >>(std::istream& lhs, enum_name& rhs){		\
 	catch (const std::invalid_argument&){}									\
 	return lhs;																\
 }																			\
-inline std::ostream& operator <<(std::ostream& lhs, enum_name rhs){			\
-	return lhs << static_cast<std::string>(rhs);							\
+inline enum_name::ostream_type&												\
+operator <<(enum_name::ostream_type& lhs, enum_name rhs){					\
+	return lhs << static_cast<enum_name::StringT>(rhs);						\
 }																			\
 
 #endif
