@@ -4,7 +4,15 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
-//overload the istream and ostream operators >> and <<
+// ----- This header defines: ------
+//
+// BOOST_ENUM_OVERLOAD_STREAM_OPERATORS(enum_name)
+//     Overloads the stream operators << and >> for enum_name.
+// BOOST_ENUM_OVERLOAD_STREAM_OPERATORS_ADAPT(enum_name, enum_name_e)
+//     Overloads the stream operators << and >> for enum_name.
+//     These will perform conversions to enum_name_e in the process.
+//
+// ----------------------------------
 
 #ifndef BOOST_ENUM_IG_OVERLOAD_STREAM_OPERATORS_HPP
 #define BOOST_ENUM_IG_OVERLOAD_STREAM_OPERATORS_HPP

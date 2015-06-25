@@ -4,6 +4,13 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
+
+//===========================================
+//===========================================
+//============== UNUSED!!! ==================
+//===========================================
+//===========================================
+
 #ifndef BOOST_ENUM_IG_CLASS_DRAFT_HPP
 #define BOOST_ENUM_IG_CLASS_DRAFT_HPP
 

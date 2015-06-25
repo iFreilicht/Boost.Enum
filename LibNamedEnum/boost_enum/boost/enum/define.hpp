@@ -4,6 +4,47 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
+
+// ---- This header defines: ----
+//
+// BOOST_ENUM_DEFINE(enum_name, seq)
+//     Defines a new enumeration with the standard options
+//
+// BOOST_ENUM_DEFINE_W_OPTIONS(enum_name, (options), seq)
+//     Like BOOST_ENUM_DEFINE, but allows to change the options (see below)
+//
+// BOOST_ENUM_DEFINE_IN_CLASS_I(enum_name, seq)
+//     Like BOOST_ENUM_DEFINE if the new enumeration should be part of a class.
+//     Requires BOOST_ENUM_DEFINE_IN_CLASS_II to be used after the class definition.
+//
+// BOOST_ENUM_DEFINE_IN_CLASS_I_W_OPTIONS(enum_name, (options), seq)
+//     Like BOOST_ENUM_DEFINE_W_OPTIONS if the new enumeration should be part of a class.
+//     Requires BOOST_ENUM_DEFINE_IN_CLASS_II to be used after the class definition.
+//
+// BOOST_ENUM_DEFINE_IN_CLASS_II(enum_name)
+//     To be used after a class that had BOOST_ENUM_DEFINE_IN_CLASS_I or 
+//     BOOST_ENUM_DEFINE_IN_CLASS_I_W_OPTIONS used inside it.
+//     Has to be used once for each enumeration defined in that class.
+//
+// ----- Argument explanation: ------
+//
+// enum_name :
+//    Name of the enumeration to be defined
+//
+// options :
+//    An instance of the boost::enum_::options<> template.
+//    Has to be enclosed in parentheses!
+//
+// seq :
+//    A sequence consisting of 1-n triples of one of the following form:
+//       (value_name)
+//       (value_name, value)
+//       (value_name, _, string)
+//       (value_name, value, string)
+
+
+
+
 #ifndef BOOST_ENUM_IG_DEFINE_HPP
 #define BOOST_ENUM_IG_DEFINE_HPP
 
@@ -171,7 +212,7 @@
 
 
 
-//*
+/*
 
 namespace example{
 #define FIVE (five, (5))

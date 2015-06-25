@@ -4,6 +4,10 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
+// Examples for the use of the Boost.Enum DEFINE macros
+
+
+
 //#define BOOST_ENUM_DISABLE_INTELLISENSE_WORKAROUND 1
 
 #include <boost/enum/define.hpp>
@@ -11,14 +15,6 @@
 
 #include <boost/integer_traits.hpp>
 #include <string>
-
-
-#ifdef min
-#undef min
-#endif
-#ifdef max
-#undef max
-#endif
 
 namespace define_test{
 	//bare minimum

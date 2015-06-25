@@ -45,9 +45,6 @@
     <ClInclude Include="boost_enum\boost\enum\options\supply_selector.hpp">
       <Filter>Main Files\impl</Filter>
     </ClInclude>
-    <ClInclude Include="boost_enum\boost\enum\storage\base.hpp">
-      <Filter>Main Files\impl</Filter>
-    </ClInclude>
     <ClInclude Include="boost_enum\boost\enum\storage\class_draft.hpp">
       <Filter>Main Files\impl</Filter>
     </ClInclude>
@@ -73,9 +70,6 @@
       <Filter>Main Files\macros</Filter>
     </ClInclude>
     <ClInclude Include="boost_enum\boost\enum\macros\define_name_value_pair.hpp">
-      <Filter>Main Files\macros</Filter>
-    </ClInclude>
-    <ClInclude Include="boost_enum\boost\enum\macros\derive_enum_base.hpp">
       <Filter>Main Files\macros</Filter>
     </ClInclude>
     <ClInclude Include="boost_enum\boost\enum\macros\empty_argument.hpp">
@@ -106,6 +100,9 @@
       <Filter>Main Files\macros</Filter>
     </ClInclude>
     <ClInclude Include="boost_enum\libs\enum\example\define.h">
+      <Filter>Examples</Filter>
+    </ClInclude>
+    <ClInclude Include="boost_enum\libs\enum\example\adapt.h">
       <Filter>Examples</Filter>
     </ClInclude>
   </ItemGroup>

@@ -4,6 +4,13 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
+
+//===========================================
+//===========================================
+//============== UNUSED!!! ==================
+//===========================================
+//===========================================
+
 //apply a macro or function to all variadic arguments
 
 #ifndef BOOST_ENUM_IG_APPLY_TO_ALL_HPP
@@ -13,7 +20,8 @@
 #include <boost/preprocessor/variadic/to_seq.hpp>
 #include <boost/preprocessor/seq/for_each.hpp>
 
-#define BOOST_ENUM_ID_OP(_, func, elem) func(elem)				\
+#define BOOST_ENUM_ID_OP(_, func, elem) func(elem)
+
 
 #define BOOST_ENUM_APPLY_TO_ALL(func, ...)						\
 		BOOST_PP_SEQ_FOR_EACH(												\

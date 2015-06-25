@@ -4,7 +4,12 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
-//overload the istream and ostream operators >> and <<
+// ----- This header defines: ------
+//
+// BOOST_ENUM_OVERLOAD_EQUALITY_OPERATORS(enum_name)
+//     Overloads the operators == and != for enum_name.
+//
+// ----------------------------------
 
 #ifndef BOOST_ENUM_IG_OVERLOAD_EQUALITY_OPERATORS_HPP
 #define BOOST_ENUM_IG_OVERLOAD_EQUALITY_OPERATORS_HPP

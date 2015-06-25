@@ -4,6 +4,31 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
+
+// ---- This header defines: ----
+//
+// BOOST_ENUM_ADAPTS(enum_name, seq)
+//     Adapts an existing enumeration with the standard options, adding the features of Boost.Enum onto it
+//
+// BOOST_ENUM_DEFINE_W_OPTIONS(enum_name, (options), seq)
+//     Like BOOST_ENUM_ADAPT, but allows to change the options (see below)
+//
+// ----- Argument explanation: ------
+//
+// enum_name :
+//    Name of the enumeration to be adapted
+//
+// options :
+//    An instance of the boost::enum_::adapt_options<> template
+//    Has to be enclosed in parentheses!
+//
+// seq :
+//    A sequence consisting of 1-n tuples of one of the following form:
+//       (value_name)
+//       (value_name, string)
+//
+
+
 #ifndef BOOST_ENUM_IG_ADAPT_HPP
 #define BOOST_ENUM_IG_ADAPT_HPP
 
@@ -21,23 +46,6 @@
 #include <boost/enum/options.hpp>
 #include <boost/enum/storage/storage.hpp>
 #include <boost/preprocessor/cat.hpp>
-
-//-----------------------------
-//IMPORTANT!
-//deftup is a Boost.PP tuple of one of the following forms:
-// (name),
-// (name, _)
-// (name, (value)) 
-// (name, (value), string)
-// (name, _, string)
-//
-//adatup is a Boost.PP tuple of one of the following forms:
-// (name),
-// (name, string)
-//
-//valtup is compatible with both defintions, i.e. the function only uses the first argument
-//------------------------------
-
 
 #define BOOST_ENUM_ADAPT_I(enum_name, options_)								\
 	BOOST_ENUM_ENTER_ARTIFACTS_NS(enum_name)								\

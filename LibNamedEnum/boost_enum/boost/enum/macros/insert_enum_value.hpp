@@ -4,7 +4,22 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
-//evaluates to the first argument of a tuple, followed by a comma
+
+
+
+// ----- This header defines: ------
+//
+// BOOST_ENUM_INSERT_ENUM_VALUE(enum_name, seq)
+//    Evaluates to (for every element in the sequence):
+//        static const EnumT name = EnumT::name;
+//    Where:
+//         enum_name: Name of enumeration, not used
+//         seq: Sequence, only first element is used
+//         name: the name of the enumeration value
+//
+// -----------------------------------
+//
+// This is currently unused
 
 
 #ifndef BOOST_ENUM_IG_INSERT_ENUM_VALUE_HPP
@@ -15,19 +30,11 @@
 #include <boost/preprocessor/cat.hpp>
 #include <boost/enum/macros/cat.hpp>
 
-//actual implementation
-#ifdef BOOST_NO_CONSTEXPR
-#define BOOST_ENUM_IINSERT_ENUM_VALUE(...)									\
-	static const EnumT BOOST_PP_VARIADIC_ELEM(0, __VA_ARGS__) =				\
-		EnumT::BOOST_PP_VARIADIC_ELEM(0, __VA_ARGS__);						\
+//macro to use
+#define BOOST_ENUM_INSERT_ENUM_VALUE(seq)									\
+	BOOST_ENUM_CAT(BOOST_ENUM_IINSERT_ENUM_VALUE_A seq, _)					\
 
-#else
-#define BOOST_ENUM_IINSERT_ENUM_VALUE(...)									\
-	static constexpr OwnT BOOST_PP_VARIADIC_ELEM(0, __VA_ARGS__) =			\
-		EnumT::BOOST_PP_VARIADIC_ELEM(0, __VA_ARGS__);						\
-
-#endif
-
+// ---- Implementation ----
 //sequence unpacking
 #define BOOST_ENUM_IINSERT_ENUM_VALUE_A(...)								\
 	BOOST_ENUM_IINSERT_ENUM_VALUE(__VA_ARGS__)								\
@@ -40,31 +47,22 @@
 #define BOOST_ENUM_IINSERT_ENUM_VALUE_A_
 #define BOOST_ENUM_IINSERT_ENUM_VALUE_B_
 
-//macro to call
-#define BOOST_ENUM_INSERT_ENUM_VALUE(seq)									\
-	BOOST_ENUM_CAT(BOOST_ENUM_IINSERT_ENUM_VALUE_A seq, _)					\
 
 
-
-//actual implementation
-#define BOOST_ENUM_IDECLARE_ENUM_VALUE(...)									\
+//Define the enumeration value constant.
+//If constexpr is available, the constant will be of type OwnT, or the actual type of the enumeration.
+//If constexpr is not avialable, the constant will be of type EnumT. This means that the operators
+//have to be overloaded manually for all combonations of EnumT and OwnT, resulting in worse compiling performance.
+#ifdef BOOST_NO_CONSTEXPR
+#define BOOST_ENUM_IINSERT_ENUM_VALUE(...)									\
 	static const EnumT BOOST_PP_VARIADIC_ELEM(0, __VA_ARGS__) =				\
 		EnumT::BOOST_PP_VARIADIC_ELEM(0, __VA_ARGS__);						\
 
-//sequence unpacking
-#define BOOST_ENUM_IDECLARE_ENUM_VALUE_A(enum_name, ...)					\
-	BOOST_ENUM_IDECLARE_ENUM_VALUE(__VA_ARGS__)								\
-		BOOST_ENUM_IDECLARE_ENUM_VALUE_B									\
+#else
+#define BOOST_ENUM_IINSERT_ENUM_VALUE(...)									\
+	static constexpr OwnT BOOST_PP_VARIADIC_ELEM(0, __VA_ARGS__) =			\
+		EnumT::BOOST_PP_VARIADIC_ELEM(0, __VA_ARGS__);						\
 
-#define BOOST_ENUM_IDECLARE_ENUM_VALUE_B(...)								\
-	BOOST_ENUM_IDECLARE_ENUM_VALUE(__VA_ARGS__)								\
-		BOOST_ENUM_IDECLARE_ENUM_VALUE_A									\
-
-#define BOOST_ENUM_IDECLARE_ENUM_VALUE_A_
-#define BOOST_ENUM_IDECLARE_ENUM_VALUE_B_
-
-//macro to call
-#define BOOST_ENUM_DECLARE_ENUM_VALUE(enum_name, seq)						\
-	BOOST_ENUM_CAT(BOOST_ENUM_IDECLARE_ENUM_VALUE_A seq, _)					\
+#endif
 
 #endif

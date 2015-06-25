@@ -31,6 +31,8 @@ namespace boost{
 			return static_cast<options>(~ static_cast<unsigned int>(operand));
 		}
 */
+
+		//General behavioral options. For the option structs used with ADAPT and DEFINE macros, see boost::enum_::options and boost::enum_::adapt_options
 		struct option_vals{
 			enum : unsigned int{
 				roundtrip = 1 << 0,			//conversions from value->string->value will always succeed
@@ -41,7 +43,24 @@ namespace boost{
 			};
 		};
 
-		//The UnderlyingT argument is either of integral type for defined enums or the enum that is adapted
+		//Holds all options for use with the DEFINE macros, which are: (When using the ADAPT macro, please see boost::enum_::adapt_options)
+		//
+		// Options:
+		//     General behavioral options, as defined in the enum option_vals.
+		//
+		// Underlyingt:
+		//     The underlying integral type to be used for the enum.
+		//
+		// Supply:
+		//     The Supply the underlying values of the enumeration values are generated from when the user doesn't define them explicitly. 
+		//     They have to follow the guidelines specified in "supplies.hpp".
+		//     NOTE: The standard value is not following this guidelines and is replaced with the increment supply or the shiftL1 supply if the option is_flag is set.
+		//
+		// StringT:
+		//     The type of string to be used in the conversion. This allows for the use of non-case-sensitive strings and such. std::wstring is supported.
+		//
+		//-----------
+		// Additionally, the WithUnderlyingT, WithSupply and WithStringT typedefs can be used when only one or of those arguments should differ from the standard ones.
 		template<unsigned int Options = option_vals::arbitrary, typename UnderlyingT = int, typename Supply = supplies::NoCustomSupply, typename StringT = std::string>
 		struct options{
 			static const bool roundtrip = static_cast<bool>(Options & option_vals::roundtrip | Options & option_vals::is_flag);
@@ -70,6 +89,16 @@ namespace boost{
 			using WithStringT = options < Options, UnderlyingT, Supply, StringT >;
 		};
 
+		//Should be used with the ADAPT macro where fewer options are possible. In comparison to boost::enum_::options:
+		//
+		// Options:
+		//     see options::Options
+		//
+		// StringT:
+		//     see options::StringT
+		//
+		//----------
+		// All options that adapt_options lacks are not applicable because they are determined from the adapted enum.
 		template<unsigned int Options = option_vals::arbitrary, typename StringT = std::string>
 		struct adapt_options{
 			template<typename EnumT>

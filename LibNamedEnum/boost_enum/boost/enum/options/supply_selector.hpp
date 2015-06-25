@@ -11,6 +11,11 @@
 
 namespace boost{
 	namespace enum_{
+
+		//Selects a supply depending on the Supply and is_flag
+		//If Supply is not NoCustomSupply, Supply is used
+		//If it is, and is_flag is true, shiftL1 is used
+		//If it is, and is_flag is flase, increment is used
 		template<typename UnderlyingT, typename Supply, bool is_flag>
 		class supply_selector{
 			//If the options define a supply, this one is used

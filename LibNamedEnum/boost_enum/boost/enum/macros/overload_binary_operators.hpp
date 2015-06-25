@@ -4,6 +4,14 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
+// ----- This header defines: ------
+//
+// BOOST_ENUM_OVERLOAD_BINARY_OPERATORS(enum_name)
+//     Manually overloads the binary operators for all types that are convertible
+//     to enum_name, most importantly EnumT
+//     Expands to nothing when constexpr is supported because it's not needed in that case.
+//
+// ----------------------------------
 
 #ifndef BOOST_ENUM_IG_OVERLOAD_BINARY_OPERATORS_HPP
 #define BOOST_ENUM_IG_OVERLOAD_BINARY_OPERATORS_HPP
@@ -11,7 +19,7 @@
 #include <boost/enum/config/config.hpp>
 
 #ifdef BOOST_NO_CONSTEXPR
-#define BOOST_ENUM_OVERLOAD_BINARY_OPERATORS(enum_name) \
+#define BOOST_ENUM_OVERLOAD_BINARY_OPERATORS(enum_name)						\
 	template<typename ValueT>												\
 	typename std::enable_if<std::is_convertible<ValueT, enum_name>::value &&\
 		!std::is_same<ValueT, enum_name>::value, enum_name>::type			\
