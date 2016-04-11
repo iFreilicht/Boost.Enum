@@ -47,4 +47,6 @@ namespace define_test{
 	BOOST_ENUM_DEFINE_IN_CLASS_II(WideClass::WideNames)
 
 
+
+
 }

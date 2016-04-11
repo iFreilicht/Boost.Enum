@@ -23,6 +23,7 @@
 #define BOOST_ENUM_IG_DEFINE_FLAG_HPP
 
 #include <boost/enum/define.hpp>
+#include <boost/enum/options.hpp>
 
 #define BOOST_ENUM_DEFINE_FLAG_IN_CLASS_I(enum_name, seq)					\
 	BOOST_ENUM_DEFINE_IN_CLASS_I_W_OPTIONS(enum_name,						\

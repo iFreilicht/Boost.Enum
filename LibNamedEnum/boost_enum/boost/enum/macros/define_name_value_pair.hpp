@@ -65,7 +65,7 @@
 	)																		\
 
 
-//If the tuple has three elements,
+//If the tuple has three elements, use the supplied name
 #define BOOST_ENUM_IDEFINE_NAME_VALUE_PAIR_3(...)							\
     BOOST_ENUM_IDEFINE_NAME_VALUE_PAIR_FINAL(								\
 		BOOST_PP_VARIADIC_ELEM(0, __VA_ARGS__),								\

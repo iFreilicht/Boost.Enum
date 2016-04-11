@@ -14,6 +14,7 @@
     <ProjectGuid>{A7D6CA2D-2C2A-4D3A-8272-B7D92E2D006D}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>NamedEnum</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.10240.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

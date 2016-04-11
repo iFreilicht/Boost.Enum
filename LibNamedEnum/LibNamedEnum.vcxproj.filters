@@ -22,12 +22,12 @@
     <Filter Include="Examples">
       <UniqueIdentifier>{d9abd6a4-6221-498a-9c5a-7ec127243da2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Main Files\doc">
+      <UniqueIdentifier>{d393f345-7822-42f2-811e-f964c64f2b5b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Doxyfile" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="boost_enum\boost\enum\adapt.hpp">
@@ -105,5 +105,13 @@
     <ClInclude Include="boost_enum\libs\enum\example\adapt.h">
       <Filter>Examples</Filter>
     </ClInclude>
+    <ClInclude Include="boost_enum\libs\enum\doc\doc_index.h">
+      <Filter>Main Files\doc</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Doxyfile">
+      <Filter>Main Files\doc</Filter>
+    </None>
   </ItemGroup>
 </Project>

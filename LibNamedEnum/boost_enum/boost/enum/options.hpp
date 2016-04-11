@@ -9,6 +9,5 @@
 
 #include <boost/enum/options/options.hpp>
 #include <boost/enum/options/supplies.hpp>
-#include <boost/enum/options/supply_selector.hpp>
 
 #endif

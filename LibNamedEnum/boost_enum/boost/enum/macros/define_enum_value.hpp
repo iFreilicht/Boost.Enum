@@ -31,8 +31,8 @@
 
 
 //macro to use
-#define BOOST_ENUM_DEFINE_ENUM_VALUE(seq)									\
-	BOOST_PP_CAT(BOOST_ENUM_IDEFINE_ENUM_VALUE_A seq, _)					\
+#define BOOST_ENUM_DEFINE_ENUM_VALUE(dseq)									\
+	BOOST_PP_CAT(BOOST_ENUM_IDEFINE_ENUM_VALUE_A dseq, _)					\
 
 // ---- Implementation ----
 //sequence unpacking
@@ -92,7 +92,5 @@
 //If the value is specified in the tuple, use that
 #define BOOST_ENUM_DETERMINE_ENUM_VALUE_EMPTY_0(...)					\
 	BOOST_PP_TUPLE_ELEM(0, BOOST_PP_VARIADIC_ELEM(1, __VA_ARGS__))		\
-
-
 
 #endif

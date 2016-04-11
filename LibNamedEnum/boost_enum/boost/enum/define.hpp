@@ -5,44 +5,9 @@
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 
-// ---- This header defines: ----
-//
-// BOOST_ENUM_DEFINE(enum_name, seq)
-//     Defines a new enumeration with the standard options
-//
-// BOOST_ENUM_DEFINE_W_OPTIONS(enum_name, (options), seq)
-//     Like BOOST_ENUM_DEFINE, but allows to change the options (see below)
-//
-// BOOST_ENUM_DEFINE_IN_CLASS_I(enum_name, seq)
-//     Like BOOST_ENUM_DEFINE if the new enumeration should be part of a class.
-//     Requires BOOST_ENUM_DEFINE_IN_CLASS_II to be used after the class definition.
-//
-// BOOST_ENUM_DEFINE_IN_CLASS_I_W_OPTIONS(enum_name, (options), seq)
-//     Like BOOST_ENUM_DEFINE_W_OPTIONS if the new enumeration should be part of a class.
-//     Requires BOOST_ENUM_DEFINE_IN_CLASS_II to be used after the class definition.
-//
-// BOOST_ENUM_DEFINE_IN_CLASS_II(enum_name)
-//     To be used after a class that had BOOST_ENUM_DEFINE_IN_CLASS_I or 
-//     BOOST_ENUM_DEFINE_IN_CLASS_I_W_OPTIONS used inside it.
-//     Has to be used once for each enumeration defined in that class.
-//
-// ----- Argument explanation: ------
-//
-// enum_name :
-//    Name of the enumeration to be defined
-//
-// options :
-//    An instance of the boost::enum_::options<> template.
-//    Has to be enclosed in parentheses!
-//
-// seq :
-//    A sequence consisting of 1-n triples of one of the following form:
-//       (value_name)
-//       (value_name, value)
-//       (value_name, _, string)
-//       (value_name, value, string)
-
-
+/*! \file define.hpp
+	\brief Contains all macros necessary to define new enumerations.
+*/
 
 
 #ifndef BOOST_ENUM_IG_DEFINE_HPP
@@ -62,6 +27,13 @@
 #include <boost/enum/storage/storage.hpp>
 #include <boost/enum/options.hpp>
 #include <boost/enum/storage/function_impl.hpp>
+
+#pragma region Implementation
+//! \cond DefineImpl
+/////////////////////////////////////////////////////////////////////////////
+// All macros in this region are used for implementing and should not be used!
+// They are subject to change, just like private member functions.
+/////////////////////////////////////////////////////////////////////////////
 
 #define BOOST_ENUM_DEFINE_I(enum_name, options_)							\
 	BOOST_ENUM_ENTER_ARTIFACTS_NS(enum_name)								\
@@ -127,7 +99,8 @@
 		operator EnumT() const { return value_; }							\
 		enum_name& operator =(const enum_name& rhs)							\
 			{ value_ = rhs.value_; return *this; }							\
-		enum_name& operator =(EnumT rhs){ value_ = rhs; return *this; }		\
+		enum_name& operator =(EnumT rhs)									\
+			{ value_ = rhs; return *this; }									\
 																			\
 		explicit enum_name(UnderlyingT val) :								\
 			value_(UnderlyingToEnumImpl::f(val)){}							\
@@ -156,57 +129,95 @@
 	BOOST_ENUM_OVERLOAD_STREAM_OPERATORS(enum_name)							\
 																			\
 
-	
+//! \endcond
+#pragma endregion
 
 
+/*
+	Intellisenses preprocessor contains a bug that would incorrectly mark any
+	occurences of this macro as ill-formed code, a workaround is needed.
+	Using this workaround hides the correct values from intellisense, though.
+*/
 #if defined BOOST_ENUM_DISABLE_INTELLISENSE_WORKAROUND || !defined __INTELLISENSE__
-#define BOOST_ENUM_DEFINE_IN_CLASS_I_W_OPTIONS(enum_name, options, seq)		\
+//!Like BOOST_ENUM_DEFINE_W_OPTIONS if the new enumeration should be part of a class.
+/*!
+	Defines a new enumeration of the name \a enum_name with custom \a options
+	based on \a seq.
+	Requires BOOST_ENUM_DEFINE_IN_CLASS_II to be used after the class definition.
+*/
+#define BOOST_ENUM_DEFINE_IN_CLASS_I_W_OPTIONS(enum_name, options, dseq)	\
 	BOOST_ENUM_DEFINE_I(enum_name, options)									\
-	BOOST_ENUM_NAME_COMMA(seq)												\
+	BOOST_ENUM_NAME_COMMA(dseq)												\
 	BOOST_ENUM_DEFINE_II(enum_name)											\
-	BOOST_ENUM_DEFINE_ENUM_VALUE(seq)										\
+	BOOST_ENUM_DEFINE_ENUM_VALUE(dseq)										\
 	BOOST_ENUM_DEFINE_III(enum_name)										\
-	BOOST_ENUM_DEFINE_NAME_VALUE_PAIR(seq)									\
+	BOOST_ENUM_DEFINE_NAME_VALUE_PAIR(dseq)									\
 	BOOST_ENUM_DEFINE_IV(enum_name)											\
-	BOOST_ENUM_NAME_COMMA(seq)												\
+	BOOST_ENUM_NAME_COMMA(dseq)												\
 	BOOST_ENUM_DEFINE_V(enum_name)											\
-	BOOST_ENUM_INSERT_ENUM_VALUE(seq)										\
+	BOOST_ENUM_INSERT_ENUM_VALUE(dseq)										\
 	BOOST_ENUM_DEFINE_VI(enum_name)											\
 
 #else
 //WARNING! IntelliSense will not display the correct values!
-#define BOOST_ENUM_DEFINE_IN_CLASS_I_W_OPTIONS(enum_name, options, seq)		\
+#define BOOST_ENUM_DEFINE_IN_CLASS_I_W_OPTIONS(enum_name, options, dseq)	\
 	BOOST_ENUM_DEFINE_I(enum_name, options)									\
-	BOOST_ENUM_NAME_COMMA(seq)												\
+	BOOST_ENUM_NAME_COMMA(dseq)												\
 	BOOST_ENUM_DEFINE_II(enum_name)											\
-	BOOST_ENUM_NAME_COMMA(seq)												\
+	BOOST_ENUM_NAME_COMMA(dseq)												\
 	BOOST_ENUM_DEFINE_III(enum_name)										\
 	BOOST_ENUM_DEFINE_IV(enum_name)											\
 	BOOST_ENUM_DEFINE_V(enum_name)											\
-	BOOST_ENUM_INSERT_ENUM_VALUE(seq)										\
+	BOOST_ENUM_INSERT_ENUM_VALUE(dseq)										\
 	BOOST_ENUM_DEFINE_VI(enum_name)											\
 
 #endif
 
-#define BOOST_ENUM_DEFINE_IN_CLASS_I(enum_name, seq)						\
+//! Like BOOST_ENUM_DEFINE if the new enumeration should be part of a class.
+/*! 
+	Defines a new enumeration of the name \a enum_name with the standard options
+	based on \a seq.
+    Requires #BOOST_ENUM_DEFINE_IN_CLASS_II(enum_name) to be 
+	used after the class definition.
+*/
+#define BOOST_ENUM_DEFINE_IN_CLASS_I(enum_name, dseq)						\
 	BOOST_ENUM_DEFINE_IN_CLASS_I_W_OPTIONS(enum_name,						\
-		(::boost::enum_::options<>), seq)									\
+		(::boost::enum_::options<>), dseq)									\
 
+//! Use after class with _IN_CLASS_I macro inside it
+/*!
+	To be used after a class that had #BOOST_ENUM_DEFINE_IN_CLASS_I or
+	#BOOST_ENUM_DEFINE_IN_CLASS_I_W_OPTIONS used inside it.
+	Has to be used once for each enumeration defined in that class.
+*/
 #define BOOST_ENUM_DEFINE_IN_CLASS_II(enum_name)							\
 	BOOST_ENUM_DEFINE_VII(enum_name)										\
 
+//TODO: Forward declaration
 //#define BOOST_ENUM_FWD_DECLARE(enum_name, underlyingT)					\
 //	BOOST_ENUM_ENTER_ARTIFACTS_NS(enum_name)								\
 //	enum class EnumT : underlyingT;											\
 //	BOOST_ENUM_EXIT_ARTIFACTS_NS											\
 //	typedef BOOST_ENUM_ARTIFACTS(enum_name)::EnumT enum_name;				\
 
-#define BOOST_ENUM_DEFINE_W_OPTIONS(enum_name, options, seq)				\
-	BOOST_ENUM_DEFINE_IN_CLASS_I_W_OPTIONS(enum_name, options, seq)			\
+
+//! Like BOOST_ENUM_DEFINE, but allows to change the options.
+/*!
+	Defines a new enumeration of the name \a enum_name with custom \a options
+	based on \a seq.
+*/
+#define BOOST_ENUM_DEFINE_W_OPTIONS(enum_name, options, dseq)				\
+	BOOST_ENUM_DEFINE_IN_CLASS_I_W_OPTIONS(enum_name, options, dseq)		\
 	BOOST_ENUM_DEFINE_IN_CLASS_II(enum_name)								\
 
-#define BOOST_ENUM_DEFINE(enum_name, seq)									\
-	BOOST_ENUM_DEFINE_IN_CLASS_I(enum_name, seq)							\
+
+//! Defines new enumeration.
+/*!
+    Defines a new enumeration of the name \a enum_name with the standard options
+	based on \a seq.
+*/
+#define BOOST_ENUM_DEFINE(enum_name, dseq)									\
+	BOOST_ENUM_DEFINE_IN_CLASS_I(enum_name, dseq)							\
 	BOOST_ENUM_DEFINE_IN_CLASS_II(enum_name)								\
 
 

@@ -24,8 +24,8 @@
 #include <boost/preprocessor/tuple/elem.hpp>
 
 //macro to use
-#define BOOST_ENUM_ADAPT_NAME_VALUE_PAIR(seq)								\
-	BOOST_PP_CAT(BOOST_ENUM_IADAPT_NAME_VALUE_PAIR_A seq, _)				\
+#define BOOST_ENUM_ADAPT_NAME_VALUE_PAIR(aseq)								\
+	BOOST_PP_CAT(BOOST_ENUM_IADAPT_NAME_VALUE_PAIR_A aseq, _)				\
 
 // ---- Implementation ----
 //Sequence unpacking

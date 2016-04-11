@@ -1,7 +1,46 @@
 // TestingStuff.cpp : Defines the entry point for the console application.
 //
 
+#include <boost\preprocessor\cat.hpp>
+
+#define UseSequence(seq) \
+	BOOST_PP_CAT(UseTuple_A seq, _)
+
+#define UseTuple_A(tup) \
+	UseArgument(tup)	\
+	UseTuple_B			\
+	
+#define UseTuple_B(tup) \
+	UseArgument(tup)	\
+	UseTuple_A
+
+#define UseTuple_A_
+#define UseTuple_B_
+
+#define UseArgument(arg)   UseArgument_1(arg)
+#define UseArgument_1(arg) UseArgument_2(arg)
+#define UseArgument_2(arg) UseArgument_3(arg)
+#define UseArgument_3(arg) UseArgument_4(arg)
+#define UseArgument_4(arg) UseArgument_5(arg)
+#define UseArgument_5(arg) UseArgument_6(arg)
+#define UseArgument_6(arg) UseArgument_7(arg)
+#define UseArgument_7(arg) UseArgument_8(arg)
+#define UseArgument_8(arg) UseArgument_9(arg)
+#define UseArgument_9(arg) UseArgument_10(arg)
+#define UseArgument_10(arg) UseArgument_11(arg)
+#define UseArgument_11(arg) UseArgument_12(arg)
+#define UseArgument_12(arg) UseArgument_FINAL(arg)
+
+#define UseArgument_FINAL(arg) \
+	int MatscheFurz##arg = arg;
+
+
+
+
+
 #include <type_traits>
+
+UseSequence((4)(5)(6))
 
 template<class Type, class ValueT, bool active>
 class ImplAdd{

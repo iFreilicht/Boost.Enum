@@ -5,28 +5,34 @@
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 
-// ---- This header defines: ----
-//
-// BOOST_ENUM_ADAPTS(enum_name, seq)
-//     Adapts an existing enumeration with the standard options, adding the features of Boost.Enum onto it
-//
-// BOOST_ENUM_DEFINE_W_OPTIONS(enum_name, (options), seq)
-//     Like BOOST_ENUM_ADAPT, but allows to change the options (see below)
-//
-// ----- Argument explanation: ------
-//
-// enum_name :
-//    Name of the enumeration to be adapted
-//
-// options :
-//    An instance of the boost::enum_::adapt_options<> template
-//    Has to be enclosed in parentheses!
-//
-// seq :
-//    A sequence consisting of 1-n tuples of one of the following form:
-//       (value_name)
-//       (value_name, string)
-//
+/*! \file adapt.hpp
+	\brief Contains all macros necessary to adapt existing enumerations.
+
+	If you want to use the features of an enumeration that is defined by a library
+	or can't change the definition of the `enum` to a DEFINE macro for a different
+	reason, the macros of this file allow you to adapt them, leaving the enums 
+	themselves unchanged, but still enabling all the advanced features newly defined
+	enumerations have.
+
+	All macros defined in this file use a combination of the following three arguments:
+	- `enum_name` The name for the new enumeration.
+	- `options` \e (optional) An instance of the enum_::adapt_options<> template, 
+	enclosed by parenthesis.
+	- `seq` A preprocessor sequence where all elements can only be devided by whitespace 
+	characters. Each element describes one value of the \c enum that is to be adapted.
+
+	Elements of `seq` define one or two properties of an enumeration value:
+	- `value_name` The name of the enumeration value.
+	- `string` \e (optional) The string the value should be converted to.
+
+	If `string` isn't specified by the element, the string will be equivalent to the
+	stringisation of `value_name`.
+
+	Each element of `seq` can have one of the following forms:
+	- `(value_name)`
+	- `(value_name, string)`
+
+*/
 
 
 #ifndef BOOST_ENUM_IG_ADAPT_HPP
@@ -46,6 +52,15 @@
 #include <boost/enum/options.hpp>
 #include <boost/enum/storage/storage.hpp>
 #include <boost/preprocessor/cat.hpp>
+
+
+#pragma region Implementation
+//! \cond AdaptImpl
+/////////////////////////////////////////////////////////////////////////////
+// All macros in this region are used for implementing and should not be used!
+// They are subject to change, just like private member functions.
+/////////////////////////////////////////////////////////////////////////////
+
 
 #define BOOST_ENUM_ADAPT_I(enum_name, options_)								\
 	BOOST_ENUM_ENTER_ARTIFACTS_NS(enum_name)								\
@@ -129,21 +144,33 @@
 																			\
 	BOOST_ENUM_OVERLOAD_STREAM_OPERATORS_ADAPT(enum_name, BOOST_PP_CAT(enum_name, _e))\
 
+//! \endcond
+#pragma endregion
 
-#define BOOST_ENUM_ADAPT_W_OPTIONS(enum_name, options, seq)					\
+//! Like BOOST_ENUM_ADAPT, but allows to change the options.
+/*!
+	Adapts an existing enumeration of the name \a enum_name with custom \a options, enabling it
+	to be used similarly to an enumeration defined with the DEFINE macros.
+*/
+#define BOOST_ENUM_ADAPT_W_OPTIONS(enum_name, options, aseq)				\
 	BOOST_ENUM_ADAPT_I(enum_name, options)									\
-	BOOST_ENUM_ADAPT_NAME_VALUE_PAIR(seq)									\
+	BOOST_ENUM_ADAPT_NAME_VALUE_PAIR(aseq)									\
 	BOOST_ENUM_ADAPT_II														\
-	BOOST_ENUM_NAME_COMMA(seq)												\
+	BOOST_ENUM_NAME_COMMA(aseq)												\
 	BOOST_ENUM_ADAPT_III(enum_name)											\
-	BOOST_ENUM_INSERT_ENUM_VALUE(seq)										\
+	BOOST_ENUM_INSERT_ENUM_VALUE(aseq)										\
 	BOOST_ENUM_ADAPT_IV(enum_name)											\
 
-#define BOOST_ENUM_ADAPT(enum_name, seq)									\
+//! Adapts an existing enumeration. 
+/*!
+	Adapts an existing enumeration of the name \a enum_name with the standard options, enabling it
+	to be used similarly to an enumeration defined with the DEFINE macros.
+*/
+#define BOOST_ENUM_ADAPT(enum_name, aseq)									\
 	BOOST_ENUM_ADAPT_W_OPTIONS(												\
 		enum_name,															\
 		(::boost::enum_::adapt_options<>),									\
-		seq																	\
+		aseq																\
 	)																		\
 
 //namespace example{

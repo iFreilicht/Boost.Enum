@@ -7,6 +7,7 @@
 //#define BOOST_ENUM_DISABLE_INTELLISENSE_WORKAROUND 1
 
 #include <boost/enum/define_flag.hpp>
+#include <boost/assert.hpp>
 #include <string>
 
 namespace define_flag_test{
@@ -42,41 +43,40 @@ namespace define_flag_test{
 
 	//examples on usage
 	bool test(){
-		Action act0 = Action::move;
-		std::string str0 = "move";
-		Action act1 = static_cast<Action>(str0);
+		Action actMove0 = Action::move;
+		std::string strMove0 = "move";
+		Action actMove1 = static_cast<Action>(strMove0);
 
-		bool success = act0 == act1;
+		BOOST_ASSERT(actMove0 == actMove1);
 
-		Actor a0{ Actor::Action::move };
-		Actor a1{ static_cast<Actor::Action>(str0) };
+		Actor actor0{ Actor::Action::move };
+		Actor actor1{ static_cast<Actor::Action>(strMove0) };
 
-		success &= a0.get() == a1.get();
+		BOOST_ASSERT(actor0.get() == actor1.get());
 
-		std::string str1 = "move|think";
-		act0 |= Action::think;
-		Action act2 = static_cast<Action>(str1);
+		std::string strMoveThink0 = "move|think";
+		Action actMoveThink0 = Action::move;
+		actMoveThink0 |= Action::think;
+		Action actMoveThink1 = static_cast<Action>(strMoveThink0);
 
-		success &= act0 == act2;
+		BOOST_ASSERT(actMoveThink0 == actMoveThink1);
 
-		success &= act0 & act1;
+		BOOST_ASSERT(actMoveThink0 & actMove0);
 
-		success &= act0 & Action::think;
+		BOOST_ASSERT(actMoveThink1 & Action::think);
 
-		Action act3 = static_cast<Action>("think|move");
+		Action actMoveThink2 = static_cast<Action>("think|move");
 
-		success &= act2 == act3;
+		std::string strMoveThink2 = static_cast<std::string>(actMoveThink2);
 
-		std::string str2 = static_cast<std::string>(act2);
+		BOOST_ASSERT(actMoveThink2 == actMoveThink0);
 
-		success &= str2 == str1;
+		BOOST_ASSERT(strMoveThink2 == strMoveThink0);
 
-		bool success4 = true;
 		for (auto val : Action::values()){
-			success4 &= (Action)val == static_cast<Action>(static_cast<std::string>((Action)val));
+			BOOST_ASSERT((Action)val == static_cast<Action>(static_cast<std::string>((Action)val)));
 		}
-		success &= success4;
 
-		return success;
+		return true;
 	}
 };

@@ -10,41 +10,38 @@
 
 namespace boost{
 	namespace enum_{
-		///Supplies are a concept used to provide values to enums.
-		/** Supplies describe the convention on which the selection for underlying
-		 * values of an enumeration is based. Regular C/C++-enums for example use
-		 * an incrementing convention, starting at 0 and increasing for every new
-		 * enum value defined.
-		 * This is the same convention is described by supplies::increment.
-		 * 
-		 * A supply suitable for use with an enum is reuqired to have a certain structure,
-		 * as demonstrated on the example of supplies::shiftL1<unsigned int>::values
-		 * \code
-		 *     template<unsigned int Val>
-		 *     struct values{
-		 *         enum : unsigned int{ next = Val << 1, start = 1 };
-		 *     };
-		 * \endcode
-		 *
-		 * In essence, a supply is a template, that
-		 * * takes exactly one template parameter which is of integral type
-		 * * has `start` of the same type as the template parameter defined
-		 * * has `value` of the same type as the template parameter defined
-		 * The two names `start` and `value` have the following function:
-		 * `start` is the value the first enum value defined will have
-		 * `next` is the value the next enum value after `Val`
-		 * So in this case, values<8>::next == 16
-		 *
-		 * All supplies in this namespace are wrapped by another tempalted struct,
-		 * which gives them the ability to apply to different integral types.
-		 * This is not necessary for user-defined supplies, though. You are allowed to
-		 * write a supply that only operates on `unsigned char`s, for example.
+		//! Supplies are a concept used to provide values to enums.
+		/*! Supplies describe the convention on which the selection for underlying
+			values of an enumeration is based. Regular C/C++-enums for example use
+			an incrementing convention, starting at 0 and increasing for every new
+			enum value defined.
+			This same convention is described by supplies::increment.
+			
+			In essence, a supply is a class that has the following form:
+			\code
+				struct *supplyName*{
+					typedef *integral type* UnderlyingT;
+					template<UnderlyingT Index>
+					struct values{
+						typedef UnderlyingT UnderlyingT;
+						enum : UnderlyingT{ value = *Calculation of value* };
+					};
+				};
+			\endcode
+
+			`Index` will be 0 for the first value in the enum, 1 for the second and so on.
+
+			The value of the previously defined enumeration value can NOT be accessed due to technical limitations.
+
+			Additional names are allowed to exist inside a supply, but should be kept private when possible.
+			The supply can also be a class template as shown with shiftL1 and increment, 
+			but enum_::options still needs a class as its argument, so the template needs to be instantiated.
 		*/
 		namespace supplies{
-			///Placeholder for when the supply should be selected by the compiler
+			//! Placeholder for when the supply should be selected by the compiler
 			struct NoCustomSupply;
 
-			///Shift left by 1, start at 1.
+			//! Shift left by 1, start at 1.
 			template<typename UnderlyingT>
 			struct shiftL1{
 				typedef UnderlyingT UnderlyingT;
@@ -55,7 +52,7 @@ namespace boost{
 				};
 			};
 
-			///Increment by 1, start at 0. Behaviour that normal enums use.
+			//! Increment by 1, start at 0. Behaviour that normal enums use.
 			template<typename UnderlyingT>
 			struct increment{
 				typedef UnderlyingT UnderlyingT;

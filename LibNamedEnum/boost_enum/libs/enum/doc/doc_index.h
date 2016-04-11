@@ -5,57 +5,409 @@
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 
-/** \mainpage Boost.Advanced_Enum
- * \tableofcontents
- * \section intro_sec Introduction
- * Advanced_Enum is a header-only library dedicated to extending the functionality of enumeration types,
- * while preserving the natural syntax with which enumerations are used.
- * 
- * As of now, added functionality consists of:
- * * conversions from and to `std::string`
- * * compatibility with iostreams `<<` and `>>` operators
- * * ability to redefine the conventions by which underlying values are selected
- *
- * \section quickstart_sec Quickstart
- * We will only scratch the surface, but this should give you a rough idea what you can do with Advanced_Enums.
- *
- * ##Here you will see how to...
- * ... define an enum with the name `Zott` and the values `zero`, `one`, `two` and `three`:
- * \code
- *     BOOST_ADVANCED_ENUM_DEFINE(Zott,
- *         zero,
- *         one,
- *         two,
- *         three
- *     );
- * \endcode
- * 
- * ... create a variable of type `Zott`:
- * \code
- *     Zott var = Zott::one;
- * \endcode
- *
- * ... convert to a `std::string`:
- * \code
- *     std::string str = static_cast<std::string>(var);
- * \endcode
- *
- * ... read a value of type `Zott` from `std::cin`:
- * \code
- *     std::cin >> var;
- * \endcode
- *
- * ... define an enum with underlying values of 2^0, 2^1, 2^2 and so on of type unsigned int:
- * \code
- *     BOOST_ADVANCED_ENUM_DEFINE_W_SUPPLY(TwoToThePowerOf,
- *         ::boost::advanced_enum::supplies::shiftL1<int>,
- *         zero,
- *         one,
- *         two,
- *         three,
- *         four
- *     );
- * \endcode
- *
+/*! \mainpage
+	\tableofcontents
+	\section intro_sec Introduction
+	Boost.Enum is a header-only library that allows you to enhance the functionality of enumeration classes
+	at your discretion. A few features are:
+
+	- String conversion: convert an enum value not only to its underlying value but also to its actual name
+	- Binary flag enums: define full-featured binary flags with ease, readable string output included
+	- Runtime value checks: allow or disallow only defined values to be assingned to a variable
+	- Ordering control: allow or disallow ordering for your enums values
+	- Generation modification: change the conventions by which values for your enum are chosen
+
+	Boost.Enum isn't better than `enum class` in every way, but it offers features that the stock implementations don't.
+	
+	
+
+
+
+
+	\section important_files Important Files
+	The most important files are:
+	- define.hpp
+	- adapt.hpp
+
+	\section test Test
+	boost::enum_::options
+	boost::enum_::adapt_options
+
+	\section Quickstart
+
+	To use Boost.Enum, change the definition of an enum from this
+
+	\code
+		enum class Zott{
+			zero,
+			one,
+			two,
+			ten = 10
+		};
+	\endcode
+
+	to this.
+
+	\code
+		#include <boost/enum/define.hpp>
+
+		BOOST_ENUM_DEFINE(Zott,
+			(zero)
+			(one)
+			(two)
+			(ten, (10))
+		)
+	\endcode
+
+	This mostly a non-breaking change, so you can still do all of the following the same way.
+	
+	Defining variables and assigning values.
+	\code
+		Zott var = Zott::one;
+	\endcode
+
+	Converting from or to int.
+	\code
+		Zott var = static_cast<Zott>(1);
+		int val = static_cast<int>(var);
+	\endcode
+
+	Additionally, you can now do the following things.
+
+	Convert to and from std::string.
+	\code
+		Zott var = static_cast<Zott>("one");
+		std::string str = static_cast<std::string>(var);
+	\endcode
+
+	Read and write from and to streams.
+	\code
+		std::cin >> var;	//can take values or names
+		std::out << var;	//will output names
+	\endcode
+
+	A few things need to be done differently, though.
+
+	Writing the underlying value to a stream.
+	\code
+		std::out << static_cast<int>(var);
+	\endcode
+
+	Converting to the string representation of the underlying value.
+	\code
+		std::string str = static_cast<std::string>(static_cast<int>(var));
+	\endcode
+
+
+
+
+
+
+
+
+
+	\section Concepts
+
+
+	\subsection Define Definition of new enums
+
+	Boost.Enum enums can be used just like regular enum classes.
+	Normally an enum class would be defined like this:
+
+	\code
+		enum class Zott{
+			zero,
+			one,
+			two,
+			ten = 10
+		};
+	\endcode
+
+	With Boost.Enum, you do the following:
+
+	\code
+		#include <boost/enum/define.hpp>
+
+		BOOST_ENUM_DEFINE(Zott,
+			(zero)
+			(one)
+			(two)
+			(ten, (10))
+		)
+	\endcode
+
+	While it looks a bit strange at first, the uses of this will become apparent later on.
+	Above, a new enum was defined using one of the DEFINE macros.
+
+
+
+
+
+
+	\subsection Adapt Adaptation of existing enums
+
+	If there is an enum that already exists and can't be changed, i.e. because it is part of a library,
+	it is also possible to adapt that enum to add some of the features in Boost.Enum onto it by
+	using an ADAPT macro.
+	If the enum can be changed, you should think about doing so. Changing a regular enum to a
+	Boost.Enum can be very beneficial for code clarity and is a non-breaking change.
+
+	\code
+		//zott.h
+		enum class Zott{
+			zero,
+			one,
+			two,
+			ten = 10
+		};
+
+		//myheader.h
+		#include <boost/enum/adapt.hpp>
+		#include "zott.h"
+
+		BOOST_ENUM_ADAPT(Zott,
+			(zero)
+			(one)
+			(two)
+			(ten)
+		)
+	\endcode
+
+	Notice how the integral value of Zott::ten doesn't have to be specified again.
+
+
+
+
+
+
+	\subsection Strings String-Conversion
+
+	One of the big features of Boost.Enum is the conversion of enumeration values to
+	readable strings:
+
+	\code
+		Zott zott = Zott::one;
+		std::string str = static_cast<std::string>(zott);
+		std::cout << str;
+	\endcode
+
+	This would normally print "1", but if Zott was defined with a DEFINE macro, it will print "one".
+	
+	You can also use the stream operators with an enum directly:
+
+	\code
+		Zott zott = Zott::ten;
+		std::cout << "Zott is '" << zott << "' as of now.";
+	\endcode
+
+	This will print "Zott is 'ten' as of now."
+
+	\code
+		Zott zott;
+		std::cin >> zott;
+	\endcode
+
+	This will take "zero", "one", "two" or "ten" as an input and assign the corresponding value.
+	What happens when the input is invalid can be changed in the options.
+
+	If an enum is defined with the DEFINE_FLAG macro, its output will be split into
+	all binary flags set to 1:
+
+	\code
+		Action action = Action::move;
+		action |= Action::fly;
+		std::cout << action;
+	\endcode
+
+	This will print "move | fly" or "fly | move", depending on the defintion order of the values.
+
+	More on flag-enums later.
+
+
+
+
+
+
+	\subsection Tuples PP-Tuples (tup, dtup, atup)
+
+	Preprocessor Tuples are a subset of the Tuples from Boost.Preprocessor and are 
+	used to describe a single enumeration value and its properties.
+
+	These properties are:
+
+	- *name*	- Name of the value.
+	- *value*	- Integral value of the value. Is supplied by a Boost.Enum Supply if omitted.
+	- *string*	- String representation of the value. Is determined by stringizing *name* if omitted.
+
+	PP-Tuples come in many different shapes, which are divided into two groups, dtups and atups.
+	dtups are used in DEFINE macros and can have on of the following forms:
+
+	- `(name)`
+	- `(name, (value))`
+	- `(name, _, string)`
+	- `(name, (value), string)`
+
+	As you've seen in the section Quickstart, ADAPT macros don't need *value* to be specified,
+	so atups only come in two shapes:
+
+	- `(name)`
+	- `(name, string)`
+
+	\note `(name, string)` is NOT a valid dtup! *value* HAS to be explicitly specified as empty by
+	using `_` as a replacement.
+
+	A Tuple seldom comes alone, though.
+
+
+
+
+
+
+	\subsection Sequences PP-Sequences (seq, dseq, aseq)
+
+	A Preprocessor Sequence is a concatenation of one to arbitrarly many PP-Tuples, and will look somewhat like this:
+
+	\code
+		(one)(two, (2), "two")(three)
+	\endcode
+
+	The Tuples can be divided by whitespace characters as well, so this is equal to the PP-Sequence above:
+
+	\code
+		(one)
+		(two, (2), "two")
+		(three)
+	\endcode
+
+	As opposed to Sequences in Boost.Preprocessor, PP-Sequences in Boost.Enum can be arbitrarily long.
+
+	Sequences come in two flavours, dseq and aseq. Tne former is only made of dtups, the latter only of atups.
+	Mixing the two kinds of tuples in a PP-Sequence is not allowed.
+
+	\warning This means that if a dseq is required, you can't use the atup (*name*, *string*), but have to 
+	use (*name*, _, *string*) instead!
+
+	Which type of sequence a macro takes is denounced by the argument name:
+	
+	- `BOOST_ENUM_EXP_DS(dseq)` only takes a dseq
+	- `BOOST_ENUM_EXP_AS(aseq)` only takes an aseq
+	- `BOOST_ENUM_EXP_S(seq)` can take either
+
+	Not supplying the correct type of PP-Sequence will lead to a compilation error in most cases.
+
+
+
+
+
+
+
+	\subsection Options
+
+	Boost.Enum offers the ability to greatly customise the bahviour of the enumerations you define.
+	The main way of doing this is the boost::enum_::options template class in combination with _W_OPTIONS macros:
+
+	\code
+		BOOST_ENUM_DEFINE_W_OPTIONS(Zott, 
+			(boost::enum_::options<>),
+			(zero)
+			(one)
+			(two)
+			(ten, (10))
+		)
+	\endcode
+
+	This is equivalent to using the regular BOOST_ENUM_DEFINE macro, but we want to do something different.
+	For example, we could want an enum that is allowed to have values other than its defined values, like normal
+	C++ enums are. Say we also want to use a map for the string conversion lookup, change its type to 
+	`unsigned char` and use our custom string type "awesome_string".
+	Just change the first two lines from the example above to:
+
+	\code
+		using namespace boost::enum_; //only in .cpp files!
+		
+		BOOST_ENUM_DEFINE_W_OPTIONS(Zott,
+			(options<option_vals::arbitrary | option_vals::map_lookup, unsigned char, supplies::NoCustomSupply, awesome_string>),
+	\endcode
+
+	A bit long, but does the job. But what if we wanted to only change the StringT argument? Do we have to repeat all standard arguments?
+	Fortunately, enum_::options offers a better solution:
+
+	\code
+		(options<>::WithStringT<awesome_string>)
+	\endcode
+
+	Full details about all options can be found in the boost::enum_::options documentation, supplies are explained there as well.
+
+	If you need to adapt an enum with options, use BOOST_ENUM_ADAPT_W_OPTIONS along with adapt_options:
+
+	\code
+		BOOST_ENUM_ADAPT(Zott,
+			(boost::enum_::adapt_options<>)
+			(zero)
+			(one)
+			(two)
+			(ten)
+		)
+	\endcode
+
+	\note `adapt_options` has to be used as not all options are available when adapting an existing enum, and while
+	`adapt_options` and `options` work similarly, they are not interchangeable in the macros argument list.
+
+
+
+
+
+	\subsection Supplies
+
+	One of the more complex options to modify the bahviour of an enum is the Supply.
+	It is basically a constant expression that determines the numerical value of each value of an enum.
+
+	With normal enums and enum classes, the first value will be 0, the second will be 1 and so on.
+	The corresponding supply in Boost.Enum is supplies::increment.
+
+	Internally, a supply is a class that has the following form:
+	\code
+		struct *supplyName*{
+			typedef *integral type* UnderlyingT;
+			template<UnderlyingT Index>
+			struct values{
+				typedef UnderlyingT UnderlyingT;
+				enum : UnderlyingT{ value = *Calculation of value* };
+			};
+		};
+	\endcode
+
+	Instead of specifying UnderlyingT strictly, you can also make the class a template.
+	As an example, he `supplies::increment` supply looks like this:
+	\code
+		template<typename UnderlyingT>
+		struct increment{
+			typedef UnderlyingT UnderlyingT;
+			template<UnderlyingT Index>
+			struct values{
+				typedef UnderlyingT UnderlyingT;
+				enum : UnderlyingT{ value = Index };
+		};
+	};
+	\endcode
+
+	As you might notice, there is a difference between the way C-enums and Boost enums handle value generation.
+	Supplies only know the current index, not the previously generated value.
+	So if you set the first value of an enum to be 7, the second one will still be 1, not 8.
+
+*/
+
+/*
+
+\subsection Supplies2
+
+One of the more complex options to modify the bahviour of an enum is the Supply.
+It is basically a constant expression that determines the numerical value of each value of an enum.
+
+With normal enums and enum classes, the first value will be 0, the second will be 1 and so on.
+The corresponding supply in Boost.Enum is supplies::increment.
+
+Internally, a supply is a class that has the following form:
+
 */
 

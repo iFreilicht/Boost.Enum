@@ -24,19 +24,19 @@
 namespace boost{
 	namespace enum_{
 
-		///storage is a compile-time container for enumeration values and their corresponding string.
-		/**The container is implemented as a reverse linked list, starting at the last entry.
-		 * Besides containing all value string pairs of an enumeration, it provides methods
-		 * for conversion and initialisation of an enum and is therefore its
-		 * implementation.
-		 * The conversions are abbreviated with stoe (string to enum) and etos (enum to string).
-		 * For the most part, it consists only of constants and types, but the two std::maps
-		 * used for lookups can only accessed via the instance() member function.
-		 * There is generally no need to use this class directly.
-		 * For instantiating the storage template, use the following syntax:
-		 * \code 
-		 *     typedef storage<[underlying type][, supply]>::gen<{entries}>::get myStorage_t;
-		 * \endcode
+		//! Compile-time container for enumeration values, their corresponding string and additional information.
+		/*! It is implemented as a reverse linked list, starting at the last entry.
+			Besides containing all value string pairs of an enumeration, it provides methods
+			for conversion and initialisation of an enum and is therefore its
+			implementation.
+			The conversions are abbreviated with stoe (string to enum) and etos (enum to string).
+			For the most part, it consists only of constants and types, but the two std::maps
+			used for lookups can only accessed via the instance() member function.
+			There is generally no need to use this class directly.
+			For instantiating the storage template, use the following syntax:
+			\code 
+			    typedef storage<[underlying type][, supply]>::gen<{entries}>::get myStorage_t;
+			\endcode
 		*/
 		template<
 			typename Options = options<>, 
@@ -44,7 +44,8 @@ namespace boost{
 		class storage{
 		public:
 			typedef typename Options::UnderlyingT UnderlyingT;
-			///Used for indexing
+
+			//! Used for indexing
 			typedef typename std::make_unsigned<UnderlyingT>::type SizeT;
 			
 			typedef typename Options::StringT StringT;
