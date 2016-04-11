@@ -18,8 +18,6 @@
 //         name: the name of the enumeration value
 //
 // -----------------------------------
-//
-// This is currently unused
 
 
 #ifndef BOOST_ENUM_IG_INSERT_ENUM_VALUE_HPP
