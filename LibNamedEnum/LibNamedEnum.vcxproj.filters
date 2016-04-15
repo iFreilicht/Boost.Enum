@@ -108,6 +108,12 @@
     <ClInclude Include="boost_enum\libs\enum\doc\doc_index.h">
       <Filter>Main Files\doc</Filter>
     </ClInclude>
+    <ClInclude Include="boost_enum\boost\preprocessor.hpp">
+      <Filter>Main Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boost_enum\boost\config.hpp">
+      <Filter>Main Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Doxyfile">

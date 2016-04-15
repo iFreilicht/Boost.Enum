@@ -15,6 +15,7 @@
 
 #include <boost/enum/config/config.hpp>
 #include <boost/preprocessor/tuple/rem.hpp>
+#include <boost/preprocessor/expr_if.hpp>
 #include <boost/enum/macros/define_name_value_pair.hpp>
 #include <boost/enum/macros/define_enum_value.hpp>
 #include <boost/enum/macros/name_comma.hpp>
@@ -92,7 +93,9 @@
 			<enum_name, options::arbitrary> UnderlyingToEnumImpl;			\
 	public:																	\
 
-#define BOOST_ENUM_DEFINE_VI(enum_name)										\
+//if expl_conv is 1, conversions to UnderlyingT are explicit, 
+//if it is 0, they're implicit. Not to be exposed!
+#define BOOST_ENUM_DEFINE_VI(enum_name, expl_conv)							\
 		enum_name(){}														\
 		enum_name(const enum_name& other) : value_(other.value_){}			\
 		enum_name(const EnumT val) : value_(val){}							\
@@ -102,11 +105,11 @@
 		enum_name& operator =(EnumT rhs)									\
 			{ value_ = rhs; return *this; }									\
 																			\
-		explicit enum_name(UnderlyingT val) :								\
+		BOOST_PP_EXPR_IF(expl_conv, explicit) enum_name(UnderlyingT val) :  \
 			value_(UnderlyingToEnumImpl::f(val)){}							\
 		explicit enum_name(const StringT& str) :							\
 			value_(UnderlyingToEnumImpl::f(EnumStorage::stoe(str))) {}		\
-		explicit operator UnderlyingT() const								\
+		BOOST_PP_EXPR_IF(expl_conv, explicit) operator UnderlyingT() const	\
 			{ return static_cast<UnderlyingT>(value_); }					\
 		explicit operator StringT() const									\
 			{ return EnumStorage::etos(static_cast<UnderlyingT>(value_)); }	\
@@ -156,7 +159,7 @@
 	BOOST_ENUM_NAME_COMMA(dseq)												\
 	BOOST_ENUM_DEFINE_V(enum_name)											\
 	BOOST_ENUM_INSERT_ENUM_VALUE(dseq)										\
-	BOOST_ENUM_DEFINE_VI(enum_name)											\
+	BOOST_ENUM_DEFINE_VI(enum_name, 1)										\
 
 #else
 //WARNING! IntelliSense will not display the correct values!
@@ -169,7 +172,7 @@
 	BOOST_ENUM_DEFINE_IV(enum_name)											\
 	BOOST_ENUM_DEFINE_V(enum_name)											\
 	BOOST_ENUM_INSERT_ENUM_VALUE(dseq)										\
-	BOOST_ENUM_DEFINE_VI(enum_name)											\
+	BOOST_ENUM_DEFINE_VI(enum_name, 1)										\
 
 #endif
 
@@ -222,8 +225,8 @@
 
 
 
-
 /*
+
 
 namespace example{
 #define FIVE (five, (5))
@@ -307,9 +310,10 @@ namespace example{
 		NewTest& operator =(const NewTest& rhs){ value_ = rhs.value_; return *this; }
 		NewTest& operator =(EnumT rhs){ value_ = rhs; return *this; }
 
-		explicit NewTest(UnderlyingT val) : value_(UnderlyingToEnumImpl::f(val)){}
+		BOOST_PP_EXPR_IF(1, explicit) NewTest(UnderlyingT val) : value_(UnderlyingToEnumImpl::f(val)){}
 		explicit NewTest(const StringT& str) : value_(UnderlyingToEnumImpl::f(EnumStorage::stoe(str))) {}
-		explicit operator UnderlyingT() const{ return static_cast<UnderlyingT>(value_); }
+
+		BOOST_PP_EXPR_IF(1, explicit) operator UnderlyingT() const{ return static_cast<UnderlyingT>(value_); }
 		explicit operator StringT() const{ return EnumStorage::etos(static_cast<UnderlyingT>(value_)); }
 
 		static bool has_value(UnderlyingT val){ return EnumStorage::has_value(val); }
@@ -346,6 +350,21 @@ namespace example{
 
 	BOOST_ENUM_OVERLOAD_STREAM_OPERATORS(NewTest)
 
+	//making the enum unscoped 
+	//works in classes and namespaces
+	//doesn't seem to be possible with macros
+	struct Wrap{
+	static const NewTest::EnumT five = static_cast<NewTest::EnumT>(NewTest::five);
+	static const NewTest::EnumT six = static_cast<NewTest::EnumT>(NewTest::six);
+	static const NewTest::EnumT seven = static_cast<NewTest::EnumT>(NewTest::seven);
+	static const NewTest::EnumT twenty = static_cast<NewTest::EnumT>(NewTest::twenty);
+	};
+
+	Wrap thing;
+	Wrap* p_thing = &thing;
+	NewTest test = thing.seven;
+	NewTest test2 = p_thing->six;
+
 	BOOST_ENUM_DEFINE_I(NewTest2, (::boost::enum_::options<>))
 	BOOST_ENUM_NAME_COMMA(FIVE SIX SEVEN TWENTY)
 	BOOST_ENUM_DEFINE_II(NewTest2)
@@ -356,8 +375,12 @@ namespace example{
 	BOOST_ENUM_NAME_COMMA(FIVE SIX SEVEN TWENTY)
 	BOOST_ENUM_DEFINE_V(NewTest2)
 	BOOST_ENUM_INSERT_ENUM_VALUE(FIVE SIX SEVEN TWENTY)
-	BOOST_ENUM_DEFINE_VI(NewTest2)
+	BOOST_ENUM_DEFINE_VI(NewTest2, 1)
 	BOOST_ENUM_DEFINE_VII(NewTest2)
+
+
+
+	
 }
 
 /**/

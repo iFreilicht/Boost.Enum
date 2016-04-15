@@ -15,6 +15,7 @@
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>LibNamedEnum</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.10240.0</WindowsTargetPlatformVersion>
+    <ProjectName>boost_enum</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -80,6 +81,7 @@
     <None Include="Doxyfile" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="boost_enum\boost\config.hpp" />
     <ClInclude Include="boost_enum\boost\enum\adapt.hpp" />
     <ClInclude Include="boost_enum\boost\enum\define.hpp" />
     <ClInclude Include="boost_enum\boost\enum\define_flag.hpp" />
@@ -102,6 +104,7 @@
     <ClInclude Include="boost_enum\boost\enum\storage\class_draft.hpp" />
     <ClInclude Include="boost_enum\boost\enum\storage\function_impl.hpp" />
     <ClInclude Include="boost_enum\boost\enum\storage\storage.hpp" />
+    <ClInclude Include="boost_enum\boost\preprocessor.hpp" />
     <ClInclude Include="boost_enum\libs\enum\doc\doc_index.h" />
     <ClInclude Include="boost_enum\libs\enum\example\adapt.h" />
     <ClInclude Include="boost_enum\libs\enum\example\define.h" />

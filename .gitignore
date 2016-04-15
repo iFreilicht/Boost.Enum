@@ -158,3 +158,4 @@ $RECYCLE.BIN/
 /LibNamedEnum/boost_enum/libs/enum/doc/doxylog
 /LibNamedEnum/html
 /LibNamedEnum/latex
+/LibNamedEnum/boost_enum/boost/lexical_cast
