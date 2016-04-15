@@ -30,7 +30,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
     <Text Include="boost_enum\LICENSE_1_0.txt">
       <Filter>Boost Files</Filter>
     </Text>

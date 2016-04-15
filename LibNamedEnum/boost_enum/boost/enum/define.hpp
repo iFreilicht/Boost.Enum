@@ -15,7 +15,7 @@
 
 #include <boost/enum/config/config.hpp>
 #include <boost/preprocessor/tuple/rem.hpp>
-#include <boost/preprocessor/expr_if.hpp>
+#include <boost/preprocessor/control/expr_iif.hpp>
 #include <boost/enum/macros/define_name_value_pair.hpp>
 #include <boost/enum/macros/define_enum_value.hpp>
 #include <boost/enum/macros/name_comma.hpp>
@@ -105,11 +105,11 @@
 		enum_name& operator =(EnumT rhs)									\
 			{ value_ = rhs; return *this; }									\
 																			\
-		BOOST_PP_EXPR_IF(expl_conv, explicit) enum_name(UnderlyingT val) :  \
+		BOOST_PP_EXPR_IIF(expl_conv, explicit) enum_name(UnderlyingT val) :	\
 			value_(UnderlyingToEnumImpl::f(val)){}							\
 		explicit enum_name(const StringT& str) :							\
 			value_(UnderlyingToEnumImpl::f(EnumStorage::stoe(str))) {}		\
-		BOOST_PP_EXPR_IF(expl_conv, explicit) operator UnderlyingT() const	\
+		BOOST_PP_EXPR_IIF(expl_conv, explicit) operator UnderlyingT() const	\
 			{ return static_cast<UnderlyingT>(value_); }					\
 		explicit operator StringT() const									\
 			{ return EnumStorage::etos(static_cast<UnderlyingT>(value_)); }	\
@@ -132,23 +132,15 @@
 	BOOST_ENUM_OVERLOAD_STREAM_OPERATORS(enum_name)							\
 																			\
 
-//! \endcond
-#pragma endregion
-
-
 /*
 	Intellisenses preprocessor contains a bug that would incorrectly mark any
 	occurences of this macro as ill-formed code, a workaround is needed.
 	Using this workaround hides the correct values from intellisense, though.
+	Every value will be displayed as 0.
 */
 #if defined BOOST_ENUM_DISABLE_INTELLISENSE_WORKAROUND || !defined __INTELLISENSE__
-//!Like BOOST_ENUM_DEFINE_W_OPTIONS if the new enumeration should be part of a class.
-/*!
-	Defines a new enumeration of the name \a enum_name with custom \a options
-	based on \a seq.
-	Requires BOOST_ENUM_DEFINE_IN_CLASS_II to be used after the class definition.
-*/
-#define BOOST_ENUM_DEFINE_IN_CLASS_I_W_OPTIONS(enum_name, options, dseq)	\
+
+#define BOOST_ENUM_DEFINE_IMPL(enum_name, options, dseq, expl_conv)			\
 	BOOST_ENUM_DEFINE_I(enum_name, options)									\
 	BOOST_ENUM_NAME_COMMA(dseq)												\
 	BOOST_ENUM_DEFINE_II(enum_name)											\
@@ -159,28 +151,43 @@
 	BOOST_ENUM_NAME_COMMA(dseq)												\
 	BOOST_ENUM_DEFINE_V(enum_name)											\
 	BOOST_ENUM_INSERT_ENUM_VALUE(dseq)										\
-	BOOST_ENUM_DEFINE_VI(enum_name, 1)										\
+	BOOST_ENUM_DEFINE_VI(enum_name, expl_conv)								\
 
 #else
 //WARNING! IntelliSense will not display the correct values!
-#define BOOST_ENUM_DEFINE_IN_CLASS_I_W_OPTIONS(enum_name, options, dseq)	\
+#define BOOST_ENUM_DEFINE_IMPL(enum_name, options, dseq, expl_conv)			\
 	BOOST_ENUM_DEFINE_I(enum_name, options)									\
-	BOOST_ENUM_NAME_COMMA(dseq)												\
+	/*BOOST_ENUM_NAME_COMMA(dseq)*/											\
 	BOOST_ENUM_DEFINE_II(enum_name)											\
-	BOOST_ENUM_NAME_COMMA(dseq)												\
+	/*BOOST_ENUM_DEFINE_ENUM_VALUE(dseq)*/									\
 	BOOST_ENUM_DEFINE_III(enum_name)										\
+	/*BOOST_ENUM_DEFINE_NAME_VALUE_PAIR(dseq)*/								\
 	BOOST_ENUM_DEFINE_IV(enum_name)											\
+	/*BOOST_ENUM_NAME_COMMA(dseq)*/											\
 	BOOST_ENUM_DEFINE_V(enum_name)											\
 	BOOST_ENUM_INSERT_ENUM_VALUE(dseq)										\
-	BOOST_ENUM_DEFINE_VI(enum_name, 1)										\
+	BOOST_ENUM_DEFINE_VI(enum_name, expl_conv)								\
+
 
 #endif
+//! \endcond
+#pragma endregion
+
+
+//!Like BOOST_ENUM_DEFINE_W_OPTIONS if the new enumeration should be part of a class.
+/*!
+	Defines a new enumeration of the name \a enum_name with custom \a options
+	based on \a seq.
+	Requires BOOST_ENUM_DEFINE_IN_CLASS_II to be used after the class definition.
+*/
+#define BOOST_ENUM_DEFINE_IN_CLASS_I_W_OPTIONS(enum_name, options, dseq)	\
+	BOOST_ENUM_DEFINE_IMPL(enum_name, options, dseq, 1)						\
 
 //! Like BOOST_ENUM_DEFINE if the new enumeration should be part of a class.
 /*! 
 	Defines a new enumeration of the name \a enum_name with the standard options
 	based on \a seq.
-    Requires #BOOST_ENUM_DEFINE_IN_CLASS_II(enum_name) to be 
+	Requires #BOOST_ENUM_DEFINE_IN_CLASS_II(enum_name) to be 
 	used after the class definition.
 */
 #define BOOST_ENUM_DEFINE_IN_CLASS_I(enum_name, dseq)						\
@@ -310,10 +317,10 @@ namespace example{
 		NewTest& operator =(const NewTest& rhs){ value_ = rhs.value_; return *this; }
 		NewTest& operator =(EnumT rhs){ value_ = rhs; return *this; }
 
-		BOOST_PP_EXPR_IF(1, explicit) NewTest(UnderlyingT val) : value_(UnderlyingToEnumImpl::f(val)){}
+		BOOST_PP_EXPR_IIF(1, explicit) NewTest(UnderlyingT val) : value_(UnderlyingToEnumImpl::f(val)){}
 		explicit NewTest(const StringT& str) : value_(UnderlyingToEnumImpl::f(EnumStorage::stoe(str))) {}
 
-		BOOST_PP_EXPR_IF(1, explicit) operator UnderlyingT() const{ return static_cast<UnderlyingT>(value_); }
+		BOOST_PP_EXPR_IIF(1, explicit) operator UnderlyingT() const{ return static_cast<UnderlyingT>(value_); }
 		explicit operator StringT() const{ return EnumStorage::etos(static_cast<UnderlyingT>(value_)); }
 
 		static bool has_value(UnderlyingT val){ return EnumStorage::has_value(val); }

@@ -1,25 +1,13 @@
 #pragma once
 
+#include "stdafx.h"
+
 #include <boost/enum/adapt.hpp>
 #include <boost/enum/define.hpp>
 #include <boost/enum/define_flag.hpp>
 
-
-using ::boost::enum_::option_vals;
-
-namespace something{
-	BOOST_ENUM_DEFINE_FLAG(Action,
-		(jump)
-		(look)
-		(move)
-		(eat)
-		(drink)
-		(sleep)
-		(think)
-		)
-};
-
-class ClassWithAction{ public:
+class ClassWithAction {
+public:
 	BOOST_ENUM_DEFINE_FLAG_IN_CLASS_I(Action,
 		(jump)
 		(look)
@@ -28,22 +16,10 @@ class ClassWithAction{ public:
 		(drink)
 		(sleep)
 		(think)
-		)
+	)
 };
 
 BOOST_ENUM_DEFINE_FLAG_IN_CLASS_II(ClassWithAction::Action)
-
-
-BOOST_ENUM_DEFINE(Numbers,
-	(five)
-	(eight)
-	(twenty)
-	(six)
-	(fortyone)
-	(fortytwo)
-	(fortythree)
-)
-
 
 BOOST_ENUM_DEFINE(Many,
 	(a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m) (n) (o) (p) (q) (r) (s) (t) (u) (v) (w) (x) (y) (z)

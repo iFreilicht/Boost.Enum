@@ -76,7 +76,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <Text Include="boost_enum\LICENSE_1_0.txt" />
-    <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Doxyfile" />

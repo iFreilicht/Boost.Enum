@@ -5,13 +5,16 @@
 
 //#define BOOST_ENUM_DISABLE_INTELLISENSE_WORKAROUND 1
 
-#include "Examples.h"
-
 #include <string>
 #include <iostream>
 
 #include <boost/enum/define.hpp>
+#include <boost/enum/define_flag.hpp>
 #include <boost/enum/define_legacy.hpp>
+
+//#include "Examples.h"
+
+#pragma once
 
 enum leg_unscoped {
 	zero, one, two, ten = 10
@@ -43,7 +46,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	leg_unscoped lu = ten;
 	lu = leg_unscoped::ten;
 
-	//ben_unscoped bu = ten; //not allowed yet, maybe shouldn't be
+	//ben_unscoped bu = ten; //not allowed yet, maybe shouldn't be. Seems to be hard to implement
 	ben_unscoped bu = ben_unscoped::ten;
 
 	leg_scoped ls = leg_scoped::ten;
@@ -64,7 +67,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	lustr = std::to_string((int)lu);
 	std::cout << lustr << '\n';
 
-	bustr = std::to_string(bu); //not allowed yet, shall output string representation of integer value (needs implicit conversion)
+	bustr = std::to_string(bu);
 	std::cout << bustr << '\n';
 	bustr = std::to_string((int)bu);
 	std::cout << bustr << '\n';
@@ -72,11 +75,13 @@ int _tmain(int argc, _TCHAR* argv[])
 	//lsstr = std::to_string(ls); //not allowed
 	lsstr = std::to_string((int)ls);
 
-	//bsstr = std::to_string(bs); //not allowed yet, maybe shouldn't be.
+	//bsstr = std::to_string(bs); //not allowed yet, maybe shouldn't be. Would be hard to implement.
 	bsstr = std::to_string((int)bs);
 	
 
 	//---
+
+	std::cout << "\n\n";
 
 	std::cout << lu << '\n';
 	std::cout << (int)lu << '\n';

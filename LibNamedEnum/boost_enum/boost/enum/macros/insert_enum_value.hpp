@@ -26,6 +26,7 @@
 #include <boost/enum/config/config.hpp>
 #include <boost/preprocessor/variadic/elem.hpp>
 #include <boost/preprocessor/cat.hpp>
+#include <boost/preprocessor/control/iif.hpp>
 
 //macro to use
 #define BOOST_ENUM_INSERT_ENUM_VALUE(seq)									\
@@ -44,22 +45,28 @@
 #define BOOST_ENUM_IINSERT_ENUM_VALUE_A_
 #define BOOST_ENUM_IINSERT_ENUM_VALUE_B_
 
+//IntelliSense is not able to find any values in EnumT, so if it is active,
+//a dummy value needs to be used instead.
+#if defined BOOST_ENUM_DISABLE_INTELLISENSE_WORKAROUND || !defined __INTELLISENSE__
+#define BOOST_ENUM_USE_DUMMY_VALUE 0
+#else
+#define BOOST_ENUM_USE_DUMMY_VALUE 1
+#endif
 
+#if defined BOOST_NO_CONSTEXPR
+#define BOOST_ENUM_INSERT_CONSTEXPR static const EnumT
+#else
+#define BOOST_ENUM_INSERT_CONSTEXPR static constexpr OwnT
+#endif
 
 //Define the enumeration value constant.
 //If constexpr is available, the constant will be of type OwnT, or the actual type of the enumeration.
 //If constexpr is not avialable, the constant will be of type EnumT. This means that the operators
 //have to be overloaded manually for all combonations of EnumT and OwnT, resulting in worse compiling performance.
-#ifdef BOOST_NO_CONSTEXPR
 #define BOOST_ENUM_IINSERT_ENUM_VALUE(...)									\
-	static const EnumT BOOST_PP_VARIADIC_ELEM(0, __VA_ARGS__) =				\
-		EnumT::BOOST_PP_VARIADIC_ELEM(0, __VA_ARGS__);						\
-
-#else
-#define BOOST_ENUM_IINSERT_ENUM_VALUE(...)									\
-	static constexpr OwnT BOOST_PP_VARIADIC_ELEM(0, __VA_ARGS__) =			\
-		EnumT::BOOST_PP_VARIADIC_ELEM(0, __VA_ARGS__);						\
-
-#endif
+	BOOST_ENUM_INSERT_CONSTEXPR BOOST_PP_VARIADIC_ELEM(0, __VA_ARGS__) =				\
+		BOOST_PP_IIF(BOOST_ENUM_USE_DUMMY_VALUE,							\
+			(EnumT)0, EnumT::BOOST_PP_VARIADIC_ELEM(0, __VA_ARGS__)			\
+		);																	\
 
 #endif

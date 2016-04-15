@@ -25,17 +25,7 @@
 #include <boost/enum/define.hpp>
 
 #define BOOST_ENUM_DEFINE_LEGACY_IN_CLASS_I(enum_name, dseq)				\
-	BOOST_ENUM_DEFINE_I(enum_name, (::boost::enum_::options<>))				\
-	BOOST_ENUM_NAME_COMMA(dseq)												\
-	BOOST_ENUM_DEFINE_II(enum_name)											\
-	BOOST_ENUM_DEFINE_ENUM_VALUE(dseq)										\
-	BOOST_ENUM_DEFINE_III(enum_name)										\
-	BOOST_ENUM_DEFINE_NAME_VALUE_PAIR(dseq)									\
-	BOOST_ENUM_DEFINE_IV(enum_name)											\
-	BOOST_ENUM_NAME_COMMA(dseq)												\
-	BOOST_ENUM_DEFINE_V(enum_name)											\
-	BOOST_ENUM_INSERT_ENUM_VALUE(dseq)										\
-	BOOST_ENUM_DEFINE_VI(enum_name, 0)										\
+	BOOST_ENUM_DEFINE_IMPL(enum_name, (::boost::enum_::options<>), dseq, 0) \
 	
 #define BOOST_ENUM_DEFINE_LEGACY_IN_CLASS_II(enum_name)						\
 	BOOST_ENUM_DEFINE_IN_CLASS_II(enum_name)								\
