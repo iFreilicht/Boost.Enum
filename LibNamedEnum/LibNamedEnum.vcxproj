@@ -75,6 +75,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Text Include="boost_enum\LICENSE_1_0.txt" />
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -85,10 +86,9 @@
     <ClInclude Include="boost_enum\boost\enum\adapt.hpp" />
     <ClInclude Include="boost_enum\boost\enum\define.hpp" />
     <ClInclude Include="boost_enum\boost\enum\define_flag.hpp" />
+    <ClInclude Include="boost_enum\boost\enum\define_legacy.hpp" />
     <ClInclude Include="boost_enum\boost\enum\macros\adapt_name_value_pair.hpp" />
-    <ClInclude Include="boost_enum\boost\enum\macros\apply_to_all.hpp" />
     <ClInclude Include="boost_enum\boost\enum\macros\artifacts_namespace.hpp" />
-    <ClInclude Include="boost_enum\boost\enum\macros\cat.hpp" />
     <ClInclude Include="boost_enum\boost\enum\macros\define_enum_value.hpp" />
     <ClInclude Include="boost_enum\boost\enum\macros\define_name_value_pair.hpp" />
     <ClInclude Include="boost_enum\boost\enum\macros\empty_argument.hpp" />

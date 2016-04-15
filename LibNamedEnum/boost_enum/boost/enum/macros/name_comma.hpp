@@ -19,12 +19,11 @@
 
 #include <boost/preprocessor/variadic/elem.hpp>
 #include <boost/preprocessor/cat.hpp>
-#include <boost/enum/macros/cat.hpp>
 
 
 //macro to use
 #define BOOST_ENUM_NAME_COMMA(seq)											\
-	BOOST_ENUM_CAT(BOOST_ENUM_INAME_COMMA_A seq, _)							\
+	BOOST_PP_CAT(BOOST_ENUM_INAME_COMMA_A seq, _)							\
 
 // ---- Implementation ----
 //sequence unpacking

@@ -22,12 +22,18 @@
     <Filter Include="Examples">
       <UniqueIdentifier>{d9abd6a4-6221-498a-9c5a-7ec127243da2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Main Files\doc">
-      <UniqueIdentifier>{d393f345-7822-42f2-811e-f964c64f2b5b}</UniqueIdentifier>
+    <Filter Include="Documentation">
+      <UniqueIdentifier>{f3ecaaef-2ade-4de5-8a47-2bb20ea17006}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Boost Files">
+      <UniqueIdentifier>{edef7007-be87-4da6-b10b-7222f201eee9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
+    <Text Include="boost_enum\LICENSE_1_0.txt">
+      <Filter>Boost Files</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="boost_enum\boost\enum\adapt.hpp">
@@ -57,13 +63,7 @@
     <ClInclude Include="boost_enum\boost\enum\macros\adapt_name_value_pair.hpp">
       <Filter>Main Files\macros</Filter>
     </ClInclude>
-    <ClInclude Include="boost_enum\boost\enum\macros\apply_to_all.hpp">
-      <Filter>Main Files\macros</Filter>
-    </ClInclude>
     <ClInclude Include="boost_enum\boost\enum\macros\artifacts_namespace.hpp">
-      <Filter>Main Files\macros</Filter>
-    </ClInclude>
-    <ClInclude Include="boost_enum\boost\enum\macros\cat.hpp">
       <Filter>Main Files\macros</Filter>
     </ClInclude>
     <ClInclude Include="boost_enum\boost\enum\macros\define_enum_value.hpp">
@@ -84,9 +84,6 @@
     <ClInclude Include="boost_enum\boost\enum\macros\overload_stream_operators.hpp">
       <Filter>Main Files\macros</Filter>
     </ClInclude>
-    <ClInclude Include="boost_enum\boost\enum\options.hpp">
-      <Filter>Main Files</Filter>
-    </ClInclude>
     <ClInclude Include="boost_enum\boost\enum\define_flag.hpp">
       <Filter>Main Files</Filter>
     </ClInclude>
@@ -105,19 +102,25 @@
     <ClInclude Include="boost_enum\libs\enum\example\adapt.h">
       <Filter>Examples</Filter>
     </ClInclude>
+    <ClInclude Include="boost_enum\boost\enum\define_legacy.hpp">
+      <Filter>Main Files</Filter>
+    </ClInclude>
     <ClInclude Include="boost_enum\libs\enum\doc\doc_index.h">
-      <Filter>Main Files\doc</Filter>
+      <Filter>Documentation</Filter>
+    </ClInclude>
+    <ClInclude Include="boost_enum\boost\enum\options.hpp">
+      <Filter>Main Files</Filter>
     </ClInclude>
     <ClInclude Include="boost_enum\boost\preprocessor.hpp">
-      <Filter>Main Files</Filter>
+      <Filter>Boost Files</Filter>
     </ClInclude>
     <ClInclude Include="boost_enum\boost\config.hpp">
-      <Filter>Main Files</Filter>
+      <Filter>Boost Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Doxyfile">
-      <Filter>Main Files\doc</Filter>
+      <Filter>Documentation</Filter>
     </None>
   </ItemGroup>
 </Project>
