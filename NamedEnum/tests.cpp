@@ -16,6 +16,8 @@
 
 #pragma once
 
+//leg_unscoped and ben_unscoped should have as similar behaviour as possible
+
 enum leg_unscoped {
 	zero, one, two, ten = 10
 };
@@ -27,6 +29,8 @@ BOOST_ENUM_DEFINE_LEGACY(ben_unscoped,
 	(two)
 	(ten, (10))
 );
+
+//leg_scoped and leg_unscoped should have as similar behaviour as possible
 
 enum class leg_scoped {
 	zero, one, two, ten = 10
@@ -53,7 +57,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	ben_scoped bs = ben_scoped::ten;
 
-	unsigned long long ull = 1;
+	unsigned long long ull = 4000;
 
 	//---
 
@@ -86,7 +90,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	std::cout << lu << '\n';
 	std::cout << (int)lu << '\n';
 
-	std::cout << bu << '\n';	//shall output string representation of integer value
+	std::cout << bu << '\n';
 	std::cout << (int)bu << '\n';
 
 	std::cout << /*ls<<*/ '\n'; //not allowed
@@ -106,7 +110,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	luint = (int)lu;
 	luint = static_cast<int>(lu);
 
-	buint = bu; //legacy option
+	buint = bu;
 	buint = (int)bu;
 	buint = static_cast<int>(bu);
 
@@ -126,7 +130,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	lu = static_cast<leg_unscoped>(luint);
 	//lu = (leg_unscoped)0.1234f;
 	lu = (leg_unscoped)ull;
-	lu = (leg_unscoped)ls;
+	//lu = (leg_unscoped)ls;
 
 	bu = (ben_unscoped)buint;
 	bu = static_cast<ben_unscoped>(buint);
@@ -138,7 +142,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	ls = static_cast<leg_scoped>(lsint);
 	//ls = (leg_scoped)0.1234f;
 	ls = (leg_scoped)ull;
-	ls = (leg_scoped)lu;
+	//ls = (leg_scoped)lu;
 
 	bs = (ben_scoped)bsint;
 	bs = static_cast<ben_scoped>(bsint);
@@ -146,7 +150,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	bs = (ben_scoped)ull;
 	//bs = (ben_scoped)ls;
 
-	//---
+	//--- The following section is not working fine at all, maybe it doesn't have to
 
 	leg_unscoped* lu_p = &lu;
 	ben_unscoped* bu_p = &bu;
@@ -157,17 +161,18 @@ int _tmain(int argc, _TCHAR* argv[])
 	int* lsint_p;
 	int* bsint_p;
 
+
 	luint_p = reinterpret_cast<int*>(lu_p);
 	lu_p = reinterpret_cast<leg_unscoped*>(luint_p);
 
 	buint_p = reinterpret_cast<int*>(bu_p);
-	bu_p = reinterpret_cast<ben_unscoped*>(buint_p);
+	bu_p = reinterpret_cast<ben_unscoped*>(luint_p);
 
 	lsint_p = reinterpret_cast<int*>(ls_p);
 	ls_p = reinterpret_cast<leg_scoped*>(lsint_p);
 
 	bsint_p = reinterpret_cast<int*>(bs_p);
-	bs_p = reinterpret_cast<ben_scoped*>(bsint_p);
+	bs_p = reinterpret_cast<ben_scoped*>(lsint_p);
 
 	
 	

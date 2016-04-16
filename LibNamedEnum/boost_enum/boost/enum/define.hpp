@@ -123,13 +123,15 @@
 																			\
 	};																		\
 
-#define BOOST_ENUM_DEFINE_VII(enum_name)									\
+//if out_int is 1, write string representation of integral value to stream
+//if out_int is 0, write strinised name of enumerator to stream
+#define BOOST_ENUM_DEFINE_VII(enum_name, out_int)							\
 																			\
 	BOOST_ENUM_OVERLOAD_BINARY_OPERATORS(enum_name)							\
 																			\
 	BOOST_ENUM_OVERLOAD_EQUALITY_OPERATORS(enum_name)						\
 																			\
-	BOOST_ENUM_OVERLOAD_STREAM_OPERATORS(enum_name)							\
+	BOOST_ENUM_OVERLOAD_STREAM_OPERATORS(enum_name, out_int)				\
 																			\
 
 /*
@@ -201,7 +203,7 @@
 	Has to be used once for each enumeration defined in that class.
 */
 #define BOOST_ENUM_DEFINE_IN_CLASS_II(enum_name)							\
-	BOOST_ENUM_DEFINE_VII(enum_name)										\
+	BOOST_ENUM_DEFINE_VII(enum_name, 0)										\
 
 //TODO: Forward declaration
 //#define BOOST_ENUM_FWD_DECLARE(enum_name, underlyingT)					\
@@ -355,7 +357,7 @@ namespace example{
 	}
 #endif
 
-	BOOST_ENUM_OVERLOAD_STREAM_OPERATORS(NewTest)
+	BOOST_ENUM_OVERLOAD_STREAM_OPERATORS(NewTest, 0)
 
 	//making the enum unscoped 
 	//works in classes and namespaces
@@ -383,7 +385,7 @@ namespace example{
 	BOOST_ENUM_DEFINE_V(NewTest2)
 	BOOST_ENUM_INSERT_ENUM_VALUE(FIVE SIX SEVEN TWENTY)
 	BOOST_ENUM_DEFINE_VI(NewTest2, 1)
-	BOOST_ENUM_DEFINE_VII(NewTest2)
+	BOOST_ENUM_DEFINE_VII(NewTest2, 0)
 
 
 
