@@ -18,6 +18,9 @@
 
 //leg_unscoped and ben_unscoped should have as similar behaviour as possible
 
+using boost::enum_::options;
+using boost::enum_::option_vals;
+
 enum leg_unscoped {
 	zero, one, two, ten = 10
 };
@@ -36,7 +39,8 @@ enum class leg_scoped {
 	zero, one, two, ten = 10
 };
 
-BOOST_ENUM_DEFINE(ben_scoped,
+BOOST_ENUM_DEFINE_W_OPTIONS(ben_scoped,
+	(options<option_vals::use_default>),
 	(zero)
 	(one)
 	(two)
@@ -81,7 +85,37 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	//bsstr = std::to_string(bs); //not allowed yet, maybe shouldn't be. Would be hard to implement.
 	bsstr = std::to_string((int)bs);
+
+	//std::stringstream luss;
+	//std::stringstream buss;
+	//std::stringstream lsss;
+	//std::stringstream bsss;
+
+	//luss << 10;
+	//luss >> (int&)lu;
+
+	//buss << 10;
+	//buss >> (int&)bu;
+	//buss << 10;
+	//buss >> bu;
+
+	//lsss << 10;
+	//lsss >> (int&)ls;
+	//
+	//bsss << 10;
+	//bsss >> (int&)bs;
+	//bsss << 10;
+	//bsss >> bs;
+
+	bool fail = false;
+
+	std::cin >> reinterpret_cast<int&>(lu);
+
+	std::cin >> bu;
+
+	std::cin >> reinterpret_cast<int&>(ls);
 	
+	std::cin >> bs;
 
 	//---
 
@@ -147,7 +181,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	bs = (ben_scoped)bsint;
 	bs = static_cast<ben_scoped>(bsint);
 	//bs = (ben_scoped)0.1234f;
-	bs = (ben_scoped)ull;
+	//bs = (ben_scoped)ull;		//throws exception
 	//bs = (ben_scoped)ls;
 
 	//--- The following section is not working fine at all, maybe it doesn't have to

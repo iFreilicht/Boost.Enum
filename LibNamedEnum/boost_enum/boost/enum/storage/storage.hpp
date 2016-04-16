@@ -285,7 +285,17 @@ namespace boost{
 				template<bool Map_lookup>
 				struct impl_f<false, false, Map_lookup>{
 					static inline UnderlyingT exec(const StringT& name){
-						return lookup<Map_lookup>(name);
+						UnderlyingT ret;
+						try {
+							ret = lookup<Map_lookup>(name);
+						}
+						catch (const std::invalid_argument& e) {
+							ret = std::stoi(name);
+							if (!has_value(ret)) {
+								throw e;
+							}
+						}
+						return ret;
 					}
 				};
 

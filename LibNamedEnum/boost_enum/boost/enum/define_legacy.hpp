@@ -25,7 +25,7 @@
 #include <boost/enum/define.hpp>
 
 #define BOOST_ENUM_DEFINE_LEGACY_IN_CLASS_I(enum_name, dseq)				\
-	BOOST_ENUM_DEFINE_IMPL(enum_name, (::boost::enum_::options<>), dseq, 0) \
+	BOOST_ENUM_DEFINE_IMPL(enum_name, (::boost::enum_::options<::boost::enum_::option_vals::roundtrip>), dseq, 0) \
 	
 #define BOOST_ENUM_DEFINE_LEGACY_IN_CLASS_II(enum_name)						\
 	BOOST_ENUM_DEFINE_VII(enum_name, 1)										\

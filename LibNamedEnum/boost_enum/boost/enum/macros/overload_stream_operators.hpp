@@ -28,7 +28,9 @@ operator>>(enum_name_e::istream_type& lhs, enum_name& rhs){					\
 	try{																	\
 		rhs = static_cast<enum_name_e>(str);								\
 	}																		\
-	catch(const std::invalid_argument&){}									\
+	catch(const std::invalid_argument&){									\
+		lhs.setstate(std::ios_base::failbit);								\
+	}																		\
 	return lhs;																\
 }																			\
 																			\
@@ -51,7 +53,9 @@ operator >>(enum_name::istream_type& lhs, enum_name& rhs){					\
 	try{																	\
 		rhs = static_cast<enum_name>(str);									\
 	}																		\
-	catch (const std::invalid_argument&){}									\
+	catch (const std::invalid_argument&){									\
+		lhs.setstate(std::ios_base::failbit);								\
+	}																		\
 	return lhs;																\
 }																			\
 inline enum_name::ostream_type&												\
