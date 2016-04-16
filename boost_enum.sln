@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tests", "NamedEnum\NamedEnum.vcxproj", "{A7D6CA2D-2C2A-4D3A-8272-B7D92E2D006D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tests", "tests\tests.vcxproj", "{A7D6CA2D-2C2A-4D3A-8272-B7D92E2D006D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boost_enum", "LibNamedEnum\LibNamedEnum.vcxproj", "{AB7772ED-3339-46CE-98E8-F216FFC4209F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boost_enum", "boost_enum\boost_enum.vcxproj", "{AB7772ED-3339-46CE-98E8-F216FFC4209F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
