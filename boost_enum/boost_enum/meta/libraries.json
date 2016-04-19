@@ -1,0 +1,14 @@
+{
+    "key": "enum",
+    "name": "Enum",
+    "authors": [
+        "Felix Uhl"
+    ],
+    "maintainers": [
+        "Felix Uhl <felix.uhl -at- outlook.com>"
+    ],
+    "description": "Header-only library for enabling string-conversions and other behavioural options for enumerations.",
+    "category": [
+        "Emulation"
+    ]
+}
