@@ -1,0 +1,10 @@
+using testing ;
+
+project test ;
+
+test-suite minimal : [ run a.cpp ] ;
+test-suite full : minimal [ compile b.cpp ] ;
+test-suite extra : [ run c.cpp ] ;
+
+explicit minimal ;
+explicit extra ;
