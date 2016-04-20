@@ -372,4 +372,9 @@
     <ClInclude Include="boost_enum\include\boost\config.hpp" />
     <ClInclude Include="boost_enum\include\boost\preprocessor.hpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="boost_enum\test\define_test.cpp" />
+    <ClCompile Include="boost_enum\test\define_flag_test.cpp" />
+    <ClCompile Include="boost_enum\test\define_legacy_test.cpp" />
+  </ItemGroup>
 </Project>

@@ -436,6 +436,11 @@
     <ClInclude Include="boost_enum\include\boost\preprocessor\while.hpp" />
     <ClInclude Include="boost_enum\include\boost\preprocessor\wstringize.hpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="boost_enum\test\define_flag_test.cpp" />
+    <ClCompile Include="boost_enum\test\define_legacy_test.cpp" />
+    <ClCompile Include="boost_enum\test\define_test.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
