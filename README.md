@@ -12,7 +12,8 @@ at your discretion. It is not part of boost yet. A few features are:
 
 ##Quickstart
 
-To use Boost.Enum, download the `boost_enum/boost_enum` folder and add it to your include directories. 
+To use Boost.Enum, simply download this repository and add the "include" directory to your include path.
+All dependencies (Boost.Config and Boost.Preprocessor) are in this repository as well. Remove them if you have Boost installed. 
 Then, change the definition of an enum from this
 ```
 enum class Zott{
